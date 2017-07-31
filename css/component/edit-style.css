@@ -1,0 +1,60 @@
+.mui-bar .mui-btn {
+	top: 0px;
+}
+
+p {
+	text-indent: 22px;
+}
+
+span.mui-icon {
+	font-size: 14px;
+	color: #007aff;
+	margin-left: -15px;
+	padding-right: 10px;
+}
+
+#info {
+	padding: 20px 10px;
+}
+
+#pic-list>li>img,
+#pic-list>li>a>img {
+	height: 100px;
+	width: 100px;
+}
+
+#showUserPicker {
+	background-color: dodgerblue;
+	color: #F0F0F0;
+	text-align: center;
+}
+
+#workflow label,
+.mui-content-padded label {
+	color: #8f8f94;
+	padding-left: 0px;
+}
+
+#workflow input {
+	background-color: dodgerblue;
+	color: #F0F0F0;
+	text-align: center;
+}
+
+
+/*.des {
+				margin: .5em 0;
+			}
+			.des>li {
+				font-size: 14px;
+				color: #8f8f94;
+			}*/
+
+
+/*根据状态显隐*/
+
+.complete .mui-bar {
+	display: none;
+}
+
+.complete #showUserPicker {}

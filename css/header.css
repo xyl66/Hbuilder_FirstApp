@@ -1,0 +1,10 @@
+header[class="mui-bar mui-bar-nav"]{
+	background:#f4645f;
+	color:#fcfcfc;
+}
+header[class="mui-bar mui-bar-nav"]>h1{
+	color:#fcfcfc;
+}
+header[class="mui-bar mui-bar-nav"]>a{
+	color:white
+}

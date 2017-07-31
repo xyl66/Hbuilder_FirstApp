@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+			<link rel="stylesheet" type="text/css" href="../css/footbar.css"/>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				margin: 0;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			.bg-color-blue{
+				background: #007AFF !important;
+			}
+			.bg-color-c{
+				background: #DD524D !important;
+			}
+			.bg-color-g{
+				background: #00a600 !important;
+			}
+			.color-white{
+				color: white !important;
+			}
+			.border-radius{
+				border-radius: 15%;
+			}
+			.bg-img{
+                background: url(../images/加.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border: 2px dashed #323232 ;
+                border-radius: 15%; //边框弧度
+            }
+            .hide-icon{
+                color:#eee;
+                opacity: 0.0;
+            }
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我的單據列表</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-blue border-radius" href="#" data-wid="tab-top-subpage-1.html">
+		                    <span class="mui-icon mui-icon-home color-white"></span>
+		                    <div class="mui-media-body color-white">形象進度</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-c border-radius" href="#" data-wid="tab-top-subpage-2.html">
+		                    <span class="mui-icon mui-icon-email color-white"><span class="mui-badge">5</span></span>
+		                    <div class="mui-media-body color-white">簽證工程</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-g border-radius" href="#" data-wid="tab-top-subpage-3.html">
+		                    <span class="mui-icon mui-icon-chatbubble color-white"></span>
+		                    <div class="mui-media-body color-white">其他</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="bg-img border-radius" href="#">
+		                    <span class="mui-icon mui-icon-location color-white hide-icon"></span>
+		                    <div class="mui-media-body"></div></a></li>
+		        </ul> 
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/util.js"></script>
+		<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var aniShow = {};
+			mui.init({
+				swipeBack: false
+			});
+			var subpage_style = {
+				top: '0px',
+				bottom: '51px'
+			};
+			mui.plusReady(function() {
+				//读取本地存储，检查是否为首次启动
+				var showGuide = plus.storage.getItem("lauchFlag");
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				if(showGuide) {
+					//有值，说明已经显示过了，无需显示；
+					//关闭splash页面；
+					plus.navigator.closeSplashscreen();
+					plus.navigator.setFullscreen(false);
+				} else {
+					//显示启动导航
+					mui.openWindow({
+						id: 'guide',
+						url: 'StartPage/guide.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					//延迟的原因：优先打开启动导航页面，避免资源争夺
+					setTimeout(function() {
+						
+					}, 200);
+				}
+				/*启动导航*/
+				var self = plus.webview.currentWebview(),
+					nviews = self.getSubNViews(),
+					subpages = util.options.subpages,
+					leftPos = Math.ceil((window.innerWidth - 60) / 2); // 设置凸起大图标为水平居中
+
+				/**	
+				 * drawNativeIconBg 绘制带边框的半圆，
+				 * 实现原理：
+				 *   id为bg的tag 创建带边框的圆
+				 *   id为bg2的tag 创建白色矩形遮住圆下半部分，只显示凸起带边框部分
+				 *   注意创建先后顺序，创建越晚的层级越高
+				 */
+				var drawNativeIconBg = util.drawNative('iconBg', {
+					bottom: '5px',
+					left: leftPos + 'px',
+					width: '60px',
+					height: '60px',
+					position: 'dock'
+				}, [{
+					tag: 'rect',
+					id: 'bg',
+					position: {
+						top: '1px',
+						left: '0px',
+						width: '100%',
+						height: '100%'
+					},
+					rectStyles: {
+						color: '#fff',
+						radius: '50%',
+						borderColor: '#ccc',
+						borderWidth: '1px'
+					}
+				}, {
+					tag: 'rect',
+					id: 'bg2',
+					position: {
+						bottom: '-0.5px',  
+						left: '0px',
+						width: '100%',
+						height: '45px'
+					},
+					rectStyles: {
+						color: '#fff'
+					}
+				}]);
+
+				/**
+				 * 凸起图标最后创建  浮在最顶层
+				 *	id为iconBg的红色背景图
+				 * 	id为icon的字体图标
+				 * 	
+				 */
+				var drawNativeIcon = util.drawNative('tabIcon', {
+					bottom: '10px',
+					left: leftPos + 5 + 'px',
+					width: '50px',
+					height: '51px',
+					position: 'dock' //此种停靠方式表明该控件应浮在窗口最上层，以免被其他窗口遮住
+
+				}, [{
+					tag: 'rect',
+					id: 'iconBg',
+					position: {
+						top: '1px',
+						left: '0px',
+						width: '50px',
+						height: '50px'
+					},
+					rectStyles: {
+						color: '#d74b28',
+						radius: '50%'
+					}
+				}, {
+					tag: 'font',
+					id: 'icon',
+					text: '\ue468', //此为字体图标Unicode码'\e600'转换为'\ue600'
+					position: {
+						top: '0px',
+						left: '0px',
+						width: '50px',
+						height: '100%'
+					},
+					textStyles: {
+						fontSrc: '_www/fonts/mui.ttf',
+						align: 'center',
+						color: '#fff',
+						size: '30px'
+					}
+				}]);
+				// append 到父webview中
+				self.append(drawNativeIconBg);
+				self.append(drawNativeIcon);
+
+				//自定义监听图标点击事件
+				var active_color = '#fff';
+				drawNativeIcon.addEventListener('click', function(e) {
+					// 弹出系统选择按钮框
+					plus.nativeUI.actionSheet( {title:"選擇新增單據類型",cancel:"取消",buttons:[{title:"形象進度"},{title:"簽證工程"}]}, function(e){
+						switch (e.index){
+							case 1:
+								userApp.openCreatePage('simple-edit','形象進度')
+								break;
+							case 2:
+								userApp.openCreatePage('edit','簽證工程')
+								break;
+							default:
+								break;
+						}
+					} );
+					// 重绘字体颜色
+					if(active_color == '#fff'){
+						drawNativeIcon.drawText('\ue468', {}, {
+							fontSrc: '_www/fonts/mui.ttf',
+							align: 'center',
+							color: '#000',
+							size: '30px'
+						}, 'icon');
+						active_color = '#000';
+					}else{
+						drawNativeIcon.drawText('\ue468', {}, {
+							fontSrc: '_www/fonts/mui.ttf',
+							align: 'center',
+							color: '#fff',
+							size: '30px'
+						}, 'icon');
+						active_color = '#fff';
+					}
+					
+				});
+				
+				//创建子webview窗口 并初始化
+				util.initSubpage();
+				var activePage = plus.webview.currentWebview();
+
+				//给每个view 添加监听点击切换
+				for(var i = 0; i < 4; i++) {
+					nviews[i].addEventListener('click', clickEvent, false);
+				}
+
+				// 自定义 tab 点击事件
+				function clickEvent(e) {
+					var currId = e.target.id;
+						currIndex = parseInt(currId.substr(currId.length - 1, 1) - 1),
+						console.log(currIndex);
+						currView = self.getStyle().subNViews[currIndex];
+						
+					// 匹配对应tab窗口	
+					if(currIndex > 0){
+						targetPage = plus.webview.getWebviewById(subpages[currIndex-1]);						
+					}else {
+						targetPage = plus.webview.currentWebview();
+					}
+
+					if(targetPage == activePage) {
+						return;
+					}
+
+					if(currIndex !== 3) {
+						//底部选项卡切换
+						util.toggleNview(currView, currIndex);
+						// 子页面切换
+						util.changeSubpage(targetPage, activePage);
+						//更改当前活跃的页面
+						activePage = targetPage;
+					} else {
+						//第四个tab 打开新窗口
+						var newWV = plus.webview.create('html/new-webview.html', 'new');
+						newWV.show('slide-in-right', 200);
+					}
+				}
+				//主内容图标单击事件
+				mui(".mui-grid-view").on("tap", ".mui-control-item", function(e) {
+					var wid = this.getAttribute("data-wid");
+					console.log(plus.webview.all().length)
+					var sub=plus.webview.create(wid,wid,subpage_style)
+					console.log(plus.webview.all().length)
+					activePage.append(sub)
+				});
+				//退出应用
+				var backButtonPress = 0;
+				mui.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+
+			});
+		</script>
+	</body>
+
+</html>

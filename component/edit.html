@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
+		<style>
+			.mui-bar .mui-btn {
+				top:0px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			#info {
+				padding: 20px 10px;
+			}
+			#pic-list>li>img,#pic-list>li>a>img{
+				height: 100px;
+				width: 100px;
+			}
+			#showUserPicker{
+				background-color: dodgerblue;
+				color: #F0F0F0;
+				text-align: center;
+			}
+			#workflow label,.mui-content-padded label{
+				color: #8f8f94;
+				padding-left: 0px;
+			}
+			#workflow input{
+				background-color: dodgerblue;
+				color: #F0F0F0;
+				text-align: center;
+			}
+			/*.des {
+				margin: .5em 0;
+			}
+			.des>li {
+				font-size: 14px;
+				color: #8f8f94;
+			}*/
+			/*根据状态显隐*/
+			.complete .mui-bar{
+				display: none;
+			}
+		</style>
+		<!--上传照片-->
+		<script type="text/javascript">
+			var server="http://demo.dcloud.net.cn/helloh5/uploader/upload.php";
+var files=[];
+// 上传文件
+function upload(){
+	if(files.length<=0){
+		plus.nativeUI.alert("没有添加上传文件！");
+		return;
+	}
+	outSet("开始上传：")
+	var wt=plus.nativeUI.showWaiting();
+	var task=plus.uploader.createUpload(server,
+		{method:"POST"},
+		function(t,status){ //上传完成
+			if(status==200){
+				outLine("上传成功："+t.responseText);
+				plus.storage.setItem("uploader",t.responseText);
+				var w=plus.webview.create("uploader_ret.html","uploader_ret.html",{scrollIndicator:'none',scalable:false});
+				w.addEventListener("loaded",function(){
+					wt.close();
+					w.show("slide-in-right",300);
+				},false);
+			}else{
+				outLine("上传失败："+status);
+				wt.close();
+			}
+		}
+	);
+	task.addData("client","HelloH5+");
+	task.addData("uid",getUid());
+	for(var i=0;i<files.length;i++){
+		var f=files[i];
+		task.addFile(f.path,{key:f.name});
+	}
+	task.start();
+}
+// 拍照添加文件
+function appendByCamera(){
+	plus.camera.getCamera().captureImage(function(p){
+		plus.io.resolveLocalFileSystemURL(p,function(entry){
+			addPic(entry.toLocalURL());
+		},function(e){
+			outLine('读取拍照文件错误：'+e.message);
+		} );
+		appendFile(p);
+	});	
+}
+// 从相册添加文件
+function appendByGallery(){
+	plus.gallery.pick(function(p){
+		addPic(p);
+        appendFile(p);
+    });
+}
+// 添加文件
+var index=1;
+function appendFile(p){
+	var fe=document.getElementById("files");
+	var piclist=document.getElementById("pic-list");
+	var addpicli=document.getElementById("add-pic-li");
+	var li=document.createElement("li");
+	var n=p.substr(p.lastIndexOf('/')+1);
+	li.innerText=n;
+	fe.appendChild(li);
+	files.push({name:"uploadkey"+index,path:p});
+	index++;
+	empty.style.display="none";
+}
+function addPic(url){
+	var piclist=document.getElementById("pic-list");
+	var addpicli=document.getElementById("add-pic-li");
+	var li=document.createElement("li");
+	var img=document.createElement("img");
+	li.className="mui-table-view-cell mui-media mui-col-xs-6";
+	img.className="mui-media-object";
+	img.src=url;
+	img.style.height="100px";
+	img.style.width="100px";
+	li.appendChild(img);
+	piclist.insertBefore(li,addpicli);
+}
+	// 产生一个随机数
+	function getUid(){
+		return Math.floor(Math.random()*100000000+10000000).toString();
+	}
+</script>
+	</head>
+
+	<body>
+<div class="status-content complete">
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" href="#">
+				<button id="savbtn" type="button" class="mui-btn mui-btn-primary">保存</button>
+			</a>
+			<a class="mui-tab-item" href="#">
+				<button id="subbtn" type="button" class="mui-btn mui-btn-success">提交</button>
+			</a>
+		</nav>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<ul id="pic-list" class="mui-table-view mui-grid-view">
+					<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="#picture">
+							<img id="pic" class="mui-media-object" src="../images/add.png"/>
+						</a>
+					</li>
+				</ul>
+				<label>描述说明：</label>
+				<div class="mui-input-row">
+					<textarea id="textarea" rows="5" placeholder=""></textarea>
+				</div>
+				<label>所属分项工程：</label>
+				<div class="mui-input-row">
+						<input id='showUserPicker' type="text" placeholder="点击查询...">
+				</div>
+				<div id='userResult' class="ui-alert"></div>
+				<ul id="workflow" class="mui-table-view">
+				    <li class="mui-table-view-cell mui-collapse">
+				        <a class="mui-navigate-right" href="#">作业流程</a>
+				        <div class="mui-collapse-content">
+				            <div class="mui-input-row">
+								<label>签核流程</label>
+								<input id='showUserPicker2' type="text" placeholder="点击查询...">
+							</div>
+							<ul class="mui-table-view">
+							    <li class="mui-table-view-cell">周俊阳</li>
+							    <li class="mui-table-view-cell">胡洪超</li>
+							    <li class="mui-table-view-cell">杜永腾</li>
+							    <li class="mui-table-view-cell">高国胜</li>
+							</ul>
+				        </div>
+				    </li>
+				</ul>
+				<p class="heading">上传文件列表：</p>
+			<ul id="files" style="text-align:left;">
+				<p id="empty" style="font-size:12px;color:#C6C6C6;">无上传文件</p>
+			</ul>
+				<p id="info"></p>
+			</div>
+		</div>
+
+		
+		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#">拍照或录像</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#">选取现有的</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
+</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		var info = document.getElementById("info");
+		mui('body').on('tap', '.mui-popover-action li>a', function() {
+			var a = this,
+				parent;
+			//根据点击按钮，反推当前是哪个actionsheet
+			for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+				if (parent.classList.contains('mui-popover-action')) {
+					break;
+				}
+			}
+			//关闭actionsheet
+			if(a.innerHTML=="选取现有的"){
+				appendByGallery();
+			}
+			else if(a.innerHTML=="拍照或录像"){
+				appendByCamera();
+			}
+			mui('#' + parent.id).popover('toggle');
+			info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
+		});
+		//保存提交按钮事件
+		mui('body').on('tap','.mui-bar-tab a button',function(){
+			var a=this;
+			console.log(a.id);
+		})
+		mui.ready(function(){
+				//普通示例
+					var userPicker = new mui.PopPicker();
+					userPicker.setData([{
+						value: 'ywj',
+						text: '董事长 叶文洁'
+					}, {
+						value: 'aaa',
+						text: '总经理 艾AA'
+					}, {
+						value: 'lj',
+						text: '罗辑'
+					}, {
+						value: 'ymt',
+						text: '云天明'
+					}, {
+						value: 'shq',
+						text: '史强'
+					}, {
+						value: 'zhbh',
+						text: '章北海'
+					}, {
+						value: 'zhy',
+						text: '庄颜'
+					}, {
+						value: 'gyf',
+						text: '关一帆'
+					}, {
+						value: 'zhz',
+						text: '智子'
+					}, {
+						value: 'gezh', 
+						text: '歌者'
+					}]);
+					var showUserPickerButton = document.getElementById('showUserPicker');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						console.log('d111')
+						userPicker.show(function(items) {
+							showUserPickerButton.value = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					var showUserPickerButton2 = document.getElementById('showUserPicker2');
+					showUserPickerButton2.addEventListener('tap', function(event) {
+						console.log('d111')
+						userPicker.show(function(items) {
+							showUserPickerButton2.value = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+		})
+		mui.plusReady(function(){
+			var self = plus.webview.currentWebview();
+			var name = self.name;
+			if(name!=''){
+				plus.nativeUI.showWaiting('拼命獲取數據中...')
+				mui.get('http://supplier.foxconn.com/yupin/api/ImageProgress/GetDetail',{apply_id:name},function(response){ 
+					let data=response[0]
+					let text=document.getElementById("textarea")
+					text.innerHTML=data.remark
+					let showUserPickerButton = document.getElementById('showUserPicker');
+					showUserPickerButton.value=data.projectName
+					mui.get('http://supplier.foxconn.com/yupin/api/Attachment/DownloadFile',{formType:"APP_IP",applyID:data.apply_id,projectNO:data.projectNO},function(response){ 
+						for (let data of response) {
+							addPic(data.data)
+							plus.nativeUI.closeWaiting();
+						}
+					},'json' );	
+				},'json' );
+			}
+		})
+	</script>
+
+</html>

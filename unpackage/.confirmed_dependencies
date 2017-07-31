@@ -1,0 +1,352 @@
+{
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"tab-webview-subpage-about.html": {
+		"resources": [
+			"css/mui.min.css",
+			"tab-webview-main.html"
+		],
+		"refer": [
+			"tab-webview-main.html"
+		]
+	},
+	"tab-webview-main.html": {
+		"resources": [
+			"tab-webview-subpage-about.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"tab-webview-subpage-about.html",
+			"tab-webview-subpage-setting.html",
+			"tab-webview-subpage-chat.html",
+			"tab-webview-subpage-contact.html"
+		]
+	},
+	"tab-webview-subpage-contact.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"component/tabbar-with-submenus.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"component/tab-webview-subpage-about.html",
+			"component/tab-webview-subpage-chat.html",
+			"js/mui.picker.min.js",
+			"images/add.png",
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"component/tab-webview-subpage-contact.html",
+			"component/tab-webview-subpage-setting.html",
+			"component/tab-webview-subpage-about.html",
+			"component/tab-webview-subpage-chat.html"
+		]
+	},
+	"component/tab-webview-subpage-chat.html": {
+		"resources": [
+			"css/mui.min.css",
+			"js/webviewGroup.js",
+			"component/tab-top-subpage-1.html",
+			"css/footbar.css",
+			"component/tab-top-subpage-2.html",
+			"component/tableviews.html",
+			"component/new/tableviews.html",
+			"component/new/tab-top-subpage-1.html",
+			"component/change.html",
+			"css/header.css",
+			"css/chatstyle.css",
+			"js/mui.min.js",
+			"component/tab-top-subpage-4.html"
+		],
+		"refer": [
+			"component/tab-top-subpage-2.html",
+			"component/tab-top-subpage-4.html",
+			"component/tab-top-subpage-3.html",
+			"component/tab-top-subpage-5.html",
+			"component/tab-top-subpage-1.html",
+			"component/tableviews.html",
+			"component/new/tableviews.html",
+			"component/change.html",
+			"component/simple-edit.html",
+			"component/edit.html",
+			"component/tab-top-subpage-6.html"
+		]
+	},
+	"component/tab-webview-subpage-contact.html": {
+		"resources": [
+			"images/add.png",
+			"css/mui.min.css",
+			"js/mui.min.js",
+			"js/mui.picker.min.js",
+			"css/mui.picker.min.css",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"component/tab-webview-main.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"component/tab-webview-subpage-about.html",
+			"css/footbar.css",
+			"component/tab-webview-subpage-chat.html"
+		],
+		"refer": [
+			"component/tab-webview-subpage-contact.html",
+			"component/tab-webview-subpage-setting.html",
+			"component/tab-webview-subpage-about.html",
+			"component/tab-webview-subpage-chat.html"
+		]
+	},
+	"component/tab-top-subpage-1.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/style.css",
+			"js/dataFormat.js",
+			"js/common.js",
+			"js/mui.lazyload.js",
+			"js/mui.lazyload.img.js",
+			"js/mui.min.js",
+			"css/component/subpage-1.css",
+			"css/component/list-style.css",
+			"js/mui.js",
+			"js/commonidentify.js",
+			"css/footbar.css"
+		],
+		"refer": [
+			"component/edit.html",
+			"component/simple-edit.html"
+		]
+	},
+	"component/tab-top-subpage-2.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/style.css",
+			"css/component/list-style.css",
+			"css/footbar.css",
+			"js/dataFormat.js",
+			"js/mui.min.js",
+			"js/user/app.js"
+		],
+		"refer": [
+			"component/simple-edit.html"
+		]
+	},
+	"component/tab-webview-subpage-about.html": {
+		"resources": [
+			"css/mui.min.css",
+			"component/tab-top-subpage-4.html",
+			"js/webviewGroup.js",
+			"css/footbar.css",
+			"component/tab-top-subpage-5.html",
+			"images/add.png",
+			"js/util.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"component/tab-webview-subpage-chat.html",
+			"js/user/app.js",
+			"images/�.png",
+			"images/�.png",
+			"images/加.png"
+		],
+		"refer": [
+			"component/tab-top-subpage-6.html",
+			"component/tab-top-subpage-5.html",
+			"component/tab-top-subpage-4.html",
+			"component/tab-top-subpage-1.html",
+			"component/tab-webview-subpage-contact.html",
+			"component/tab-webview-subpage-setting.html",
+			"component/simple-edit.html",
+			"component/StartPage/guide.html",
+			"component/tab-webview-subpage-chat.html",
+			"component/tab-top-subpage-2.html",
+			"component/tab-top-subpage-3.html"
+		]
+	},
+	"component/tab-top-subpage-3.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/component/list-style.css",
+			"js/dataFormat.js",
+			"js/mui.min.js",
+			"css/style.css"
+		],
+		"refer": []
+	},
+	"component/tab-top-subpage-5.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/style.css",
+			"css/component/list-style.css"
+		],
+		"refer": [
+			"component/edit.html"
+		]
+	},
+	"component/tab-top-subpage-4.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/style.css",
+			"js/dataFormat.js",
+			"js/mui.min.js",
+			"js/common.js",
+			"css/component/list-style.css",
+			"js/commonidentify.js"
+		],
+		"refer": [
+			"component/edit.html"
+		]
+	},
+	"component/tab-top-subpage-6.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/style.css",
+			"css/component/list-style.css"
+		],
+		"refer": [
+			"component/edit.html"
+		]
+	},
+	"component/edit.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/mui.picker.min.js",
+			"js/mui.min.js"
+		],
+		"refer": []
+	},
+	"login.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/mui.enterfocus.js",
+			"fonts/mui.ttf",
+			"images/sinaweibo.png",
+			"images/weixin.png",
+			"images/qq.png"
+		],
+		"refer": [
+			"component/tab-webview-main.html",
+			"main.html",
+			"component/divbar/tabbar-with-submenus.html",
+			"reg.html"
+		]
+	},
+	"component/tableviews.html": {
+		"resources": [
+			"css/mui.min.css",
+			"component/tab-top-subpage-2.html"
+		],
+		"refer": [
+			"component/tab-top-subpage-2.html"
+		]
+	},
+	"component/new/tableviews.html": {
+		"resources": [
+			"css/mui.min.css",
+			"component/new/tab-top-subpage-2.html",
+			"component/new/tab-top-subpage-1.html"
+		],
+		"refer": [
+			"component/new/tab-top-subpage-2.html",
+			"component/new/tab-top-subpage-1.html"
+		]
+	},
+	"component/new/tab-top-subpage-2.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"component/change.html": {
+		"resources": [
+			"css/mui.min.css",
+			"component/tab-top-subpage-2.html"
+		],
+		"refer": [
+			"component/tab-top-subpage-2.html"
+		]
+	},
+	"component/tab-webview-subpage-setting.html": {
+		"resources": [
+			"css/mui.min.css",
+			"js/app.js"
+		],
+		"refer": []
+	},
+	"component/divbar/tabbar-with-submenus.html": {
+		"resources": [
+			"css/footbar.css",
+			"component/divbar/tab-top-subpage-1.html",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"component/divbar/tab-top-subpage-1.html"
+		]
+	},
+	"component/divbar/tab-top-subpage-1.html": {
+		"resources": [
+			"css/style.css",
+			"css/mui.min.css",
+			"css/footbar.css",
+			"js/dataFormat.js"
+		],
+		"refer": []
+	},
+	"reg.html": {
+		"refer": [
+			"login.html"
+		],
+		"resources": []
+	},
+	"component/simple-edit.html": {
+		"resources": [
+			"css/mui.picker.min.css",
+			"css/mui.min.css",
+			"js/mui.picker.min.js",
+			"js/mui.min.js",
+			"js/common.js",
+			"js/component/simple-edit.js",
+			"css/component/edit-style.css",
+			"js/commonidentify.js",
+			"js/imgChange/mui.zoom.js",
+			"js/imgChange/mui.imageViewer.js",
+			"js/imgChange/mui.previewimage.js",
+			"images/yuantiao.jpg",
+			"css/imgChange/imgChangeStyle.css",
+			"images/add.png",
+			"js/user/app.js"
+		],
+		"refer": [
+			"component/imgView.html"
+		]
+	},
+	"component/imgView.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"component/StartPage/guide.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	}
+}

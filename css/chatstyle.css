@@ -1,0 +1,12 @@
+#topPopover {
+				 position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+.mui-popover {
+				height: 300px;
+			}
