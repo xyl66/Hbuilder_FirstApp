@@ -1,1 +1,103 @@
-null
+{
+  "component/imProgress/list-to-detail/detail-2.html": {
+    "href": "component/imProgress/list-to-detail/detail-2.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/mui.picker.min.js",
+      "js/user/app.js",
+      "js/component/simple-edit.js",
+      "js/imgChange/mui.zoom.js",
+      "js/imgChange/mui.previewimage.js",
+      "js/vue.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/mui.picker.min.css",
+      "css/component/edit-style.css",
+      "css/imgChange/imgChangeStyle.css",
+      "css/list-to-detail.css",
+      "images/add2.png"
+    ],
+    "priority": 5
+  },
+  "component/imProgress/tab-top-subpage-2.html": {
+    "href": "component/imProgress/tab-top-subpage-2.html",
+    "resources": [
+      "js/user/share.js"
+    ],
+    "refer": [
+      "component/imProgress/list-to-detail/detail-2.html"
+    ],
+    "priority": 5
+  },
+  "component/SignProject/list-to-detail/detail-3.html": {
+    "href": "component/SignProject/list-to-detail/detail-3.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/mui.picker.min.js",
+      "js/user/app.js",
+      "js/component/simple-edit.js",
+      "js/imgChange/mui.zoom.js",
+      "js/imgChange/mui.previewimage.js",
+      "js/vue.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/mui.picker.min.css",
+      "css/component/edit-style.css",
+      "css/imgChange/imgChangeStyle.css",
+      "css/list-to-detail.css",
+      "css/header.css",
+      "images/add2.png"
+    ],
+    "refer": [
+      "component/SignProject/list-to-detail/workflow.html"
+    ],
+    "priority": 5
+  },
+  "component/SignProject/tab-top-subpage-3.html": {
+    "href": "component/SignProject/tab-top-subpage-3.html",
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/dataFormat.js",
+      "js/user/share.js",
+      "js/user/app.js",
+      "js/vue.min.js"
+    ],
+    "refer": [
+      "component/SignProject/list-to-detail/detail-3.html"
+    ],
+    "priority": 5
+  },
+  "component/SignProject/tab-top-subpage-1.html": {
+    "href": "component/SignProject/tab-top-subpage-1.html",
+    "resources": [
+      "fonts/mui.ttf",
+      "js/user/share.js"
+    ],
+    "refer": [],
+    "priority": 6
+  },
+  "component/SignProject/list-to-detail/detail-2.html": {
+    "href": "component/SignProject/list-to-detail/detail-2.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/user/app.js",
+      "fonts/mui.ttf",
+      "css/header.css",
+      "images/add2.png"
+    ],
+    "refer": [
+      "component/SignProject/list-to-detail/workflow.html"
+    ],
+    "priority": 7
+  },
+  "component/SignProject/tab-top-subpage-2.html": {
+    "href": "component/SignProject/tab-top-subpage-2.html",
+    "resources": [
+      "fonts/mui.ttf",
+      "fonts/mui-icons-extra.ttf"
+    ],
+    "refer": [],
+    "priority": 7
+  }
+}

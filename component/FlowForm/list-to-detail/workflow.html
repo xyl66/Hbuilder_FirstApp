@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<!--自定义表头样式-->
+		<link rel="stylesheet" type="text/css" href="../../../css/footbar.css"/>
+		<style type="text/css">
+			.search,.list{
+				margin-top: 10px;
+			}
+			.list .title{
+				font-size: 18px;
+			}
+			.mui-table-view-cell.mui-active{
+				background-color: #0062CC;
+			}
+			.btn-content{
+				text-align: center;
+			}
+			.width-half{
+				width: 50%;
+			}
+			body .mui-bar .top-start{
+				top: 0px;
+			}
+		</style>
+	</head>
+
+<body>
+<div id="app">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back  mui-pull-left"></a>
+		    <h1 class="mui-title">{{titleName}}</h1>
+		</header>
+		<div class="mui-content">
+			<div class="search">
+			    <div class="mui-input-row mui-search">
+			        <input type="search" id="searchInput" class="mui-input-clear" v-model="search.userName" onkeyup="enterSearch(event)" placeholder="">
+			    </div>
+			</div>
+			<div class="list">
+			    <div class="title">
+					用戶信息
+				</div>
+				<ul class="mui-table-view mui-table-view-radio">
+				    <li class="mui-table-view-cell" v-for="user in userList">
+				        <a class="mui-navigate-right" :data-uid="user.userID">{{user.userName}}({{user.userID}})</a>
+				    </li>
+				</ul>
+			</div>
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item" href="#">
+					<button id="subbtn" type="button" class="top-start mui-btn mui-btn-success width-half">提交</button>
+				</a>
+			</nav>
+			</div>
+		
+		
+</div>
+		<script src="../../../js/mui.min.js"></script>
+		<!-- 引入Vue -->
+		<script src="../../../js/vue.js"></script>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="../../../css/component/iview/iview.css">
+		<!-- 引入组件库 -->
+		<script src="../../../js/component/iview/iview.min.js"></script>
+		<!--引入个人定义-->
+		<script src="../../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+			var	isSearch=false,
+				vmFlow=new Vue({
+		        el: '#app',
+		        data: {
+		        		titleName:'會簽流程',
+		        		search:{
+		        			userID:'',
+		        			userName:'',
+		        		},
+		        		applyId:'',
+		        		assignUserId:'',
+		        		processId:'',
+		        		userList:[],
+		            visible: false
+		        },
+		        watch:{
+		        		search:{
+				      handler: function(val, oldVal){	
+				      	let serUrl=userApp.serverUrl+'/Users/SearchUser'
+				      	if(!isSearch){
+				      		return
+				      	}
+						data={user_dept:"YPZY",condition:val.userID}
+						userApp.Post(serUrl,data).then(res=>{
+							vmFlow.userList=[]
+							vmFlow.userList=res
+							isSearch=false
+						})
+		            		},
+				      deep: true,
+				    }
+		        },
+		        methods: {
+		            show: function () {
+		                this.visible = true;
+		            },
+		            GetColor:function(val){
+		            		let t=val%4
+		            		switch(t){
+		            			case	 0:
+		            				return 'bg-color-o'
+		            				break;
+		            			case 1:
+		            				return 'bg-color-b'
+		            				break;
+		            			case 2:
+		            				return 'bg-color-g'
+		            				break;
+		            			case 3:
+		            				return 'bg-color-r'
+		            				break;
+		            			default:
+		            				return 'bg-color-b'
+		            		}
+		            },
+		            userClick:function(val){
+			            	inputElem=document.getElementById("searchInput")
+						inputElem.parentNode.classList.add('mui-active'); //第一个是search，加上激活样式
+		            		isSearch=true;
+		            		this.search=val
+		            },
+		            SearchUser:function(val,oldval){
+		            	console.log(val)
+		            	console.log(oldval)
+		            	
+//			            	let serUrl=userApp.serverUrl+'/Users/SearchUser',
+//						data={user_dept:"YPZY",condition:val}
+//						userApp.Post(serUrl,data).then(res=>{
+//							let userArr=[]
+//							for (let {WorkNO,RealName} in res) {
+//								userArr.push({userID:WorkNO,userName:RealName})
+//							}
+//							vmFlow.userList=[]
+//							vmFlow.userList=userArr
+//						})
+		            }
+		        },
+		  	})
+			mui.plusReady(function(){
+				let cwb=plus.webview.currentWebview()
+				vmFlow.processId=cwb.processId
+				vmFlow.applyId=cwb.applyId
+				//加载所有用户
+				let serUrl=userApp.serverUrl+'/Users/GetUsers',
+					data={user_dept:"YPZY",}
+				userApp.Post(serUrl,data).then(res=>{
+						console.log(JSON.stringify(res))
+						vmFlow.userList=res
+					}).catch(err=>{
+						plus.nativeUI.toast(err, {
+							verticalAlign: 'top'
+						});
+					})
+			})
+
+/**
+ * @param {Object} e
+ * @description 搜索事件
+ */
+function enterSearch(e) {
+    if(e.keyCode == 13) {
+    		let searchdom= document.getElementById("searchInput")
+        searchdom.blur();
+		searchdom.parentNode.classList.add('mui-active'); //第一个是search，加上激活样式
+        let serUrl=userApp.serverUrl+'/Users/SearchUser',
+			data={user_dept:"YPZY",condition:searchdom.value}
+		userApp.Post(serUrl,data).then(res=>{
+			vmFlow.userList=[]
+			vmFlow.userList=res
+			document.querySelector(".mui-table-view-radio .mui-selected").classList.remove("mui-selected")
+			vmFlow.assignUserId=''
+		})
+    }
+}
+//单选事件
+document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected',function(e){
+			vmFlow.assignUserId=e.detail.el.firstChild.getAttribute('data-uid')
+			console.log("当前选中的为："+e.detail.el.firstChild.getAttribute('data-uid'))
+	});
+//提交
+mui(".mui-content").on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
+	if(vmFlow.assignUserId==''){
+		plus.nativeUI.toast('未选择会签人员')
+		return
+	}
+	let serUrl=userApp.serverUrl+'/workflow/assign',
+		data={
+			apply_id:vmFlow.applyId,
+			assignUserID:vmFlow.assignUserId,
+			process_id:vmFlow.processId
+		}
+	userApp.Post(serUrl,data).then(res=>{
+		console.log(JSON.stringify(res))
+		plus.nativeUI.toast('確認成功')
+	}).catch(err=>{
+		plus.nativeUI.toast(err, {
+			verticalAlign: 'top'
+		});
+	})
+})
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().close();
+				//动画结束后，恢复默认值
+				setTimeout(function() {
+					window.scrollTo(0, 0);
+				}, 300);
+			}
+		</script>
+	</body>
+
+</html>

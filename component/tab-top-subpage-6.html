@@ -11,9 +11,17 @@
 			<!--自定义样式-->
 		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/component/list-style.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/component/background.css"/>
 		<style type="text/css">
 		.mui-table-view .mui-media-object {
 			margin-right: 20px;
+		}
+		.main-circle .circle{
+			width: 80px;
+			height: 80px;
+		}
+		.main-circle li{
+			padding: 11px 0px !important;
 		}
 		</style>
 	</head>
@@ -21,102 +29,58 @@
 	<body>
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<ul class="mui-table-view">
-				    <li class="mui-table-view-cell mui-collapse">
-				        <a class="mui-navigate-right" href="#">形象进度<span class="mui-badge mui-badge-primary">5</span></a>
-				        <div class="mui-collapse-content">
-				            <ul class="mui-table-view">
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											幸福
-											<p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-										</div>
-									</a>
-								</li>
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/muwu.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											木屋
-											<p class='mui-ellipsis'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-										</div>
-									</a>
-								</li>
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/cbd.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											CBD
-											<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-										</div>
-									</a>
-								</li>
-				
-							</ul>
-						
-				        </div>
-				    </li>
-				    <li class="mui-table-view-cell mui-collapse">
-				        <a class="mui-navigate-right" href="#">签证工程<span class="mui-badge mui-badge-primary">3</span></a>
-				        <div class="mui-collapse-content">
-				            <ul class="mui-table-view">
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											幸福
-											<p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-										</div>
-									</a>
-								</li>
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/muwu.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											木屋
-											<p class='mui-ellipsis'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-										</div>
-									</a>
-								</li>
-								<li class="mui-table-view-cell mui-media">
-									<a href="javascript:;">
-										<img class="mui-media-object mui-pull-left" src="../images/cbd.jpg">
-										<div class="mui-media-object mui-pull-right">
-											<span class="mui-badge mui-badge-primary">2017-07-29</span>
-										</div>
-										<div class="mui-media-body">
-											CBD
-											<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-										</div>
-									</a>
-								</li>
-				
-							</ul>
-						
-				        </div>
-				    </li>
-				</ul>
+				<ul class="main-circle mui-table-view mui-grid-view mui-grid-9">
+		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" data-wid="./FlowForm/list-to-finished/project-sign.html">
+			            <div class="bg-color-blue  circle">
+							<span class="span-center white-color">{{count}}</span>
+						</div>
+						<p>現場簽證</p>
+					</li>
+		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+		                <div class="bg-color-g  circle">
+							<span class="span-center white-color">1</span>
+						</div>
+						<p>報批報建</p>
+					</li>
+		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+			            	<div class="bg-color-r  circle">
+			            		<span class="span-center white-color">1</span>
+			            	</div>
+			            	<p>施工日誌</p>
+			        </li>
+		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+		                <div class="bg-color-o  circle">
+							<span class="span-center white-color">1</span>
+						</div>
+						<p>需求單</p>
+					</li>
+		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+		                <div class="bg-color-z  circle">
+							<span class="span-center white-color">1</span>
+						</div>
+						<p>整改單</p>
+		            </li>
+		        </ul> 
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/user/app.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
+			var subpage_style = {
+					top: '0px',
+					bottom: '0px'
+				},
+			 vm=new Vue({
+				el:"#pullrefresh",
+				data:{
+					count:'',
+					dataList:{
+						imgData:[],
+						signData:[]
+					}
+				}
+			})
 			mui.init({
 				swipeBack: false,
 				keyEventBind: {
@@ -124,57 +88,65 @@
 				},
 				pullRefresh: {
 					container: '#pullrefresh',
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
+					down: {
+						style:'circle',
+						auto: true,
+						callback: pulldownRefresh
+					},
 				}
 			});
 			var count = 0;
 			/**
-			 * 上拉加载具体业务实现
+			 * 下拉刷新具体业务实现
 			 */
-			function pullupRefresh() {
+			function pulldownRefresh() {
 				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">社会-Item ' + (i + 1) + '</a>';
-						/*table.appendChild(li);*/
-					}
-				}, 1000);
+							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+							let serurl=userApp.serverUrl+'/FlowForm/GetFinishedList',
+								data={
+									formType:"APP_IP",
+									userID:userApp.userID,
+									condition:"",
+								}
+							userApp.Get(serurl,data).then(response=>{
+								mui('#pullrefresh').pullRefresh().endPulldown();
+								vm.dataList.imgData=[];
+								vm.dataList.imgData = response;
+							}).catch(err=>{
+								mui('#pullrefresh').pullRefresh().endPulldown();
+								plus.nativeUI.toast(err);
+							})
+						}, 1500);
 			}
 			//单击事件
-			mui('body').on('tap', '.mui-scroll .mui-collapse-content li', function(e){
-				var h=this.getElementsByTagName('h4');
-				console.log('单机了'+h[0].innerHTML );
-				mui.openWindowWithTitle({
-				    url:'edit.html',
-				    id:'edit'
-				},{
-					backgroundColor:"#f4645f",//导航栏背景色
-				    title:{//标题配置
-				        text:h[0].innerHTML,//标题文字
-				        styles:{//绘制文本样式，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.TextStyles
-				            color:"#f0f0f0",
-				            align:"center",
-				            family:"'Helvetica Neue',Helvetica,sans-serif",
-				            size:"17px",
-				            style:"normal",
-				            weight:"normal",
-				            fontSrc:""
-				        },
-				    },
-				    back:{//左上角返回箭头
-				        image:{
-				            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
-				        }
-				    }
-				})
-			})
+			//主内容图标单击事件
+				mui(".mui-grid-view").on("tap", ".icon-btn", function(e) {
+					console.log("单击九宫格")
+					vm.count="50"
+					//读取本地存储，检查是否为已登录
+					var userId = plus.storage.getItem("userId");
+					console.log(userId)
+					if(!userId){
+						var newWV = plus.webview.create('../login.html', 'login');
+						newWV.show('slide-in-right', 200);
+						return
+					}
+					var wid = this.getAttribute("data-wid");
+					if(!wid){
+						plus.nativeUI.toast("功能完善中")
+						return
+					}
+					console.log(plus.webview.all().length)
+					var sub=plus.webview.create(wid,wid,subpage_style)
+					console.log(plus.webview.all().length)
+					sub.show()
+					//activePage.append(sub)
+				});
 		</script>
 	</body>
 

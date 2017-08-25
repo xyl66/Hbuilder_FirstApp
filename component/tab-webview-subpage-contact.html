@@ -9,34 +9,14 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
 		<!--App自定义的css-->
-		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
+		<link rel="stylesheet" type="text/css" href="../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/component/edit-style.css"/>
+		<!--图片预览-->
+		<link rel="stylesheet" type="text/css" href="../css/imgChange/imgChangeStyle.css"/>
 		<style>
-			.mui-btn {
-				font-size: 16px;
-				padding: 8px;
-				margin: 3px;
-			}
-			p {
-				text-indent: 22px;
-			}
-			span.mui-icon {
-				font-size: 14px;
-				color: #007aff;
-				margin-left: -15px;
-				padding-right: 10px;
-			}
-			#info {
-				padding: 20px 10px;
-			}
-			#pic-list>li>img,#pic-list>li>a>img{
-				height: 100px;
-				width: 100px;
-			}
-			#showUserPicker{
-				text-align: center;
-			}
-			#workflow label{
+			#workflow label,.mui-content-padded label{
 				color: #8f8f94;
 				padding-left: 0px;
 			}
@@ -45,295 +25,156 @@
 				color: #F0F0F0;
 				text-align: center;
 			}
-			/*.des {
-				margin: .5em 0;
+			.mui-input-row .width-full{
+				width: auto;
 			}
-			.des>li {
-				font-size: 14px;
-				color: #8f8f94;
-			}*/
+			.mui-table-view p{
+				font-size:12px;
+				color: #000000;
+			}
+			.mui-table-view-cell p:last-child{
+				margin-top: -8px;
+			}
+			.select-list li{
+				font-size: 13px;
+			}
+			#slect_content{
+				font-size: 13px;
+			}
 		</style>
-		//上传照片
-		<script type="text/javascript">
-			var server="http://demo.dcloud.net.cn/helloh5/uploader/upload.php";
-var files=[];
-// 上传文件
-function upload(){
-	if(files.length<=0){
-		plus.nativeUI.alert("没有添加上传文件！");
-		return;
-	}
-	outSet("开始上传：")
-	var wt=plus.nativeUI.showWaiting('拼命獲取數據中...');
-	var task=plus.uploader.createUpload(server,
-		{method:"POST"},
-		function(t,status){ //上传完成
-			if(status==200){
-				outLine("上传成功："+t.responseText);
-				plus.storage.setItem("uploader",t.responseText);
-				var w=plus.webview.create("uploader_ret.html","uploader_ret.html",{scrollIndicator:'none',scalable:false});
-				w.addEventListener("loaded",function(){
-					wt.close();
-					w.show("slide-in-right",300);
-				},false);
-			}else{
-				outLine("上传失败："+status);
-				wt.close();
-			}
-		}
-	);
-	task.addData("client","HelloH5+");
-	task.addData("uid",getUid());
-	for(var i=0;i<files.length;i++){
-		var f=files[i];
-		task.addFile(f.path,{key:f.name});
-	}
-	task.start();
-}
-// 拍照添加文件
-function appendByCamera(){
-	plus.camera.getCamera().captureImage(function(p){
-		plus.io.resolveLocalFileSystemURL(p,function(entry){
-			addPic(entry.toLocalURL());
-		},function(e){
-			outLine('读取拍照文件错误：'+e.message);
-		} );
-		appendFile(p);
-	});	
-}
-// 从相册添加文件
-function appendByGallery(){
-	plus.gallery.pick(function(p){
-		addPic(p);
-        appendFile(p);
-    });
-}
-// 添加文件
-var index=1;
-function appendFile(p){
-	var fe=document.getElementById("files");
-	var piclist=document.getElementById("pic-list");
-	var addpicli=document.getElementById("add-pic-li");
-	var li=document.createElement("li");
-	var n=p.substr(p.lastIndexOf('/')+1);
-	li.innerText=n;
-	fe.appendChild(li);
-	files.push({name:"uploadkey"+index,path:p});
-	index++;
-	empty.style.display="none";
-}
-function addPic(url){
-	var piclist=document.getElementById("pic-list");
-	var addpicli=document.getElementById("add-pic-li");
-	var li=document.createElement("li");
-	var img=document.createElement("img");
-	li.className="mui-table-view-cell mui-media mui-col-xs-6";
-	img.className="mui-media-object";
-	img.src=url;
-	img.style.height="100px";
-	img.style.width="100px";
-	li.appendChild(img);
-	piclist.insertBefore(li,addpicli);
-}
-// 产生一个随机数
-function getUid(){
-	return Math.floor(Math.random()*100000000+10000000).toString();
-}
-		</script>
-	</head>
-
-	<body>
-
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">H5模式actionsheet</h1>
-		</header>
-		<nav class="mui-bar mui-bar-tab">
-			<a class="mui-tab-item" href="#">
-				<button type="button" class="mui-btn mui-btn-primary">保存</button>
-			</a>
-			<a class="mui-tab-item" href="#">
-				<button type="button" class="mui-btn mui-btn-success">提交</button>
-			</a>
-		</nav>
-		<div class="mui-content">
-			<div class="mui-content-padded">
-				<ul id="pic-list" class="mui-table-view mui-grid-view">
-					<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6">
-						<a href="#picture">
-							<img id="pic" class="mui-media-object" src="../images/add.png"/>
-						</a>
-					</li>
-				</ul>
-				<h5>描述说明：</h5>
-				<div class="mui-input-row">
-					<textarea id="textarea" rows="5" placeholder="多行文本框"></textarea>
+</head>
+<body>
+	<div id="app">
+	<header class="mui-bar mui-bar-nav">
+	    <h1 class="mui-title">{{selectText}}</h1>
+	</header>
+	<div class="mui-content">
+	    <div class="status-content">
+			<div class="mui-content">
+				<input type="text" name="apply_id" id="apply_id" hidden value="" />
+				<div class="mui-content-padded">
+					<div class="mui-input-row mui-search">
+					    <input id="searchInput" type="search" class="mui-input-clear" onclick="getData()" v-model="searchstr" placeholder="點擊選擇工程項目">
+					</div>
+					<div class="select-list">
+						<ul class="mui-table-view" v-show="selectShow">
+						    <li class="mui-table-view-cell" v-for="item in selectList" :data-value="item.value">{{item.text}}</li>
+						</ul>
+					</div>
+					<ul id="pic-list" class="mui-table-view mui-grid-view" v-show="tableShow">
+						<!--<li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap">
+							<a>
+								<img src="../images/2.jpg"  data-preview-src="" data-preview-group="1" class="mui-media-object" />
+							</a>
+							<p>2015-08-02 12:50</p>
+							<p class="mui-ellipsis">
+								adasdasfasfasfasfasfasfasf
+							</p>
+						</li>-->
+						<li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap" v-for="(item,index) in tables">
+							<a>
+								<img :src="item.data"  :data-preview-src="item.initialData" data-preview-group="1" class="mui-media-object" />
+							</a>
+							<p>{{item.resultTime}}</p>
+							<p class="mui-ellipsis">
+								{{item.remark}}
+							</p>
+						</li>
+					</ul>
 				</div>
-				<h5>所属分项工程：</h5>
-				<div class="mui-input-row">
-						<input id='showUserPicker' type="text" placeholder="点击查询...">
-				</div>
-				<div id='userResult' class="ui-alert"></div>
-				<ul id="workflow" class="mui-table-view">
-				    <li class="mui-table-view-cell mui-collapse">
-				        <a class="mui-navigate-right" href="#">作业流程</a>
-				        <div class="mui-collapse-content">
-				            <div class="mui-input-row">
-								<label>签核流程</label>
-								<input id='showUserPicker2' type="text" placeholder="点击查询...">
-							</div>
-							<ul class="mui-table-view">
-							    <li class="mui-table-view-cell">周俊阳</li>
-							    <li class="mui-table-view-cell">胡洪超</li>
-							    <li class="mui-table-view-cell">杜永腾</li>
-							    <li class="mui-table-view-cell">高国胜</li>
-							</ul>
-				        </div>
-				    </li>
-				</ul>
-				<p class="heading">上传文件列表：</p>
-			<ul id="files" style="text-align:left;">
-				<p id="empty" style="font-size:12px;color:#C6C6C6;">无上传文件</p>
-			</ul>
-				<p id="info"></p>
 			</div>
-		</div>
-
-		<div id="delete" class="mui-popover mui-popover-action mui-popover-bottom">
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#" style="color: #FF3B30;">删除信息</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#delete"><b>取消</b></a>
-				</li>
-			</ul>
-		</div>
-		<div id="forward" class="mui-popover mui-popover-action mui-popover-bottom">
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#">回复</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a href="#">转发</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a href="#">打印</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#forward"><b>取消</b></a>
-				</li>
-			</ul>
-		</div>
-		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#">拍照或录像</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a href="#">选取现有的</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#picture"><b>取消</b></a>
-				</li>
-			</ul>
-		</div>
-
-	</body>
+	</div>
+	</div>
+	</div>
+</body>
 	<script src="../js/mui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
 	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/component/simple-edit.js" type="text/javascript" charset="utf-8"></script>
+	<!--图片预览-->
+	<script src="../js/imgChange/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/imgChange/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-		mui.init({
-			swipeBack:true //启用右滑关闭功能
-		});
-		mui('body').on('shown', '.mui-popover', function(e) {
-			//console.log('shown', e.detail.id);//detail为当前popover元素
-		});
-		mui('body').on('hidden', '.mui-popover', function(e) {
-			//console.log('hidden', e.detail.id);//detail为当前popover元素
-		});
-		var info = document.getElementById("info");
-		mui('body').on('tap', '.mui-popover-action li>a', function() {
-			var a = this,
-				parent;
-			//根据点击按钮，反推当前是哪个actionsheet
-			for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
-				if (parent.classList.contains('mui-popover-action')) {
-					break;
+		function getDefaultData() {
+				return {
+					searchstr:'',
+					selectList:[],
+					tables:[],
+					selectShow:true,
+					tableShow:false,
+					selectText:'形象進度報表'
 				}
+		}
+		var serverUrl=userApp.serverUrl,
+		    	userPicker = new mui.PopPicker(),
+		    	selectListInit=[],
+		    vm = new Vue({
+				el: '#app',
+				data: getDefaultData(),
+				methods: {
+					resetData: function() {//重置数据
+						this.$data=getDefaultData()
+						//Object.assign(this.$data, getDefaultData());
+					}
+				},
+				watch:{
+					searchstr:function (str) {
+				      var arr=[],selectArr=selectListInit
+				      for (let i in selectArr) {
+				      	if(selectArr[i].text&&selectArr[i].text.indexOf(str)!=-1){
+				      		arr.push(selectArr[i])
+				      	}
+				      }
+				      vm.selectList=arr
+				    }
+				}
+			});
+		/*图片预览*/
+		mui.previewImage();
+		mui.init({
+			gestureConfig:{
+			   longtap: true, //默认为false  
 			}
-			//关闭actionsheet
-			if(a.innerHTML=="选取现有的"){
-				appendByGallery();
-			}
-			else if(a.innerHTML=="拍照或录像"){
-				appendByCamera();
-			}
-			mui('#' + parent.id).popover('toggle');
-			info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
 		});
-		mui.ready(function(){
-					//普通示例
-					var userPicker = new mui.PopPicker();
-					userPicker.setData([{
-						value: 'ywj',
-						text: '董事长 叶文洁'
-					}, {
-						value: 'aaa',
-						text: '总经理 艾AA'
-					}, {
-						value: 'lj',
-						text: '罗辑'
-					}, {
-						value: 'ymt',
-						text: '云天明'
-					}, {
-						value: 'shq',
-						text: '史强'
-					}, {
-						value: 'zhbh',
-						text: '章北海'
-					}, {
-						value: 'zhy',
-						text: '庄颜'
-					}, {
-						value: 'gyf',
-						text: '关一帆'
-					}, {
-						value: 'zhz',
-						text: '智子'
-					}, {
-						value: 'gezh', 
-						text: '歌者'
-					}]);
-					var showUserPickerButton = document.getElementById('showUserPicker');
-					showUserPickerButton.addEventListener('tap', function(event) {
-						console.log('d111')
-						userPicker.show(function(items) {
-							showUserPickerButton.value = JSON.stringify(items[0]);
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-					var showUserPickerButton2 = document.getElementById('showUserPicker2');
-					showUserPickerButton2.addEventListener('tap', function(event) {
-						console.log('d111')
-						userPicker.show(function(items) {
-							showUserPickerButton2.value = JSON.stringify(items[0]);
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-					//退出应用
-				var backButtonPress = 0;
-				mui.back = function(event) {
+		mui.plusReady(function(){
+			userApp.userId=userId=plus.storage.getItem('userId') //获取用户id
+			let serurl=userApp.serverUrl+"/Search/GetData",
+				data={formType:"APP_PRO",userID:userApp.userId,condition:""}
+			userApp.Get(serurl,data).then(res=>{
+				let arr=[]
+				for(let {subentry_caseno,contract_name} of res){
+					arr.push({value:subentry_caseno,text:contract_name})
+				}
+				vm.selectList=selectListInit=arr
+			})	
+		})
+		mui(".select-list").on("tap","li",function(){
+			document.getElementById("searchInput").blur()
+			vm.selectShow=false
+			vm.selectText=this.innerHTML
+			getThumImage(this.getAttribute("data-value"))
+		})
+function getData(){
+	vm.selectShow=true
+	vm.tableShow=false
+}
+//获取报表
+function getThumImage(pjNo){
+	console.log("獲取數據")
+	plus.nativeUI.showWaiting('加載數據中')
+	let serurl=userApp.serverUrl+"/Attachment/GetThumImage",
+		data={formType:"APP_RIP",applyID:"",projectNO:pjNo}
+	userApp.Get(serurl,data).then(res=>{
+		console.log(JSON.stringify(res))
+		vm.tables=res
+		vm.tableShow=true
+		plus.nativeUI.closeWaiting()
+	})
+}
+		//退出应用
+		var backButtonPress = 0;
+		mui.back = function(event) {
 						backButtonPress++;
 						if (backButtonPress > 1) {
 							plus.runtime.quit();
@@ -345,7 +186,6 @@ function getUid(){
 						}, 1000);
 						return false;
 					};
-		})
 	</script>
 
 </html>

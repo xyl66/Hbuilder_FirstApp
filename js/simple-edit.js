@@ -1,5 +1,5 @@
 /*<!--上传照片-->*/
-	var server="http://supplier.foxconn.com/yupin/api/Attachment/UploadFile";
+	var server=userApp.serverUrl+"/Attachment/UploadFile";
 	const newUuId=getUid();
 	var files=[];
 	// 上传文件

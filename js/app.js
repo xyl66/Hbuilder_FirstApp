@@ -18,7 +18,31 @@
 		if (loginInfo.password.length < 6) {
 			return callback('密码最短为 6 个字符');
 		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
+		mui.ajax('http://supplier.foxconn.com/yupin/api/Users/UserLogin',{
+			data:{
+				userID:loginInfo.account,
+				password:loginInfo.password
+			},
+			headers: {'Content-Type':'application/json'},
+			dataType:'json',//服务器返回json格式数据
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				if(data.code==null){
+					return callback('用户名或密码错误');
+				}
+				if(data.status){
+					plus.storage.setItem('userId',data.code);
+					return owner.createState(loginInfo.account, callback);
+				}else{
+					return callback('用户名被禁用');
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				return callback(errorThrown);
+			}
+		});
+		/*var users = JSON.parse(localStorage.getItem('$users') || '[]');
 		var authed = users.some(function(user) {
 			return loginInfo.account == user.account && loginInfo.password == user.password;
 		});
@@ -26,7 +50,7 @@
 			return owner.createState(loginInfo.account, callback);
 		} else {
 			return callback('用户名或密码错误');
-		}
+		}*/
 	};
 
 	owner.createState = function(name, callback) {

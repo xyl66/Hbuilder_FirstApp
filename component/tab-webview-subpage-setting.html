@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 	<head>
@@ -9,6 +8,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/header.css"/>
 		<style>
 			html,body {
 				background-color: #efeff4;
@@ -18,64 +18,122 @@
 				color: #6d6d72;
 				font-size: 15px;
 			}
+			.cover-content,.body-content{
+				text-align: center;
+			}
+			.body-content{
+				color: white;
+				margin-top: 12px;
+    				font-size: 16px;
+			}
+			.cover-content img{
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: white;
+				margin-top: 15px;
+			}
+			.user-header{
+				background: url(../images/icon/back1.jpg);
+				margin-bottom: 0px;
+			}
+			.footer{
+				margin-top: 25px;text-align: center;
+				height: 50px;
+			}
+			.footer button{
+				width: 75%;
+			}
 		</style>
 	</head>
 
 	<body>
-		<!--<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<header class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">设置</h1>
-		</header>-->
-		<div class="mui-content">
-			<div class="title">
-				这是webview模式选项卡中的第4个子页面，该页面展示一个常见的设置示例
+		</header>
+		<div id="app" class="mui-content">
+			<form class="user-header mui-input-group">
+				<div class="cover-content">
+					<a href="#">
+						<img src="../images/icon/user.png">
+					</a>
+				</div>
+				<div class="mui-input-row body-content">
+			    <span>
+			    		{{userInfo.userName}}
+			    </span>
+				</div>
+			</form>
+			<form class="mui-input-group">
+			    <div class="mui-input-row">
+			        <label>賬號</label>
+			    <input type="text" disabled="true" class="mui-input-clear" v-model="userInfo.userID">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>部門</label>
+			        <input type="text" disabled="true" class="mui-input-clear" v-model="userInfo.userDept">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>手機號碼</label>
+			        <input type="text" disabled="true" class="mui-input-clear" v-model="userInfo.userPhone">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>郵箱地址</label>
+			        <input type="text" disabled="true" class="mui-input-clear" v-model="userInfo.userMail">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>當前版本</label>
+			        <input type="text" disabled="true" class="mui-input-clear" v-model="sysInfo.version">
+			    </div>
+			</form>
+			<div class="footer">
+				<button id="exit" type="button" class="mui-btn mui-btn-primary">退出登录</button>
 			</div>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
-						新消息通知
-					</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
-						隐私
-					</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
-						通用
-					</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view" style="margin-top: 25px;">
-				<li class="mui-table-view-cell">
-					<a id="about" class="mui-navigate-right">
-						关于mui
-					</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view" style="margin-top: 25px;">
-				<li class="mui-table-view-cell">
-					<a id="exit" style="text-align: center;color: #FF3B30;">
-						退出登录
-					</a>
-				</li>
-			</ul>
 		</div>
 		</style>
 	</body>
 	<script src="../js/mui.min.js"></script>
 	<script src="../js/app.js"></script>
+	<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script>
+		var vm=new Vue({
+			el:"#app",
+			data:{
+				userInfo:'',
+				sysInfo:'',
+			}
+		})
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
-		document.getElementById("about").addEventListener('tap',function () {
-			//获得主页面的webview
-			var main = plus.webview.currentWebview().parent();
-			//触发主页面的gohome事件
-			mui.fire(main,'gohome');
-		});
+		mui.plusReady(function(){
+			plus.navigator.setStatusBarBackground("#2B85E4");
+			initData()
+		})
+		//获取数据
+		function initData(){
+			var serurl=userApp.serverUrl+"/Users/GetUserInfo",
+				data,
+			 	userId = plus.storage.getItem("userId");
+			if(!userId){
+				var newWV = plus.webview.create('../login.html', 'login');
+				newWV.show('slide-in-right', 200);
+				return
+			}
+			data={userID:userId}
+			userApp.Post(serurl,data).then(res=>{
+				console.log(JSON.stringify(res))
+				vm.userInfo=res
+			})
+			serurl=userApp.serverUrl+"/System/GetVersion"
+			userApp.Get(serurl,"").then(res=>{
+				vm.sysInfo=res
+			})
+		}
+		window.addEventListener('show', function() {
+					initData()
+				}, false);
 		//退出应用
 				var backButtonPress = 0;
 				mui.back = function(event) {
@@ -92,16 +150,17 @@
 					};
 		//退出操作******************
 		document.getElementById('exit').addEventListener('tap', function() {
+			console.log("退出")
 			if (mui.os.ios) {
 				app.setState({});
-				plus.storage.removeItem('waitingShow');//恢复加载条显示状态
-				console.log('tuichu'+plus.storage.getItem('waitingShow'))
+				plus.storage.removeItem('userId');//恢复加载条显示状态
 				mui.openWindow({
 					url: '../login.html',
 					id: 'login',
 					show: {
 						aniShow: 'pop-in'
 					},
+					createNew:false,
 					waiting: {
 						autoShow: false
 					}
@@ -122,22 +181,22 @@
 					case 1:
 						//注销账号
 						app.setState({});
-						plus.storage.removeItem('waitingShow')
-						console.log('tuichu'+plus.storage.getItem('waitingShow'))
+						plus.storage.removeItem('userId');//恢复加载条显示状态
 						/*
 						 * 注意：
 						 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
 						 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
 						 */
-						plus.webview.getLaunchWebview().show("pop-in");
+						//plus.webview.getLaunchWebview().show("pop-in");
 						//若启动页不是登录页，则需通过如下方式打开登录页
-//						mui.openWindow({
-//							url: 'login.html',
-//							id: 'login',
-//							show: {
-//								aniShow: 'pop-in'
-//							}
-//						});
+						mui.openWindow({
+							url: '../login.html',
+							id: 'login',
+							createNew:false,
+							show: {
+								aniShow: 'pop-in'
+							}
+						});
 						break;
 					case 2:
 						plus.runtime.quit();

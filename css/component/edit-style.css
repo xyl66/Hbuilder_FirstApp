@@ -5,7 +5,19 @@
 p {
 	text-indent: 22px;
 }
-
+::-webkit-input-placeholder {
+    color: white;
+}
+textarea:disabled
+{ 
+color: black;
+opacity: 1;
+}
+input:disabled
+{ 
+background-color: dodgerblue !important;
+color: white !important;
+}
 span.mui-icon {
 	font-size: 14px;
 	color: #007aff;
@@ -19,26 +31,33 @@ span.mui-icon {
 
 #pic-list>li>img,
 #pic-list>li>a>img {
-	height: 100px;
-	width: 100px;
+	height: 150px;
+	width: 150px;
 }
 
-#showUserPicker {
-	background-color: dodgerblue;
+.pickerstyle {
+	background-color: dodgerblue !important;
 	color: #F0F0F0;
 	text-align: center;
 }
 
-#workflow label,
+#workflow label,#workflow a,
 .mui-content-padded label {
-	color: #8f8f94;
-	padding-left: 0px;
+	font-size: 15px;
+}
+.mui-content-padded .mui-input-row+label {
+	
 }
 
 #workflow input {
 	background-color: dodgerblue;
 	color: #F0F0F0;
 	text-align: center;
+}
+#pic{
+	border: dashed 0.5px #6D7380;
+	width: 100px !important;
+	height: 100px !important;
 }
 
 
@@ -58,3 +77,34 @@ span.mui-icon {
 }
 
 .complete #showUserPicker {}
+.mui-table-view+label {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    display: block;
+}
+.kr-article-content{
+}
+.mui-content-padded .kr-article-meta{
+	display: block;
+	text-align: right;
+	opacity: 0.4;
+}
+.mui-content-padded .kr-article-meta div{
+	display: inline-block;
+}
+.mui-input-row textarea{
+	font-size: 13px;
+}
+#showUserPicker{
+	color: white;
+	font-size: 13px;
+}
+.mui-content-padded .mui-input-row input{
+	font-size: 13px;
+}
+#workflow>li{
+				padding-left: 8px;
+			}
+#savbtn,#subbtn{
+				width: 50%;
+			}

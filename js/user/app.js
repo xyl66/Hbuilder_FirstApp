@@ -1,4 +1,12 @@
+/**
+ * @param serverUrl 服務器地址
+ * @param userId 當前用戶id
+ * @param pageSize 每页数据
+ */
 var userApp={
+	serverUrl:"http://supplier.foxconn.com/yupintest/api",//"http://supplier.foxconn.com/yupin/api",
+	userId:'',
+	pageSize:5,
 	//打开新页面
 	openCreatePage:function(value,title){
 				mui.openWindowWithTitle({
@@ -8,29 +16,10 @@ var userApp={
 				        name:'',
 				        status:0
 				    }
-				},{
-					backgroundColor:"#f4645f",//导航栏背景色
-				    title:{//标题配置
-				        text:title,//标题文字
-				        styles:{//绘制文本样式，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.TextStyles
-				            color:"#f0f0f0",
-				            align:"center",
-				            family:"'Helvetica Neue',Helvetica,sans-serif",
-				            size:"17px",
-				            style:"normal",
-				            weight:"normal",
-				            fontSrc:""
-				        },
-				    },
-				    back:{//左上角返回箭头
-				        image:{
-				            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
-				        }
-				    }
 				})
 			},
 getStatus:function(value){
-	let num=Number.parseInt(value)
+	var num=Number.parseInt(value)
 	switch(num)
 	{
 	case 0:
@@ -51,16 +40,16 @@ getStatusBadge:function(value){
 	switch(num)
 	{
 	case 0:
-	  return 'mui-badge mui-badge-warning'
+	  return 'mui-badge mui-badge-danger'
 	  break;
 	case 1:
-	  return 'mui-badge mui-badge-success'
+	  return 'mui-badge mui-badge-warning'
 	  break;
 	case 2:
-	  return 'mui-badge '
+	  return 'mui-badge mui-badge-success'
 	  break;
 	default:
-	  return 'mui-badge mui-badge-danger'
+	  return 'mui-badge'
 	}
 },
 /**
@@ -120,56 +109,176 @@ convertImgToBase64:function ({url:url, size:size, outType:outputFormat}){
  * @param {String} userID 用户Id
  * @param {String} Page 页数
  * @param {String} pageSize 每页数量
- * @param {HTMLDOMImplementation} parentNode 每页数量
- * @param {Boolean} reFresh 是否刷新
  */
-getData:function (userID,Page,pageSize,parentNode,reFresh=false){
+getData:function ({userID,Page,pageSize,projectName}){
+	console.log(this.serverUrl+'/'+projectName+'/GetList')
+	console.log(userID)
 	return new Promise((resolve,reject)=>{
-		mui.ajax('http://supplier.foxconn.com/yupin/api/ImageProgress/GetList',{
-		data:{ userID:userID,Page:Page,pageSize:pageSize },
+		mui.ajax(this.serverUrl+'/'+projectName+'/GetList',{
+		data:{ userID:userID,Page:Page,pageSize:pageSize,status:"0"},
 		dataType:'json',//服务器返回json格式数据
 		type:'get',//HTTP请求类型
 		timeout:10000,//超时时间设置为10秒；
 		success:function(response){
 			//获得服务器响应
-			var alldata=response;
-			console.log(response)
-			var table = parentNode;//document.body.querySelector('.mui-table-view')
-			if(reFresh){
-				table.innerHTML=''
-				mui('#pullrefresh').pullRefresh().refresh(true);
-				mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)
-			}
-			for (let data of alldata) {
-				if(data.status){
-				let li = document.createElement('li');
-				li.className = 'mui-table-view-cell';
-				li.innerHTML = `<li class="mui-table-view-cell mui-media">
-					<input hidden id=${data.apply_id}>
-					<input hidden class="btn-status" value=${data.status}>
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-left" src=${data.imgUrl}>
-						<div class="mui-media-object mui-pull-right">
-								<span class="${userApp.getStatusBadge(data.status)}">${userApp.getStatus(data.status)}</span>
-						</div>
-						<div class="mui-media-body">
-							<p class='mui-ellipsis color-black'>${data.remark}</p>
-								<p class='mui-ellipsis'><span class="span-left">${new Date(data.update_date).Format('yyyy-MM-dd')}</span><span class="span-right">${data.userName}</span></p>
-						</div>
-					</a>
-					</li>`;
-				table.appendChild(li);
-				}
-			}
-			resolve(alldata)
+			resolve(response)
 			},
 			error:function(xhr,type,errorThrown){
-				console.log(xhr)
-				console.log(type)
-				console.log(errorThrown)
 				reject({type:type,errthrow:errorThrown})
 			}
 		});
 	})
+},
+GetDetail:function({applyId,projectName}){
+	return new Promise((resolve,reject)=>{
+		mui.ajax(this.serverUrl+'/'+projectName+'/GetDetail',{
+			data:{
+				apply_id:applyId
+			},
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//获得服务器响应
+				resolve(data)
+			},
+			error:function(xhr,type,errorThrown){
+				reject({type:type,errthrow:errorThrown})
+			}
+		});
+	})
+},
+GetFlowDetail:function(apply_id){
+	console.log(apply_id)
+	return new Promise((resolve,rehect)=>{
+		mui.get(userApp.serverUrl+'/WorkFlow/GetFlowInstance',{
+				applyID:apply_id
+			},function(data){
+				resolve(data)
+			},'json');
+	})
+	
+},
+Post:function(url,gdata){
+	console.log(JSON.stringify(gdata))
+	return new Promise((resolve,reject)=>{
+		if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+				return reject('似乎已断开与互联网的连接')
+		}
+		mui.ajax(url,{
+			data:gdata,
+			headers: {'Content-Type':'application/json'},
+			dataType:'json',//服务器返回json格式数据
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(response){
+				return resolve(response)
+			},
+			error:function(xhr,type,errorThrown){
+				return reject(errorThrown)
+			}
+		});
+	})	
+},
+Get:function(url,gdata){
+	console.log(url)
+	console.log(JSON.stringify(gdata))
+	return new Promise((resolve,reject)=>{
+		if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+				return reject('似乎已断开与互联网的连接')
+		}
+		mui.ajax(url,{
+			data:gdata,
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				resolve(data)
+			},
+			error:function(xhr,type,errorThrown){
+				reject(errorThrown)
+			}
+		});
+	})
+},
+checkImg:function(url){
+	return new Promise((resolve,reject)=>{
+		let img=new Image
+		img.onload=function(){
+			return resolve(true)
+		}
+		img.onerror=function(){
+			return resolve(false)
+		}
+		img.src=url
+	})
 }
+}
+/**
+			 * 格式化时间的辅助类，将一个时间转换成x小时前、y天前等
+			 */
+			var dateUtils = {
+				UNITS: {
+					'年': 31557600000,
+					'月': 2629800000,
+					'天': 86400000,
+					'小时': 3600000,
+					'分钟': 60000,
+					'秒': 1000
+				},
+				humanize: function(milliseconds) {
+					var humanize = '';
+					mui.each(this.UNITS, function(unit, value) {
+						if(milliseconds >= value) {
+							humanize = Math.floor(milliseconds / value) + unit + '前';
+							return false;
+						}
+						return true;
+					});
+					return humanize || '刚刚';
+				},
+				format: function(dateStr) {
+					var date = this.parse(dateStr)
+					var diff = Date.now() - date.getTime();
+					if(diff < this.UNITS['天']) {
+						return this.humanize(diff);
+					}
+					
+					var _format = function(number) {
+						return(number < 10 ? ('0' + number) : number);
+					};
+					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDate()); //+ '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
+				},
+				parse:function (str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
+					var a = str.split(/[^0-9]/);
+					return new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] );
+				}
+			};
+var shareHelper={
+	shareHandler:function(obj){
+		return function(){
+			shareHref(obj)
+//					var btnArray = [{title:"微信朋友圈"},{title:"微信好友"}];
+//					plus.nativeUI.actionSheet( {
+//						title:"分享链接",
+//						cancel:"取消",
+//						buttons:btnArray
+//					}, function(e){
+//						var index = e.index;
+//						var text = "你刚点击了\"";
+//						switch (index){
+//							case 0:
+//								text += "取消";
+//								break;
+//							case 1:
+//								text += "微信朋友圈";
+//								break;
+//							case 2:
+//								text += "微信好友";
+//								break;
+//						}
+//						plus.nativeUI.alert("功能完善中："+obj.guid)
+//					} );
+				}
+	}
 }

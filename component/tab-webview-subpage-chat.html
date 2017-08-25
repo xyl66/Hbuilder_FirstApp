@@ -101,15 +101,14 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-pull-left"></a>
 			<h1 class="mui-title">審批單據列表</h1>
 		</header>
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted  mui-segmented-control-negative">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted  mui-segmented-control-primary">
 					
 						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tab-top-subpage-4.html">
-							代辦理
+							待辦理
 						</a>
 						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-5.html">
 							辦理中
@@ -123,7 +122,7 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/webviewGroupIni.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init({
 				swipeBack: false,
@@ -157,11 +156,11 @@
 				var group = new webviewGroup("tab-webview-subpage-chat.html", {
 					items: [{
 						id: "tab-top-subpage-4.html",
-						url: "tab-top-subpage-4.html",
+						url: "./FlowForm/list-to-detail/listview.html",
 						extras: {}
 					}, {
 						id: "tab-top-subpage-5.html",
-						url: "tab-top-subpage-5.html",
+						url: "./FlowForm/list-to-pro/listview.html",
 						extras: {}
 					}, {
 						id: "tab-top-subpage-6.html",

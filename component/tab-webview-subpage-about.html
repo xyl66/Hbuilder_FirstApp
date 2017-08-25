@@ -104,89 +104,256 @@
 			.bg-color-g{
 				background: #00a600 !important;
 			}
+			.bg-color-z{
+				background: #6641E2 !important;
+			}
+			.bg-color-o{
+				background: #F29100 !important;
+			}
+			.bg-color-p{
+				background: #F76260 !important;
+			}
+			.bg-color-q{
+				background: #57C5F7 !important;
+			}
+			.bg-color-l{
+				background: #4CD964 !important;
+			}
 			.color-white{
 				color: white !important;
 			}
 			.border-radius{
 				border-radius: 15%;
 			}
-			.bg-img{
-                background: url(../images/加.png);
+			.bg-img-1{
+				background: url(../images/icon/icon1.png);
                 background-position: center;
                 background-size: contain;
                 background-repeat: no-repeat;
-                border: 2px dashed #323232 ;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-2{
+				background: url(../images/icon/icon2.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-3{
+				background: url(../images/icon/icon3.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-4{
+				background: url(../images/icon/icon4.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-5{
+				background: url(../images/icon/icon5.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-6{
+				background: url(../images/icon/icon6.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-7{
+				background: url(../images/icon/icon7.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-8{
+				background: url(../images/icon/icon8.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-9{
+				background: url(../images/icon/icon9.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 15%; //边框弧度
+            }
+            .bg-img-10{
+				background: url(../images/icon/added.png);
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
                 border-radius: 15%; //边框弧度
             }
             .hide-icon{
                 color:#eee;
                 opacity: 0.0;
             }
+            body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body.font-size-9{
+            	 font-size: 10px;
+            }
+            body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+            	 margin-top: 0px;
+            }
+            body .mui-table-view.mui-grid-view .mui-table-view-cell.boder-none{
+            		border: none;
+            }
+            .mui-slider,.mui-slider img{
+            	height: 140px;
+            }
+            .mui-slider{
+            		border-top: #69717D solid 0.5px;
+            		border-bottom: #69717D solid 0.5px;
+            }
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">我的單據列表</h1>
+			<h1 class="mui-title">御品置業</h1>
 		</header>
-		<div class="mui-content">
-			<ul class="mui-table-view mui-grid-view mui-grid-9">
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-blue border-radius" href="#" data-wid="tab-top-subpage-1.html">
-		                    <span class="mui-icon mui-icon-home color-white"></span>
-		                    <div class="mui-media-body color-white">形象進度</div></a></li>
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-c border-radius" href="#" data-wid="tab-top-subpage-2.html">
-		                    <span class="mui-icon mui-icon-email color-white"><span class="mui-badge">5</span></span>
-		                    <div class="mui-media-body color-white">簽證工程</div></a></li>
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="mui-control-item bg-color-g border-radius" href="#" data-wid="tab-top-subpage-3.html">
-		                    <span class="mui-icon mui-icon-chatbubble color-white"></span>
-		                    <div class="mui-media-body color-white">其他</div></a></li>
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a class="bg-img border-radius" href="#">
-		                    <span class="mui-icon mui-icon-location color-white hide-icon"></span>
-		                    <div class="mui-media-body"></div></a></li>
-		        </ul> 
+	<div class="mui-content">
+		<div id="slider" class="mui-slider" >
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="../images/slider/4.jpg">
+					</a>
+				</div>
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../images/slider/1.jpg">
+					</a>
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../images/slider/3.jpg">
+					</a>
+				</div>
+				<!-- 第三张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../images/slider/2.jpg">
+					</a>
+				</div>
+				<!-- 第四张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../images/slider/4.jpg">
+					</a>
+				</div>
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="../images/slider/1.jpg">
+					</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
 		</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            		<a class="icon-btn bg-img-1 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		                    <span class="mui-icon mui-icon-home color-white hide-icon"></span>
+		                </a>
+		                <div class="mui-media-body font-size-9">形象進度</div>
+		            </li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-2 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		                    <span class="mui-icon mui-icon-chatbubble color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">報批報建</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-3 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		                    <span class="mui-icon mui-icon-search color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">任務追蹤</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-4 border-radius" href="#" data-wid="./SignProject/tab-top-webview-main.html">
+		                    <span class="mui-icon mui-icon-email color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">現場簽證</div></li>        
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-5 border-radius" href="#" disabled="true" >
+		                    <span class="mui-icon mui-icon-compose color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">工作匯報</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-6 border-radius" href="#" >
+		                    <span class="mui-icon mui-icon-list color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">公告通知</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-7 border-radius" href="#" >
+		                    <span class="mui-icon mui-icon-flag color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">整改單</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-8 border-radius" href="#" >
+		                    <span class="mui-icon mui-icon-paperplane color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">需求單</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-9 border-radius" href="#" >
+		                    <span class="mui-icon mui-icon-locked color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9">施工日誌</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-10 border-radius" href="#">
+		                    <span class="mui-icon mui-icon-location color-white hide-icon"></span>
+		                    </a><div class="mui-media-body font-size-9"></div></li>
+		                    
+		        </ul> 
+	</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/util.js"></script>
 		<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			var aniShow = {};
+			var aniShow = {},
+				slider=mui("#slider"),
+				subpage_style = {
+					top: '0px',
+					bottom: '0px'
+				};
 			mui.init({
 				swipeBack: false
 			});
-			var subpage_style = {
-				top: '0px',
-				bottom: '51px'
-			};
+			slider.slider({
+						interval: 3000
+				});
 			mui.plusReady(function() {
+				plus.navigator.setStatusBarBackground("#2B85E4");
 				//读取本地存储，检查是否为首次启动
+				//plus.storage.setItem('userId','H2012862')
 				var showGuide = plus.storage.getItem("lauchFlag");
 				//仅支持竖屏显示
 				plus.screen.lockOrientation("portrait-primary");
-				if(showGuide) {
-					//有值，说明已经显示过了，无需显示；
-					//关闭splash页面；
-					plus.navigator.closeSplashscreen();
-					plus.navigator.setFullscreen(false);
-				} else {
-					//显示启动导航
-					mui.openWindow({
-						id: 'guide',
-						url: 'StartPage/guide.html',
-						styles: {
-							popGesture: "none"
-						},
-						show: {
-							aniShow: 'none'
-						},
-						waiting: {
-							autoShow: false
-						}
-					});
-					//延迟的原因：优先打开启动导航页面，避免资源争夺
-					setTimeout(function() {
-						
-					}, 200);
-				}
+//				if(showGuide) {
+//					//有值，说明已经显示过了，无需显示；
+//					//关闭splash页面；
+//					plus.navigator.closeSplashscreen();
+//					plus.navigator.setFullscreen(false);
+//				} else {
+//					//显示启动导航
+//					mui.openWindow({
+//						id: 'guide',
+//						url: 'StartPage/guide.html',
+//						styles: {
+//							popGesture: "none"
+//						},
+//						show: {
+//							aniShow: 'none'
+//						},
+//						waiting: {
+//							autoShow: false
+//						}
+//					});
+//					//延迟的原因：优先打开启动导航页面，避免资源争夺
+//					setTimeout(function() {
+//						
+//					}, 200);
+//				}
 				/*启动导航*/
 				var self = plus.webview.currentWebview(),
 					nviews = self.getSubNViews(),
@@ -258,21 +425,21 @@
 						height: '50px'
 					},
 					rectStyles: {
-						color: '#d74b28',
+						color: '#2B85E4',
 						radius: '50%'
 					}
 				}, {
 					tag: 'font',
 					id: 'icon',
-					text: '\ue468', //此为字体图标Unicode码'\e600'转换为'\ue600'
+					text: '\ue734', //此为字体图标Unicode码'\e600'转换为'\ue600'
 					position: {
-						top: '0px',
+						top: '-2px',
 						left: '0px',
 						width: '50px',
 						height: '100%'
 					},
 					textStyles: {
-						fontSrc: '_www/fonts/mui.ttf',
+						fontSrc: '_www/fonts/mui-icons.ttf',
 						align: 'center',
 						color: '#fff',
 						size: '30px'
@@ -285,14 +452,20 @@
 				//自定义监听图标点击事件
 				var active_color = '#fff';
 				drawNativeIcon.addEventListener('click', function(e) {
+					//读取本地存储，检查是否为已登录
+					var userId = plus.storage.getItem("userId");
+					console.log(userId)
+					if(!userId){
+						mui.openWindow('../login.html','login',{})
+					}
 					// 弹出系统选择按钮框
 					plus.nativeUI.actionSheet( {title:"選擇新增單據類型",cancel:"取消",buttons:[{title:"形象進度"},{title:"簽證工程"}]}, function(e){
 						switch (e.index){
 							case 1:
-								userApp.openCreatePage('simple-edit','形象進度')
+								userApp.openCreatePage('simple-create','形象進度')
 								break;
 							case 2:
-								userApp.openCreatePage('edit','簽證工程')
+								userApp.openCreatePage('SignProject/create','簽證工程')
 								break;
 							default:
 								break;
@@ -300,16 +473,16 @@
 					} );
 					// 重绘字体颜色
 					if(active_color == '#fff'){
-						drawNativeIcon.drawText('\ue468', {}, {
-							fontSrc: '_www/fonts/mui.ttf',
+						drawNativeIcon.drawText('\ue734', {top:'-2px'}, {
+							fontSrc: '_www/fonts/mui-icons.ttf',
 							align: 'center',
 							color: '#000',
 							size: '30px'
 						}, 'icon');
 						active_color = '#000';
 					}else{
-						drawNativeIcon.drawText('\ue468', {}, {
-							fontSrc: '_www/fonts/mui.ttf',
+						drawNativeIcon.drawText('\ue734', {top:'-2px'}, {
+							fontSrc: '_www/fonts/mui-icons.ttf',
 							align: 'center',
 							color: '#fff',
 							size: '30px'
@@ -332,7 +505,6 @@
 				function clickEvent(e) {
 					var currId = e.target.id;
 						currIndex = parseInt(currId.substr(currId.length - 1, 1) - 1),
-						console.log(currIndex);
 						currView = self.getStyle().subNViews[currIndex];
 						
 					// 匹配对应tab窗口	
@@ -346,7 +518,7 @@
 						return;
 					}
 
-					if(currIndex !== 3) {
+					if(currIndex !== 4) {
 						//底部选项卡切换
 						util.toggleNview(currView, currIndex);
 						// 子页面切换
@@ -355,17 +527,31 @@
 						activePage = targetPage;
 					} else {
 						//第四个tab 打开新窗口
-						var newWV = plus.webview.create('html/new-webview.html', 'new');
+						var newWV = plus.webview.create('tab-webview-subpage-setting.html', 'setting');
 						newWV.show('slide-in-right', 200);
 					}
 				}
 				//主内容图标单击事件
-				mui(".mui-grid-view").on("tap", ".mui-control-item", function(e) {
+				mui(".mui-grid-view").on("tap", ".icon-btn", function(e) {
+					console.log("单击九宫格")
+					//读取本地存储，检查是否为已登录
+					var userId = plus.storage.getItem("userId");
+					console.log(userId)
+					if(!userId){
+						var newWV = plus.webview.create('../login.html', 'login');
+						newWV.show('slide-in-right', 200);
+						return
+					}
 					var wid = this.getAttribute("data-wid");
+					if(!wid){
+						plus.nativeUI.toast("功能完善中")
+						return
+					}
 					console.log(plus.webview.all().length)
 					var sub=plus.webview.create(wid,wid,subpage_style)
 					console.log(plus.webview.all().length)
-					activePage.append(sub)
+					sub.show()
+					//activePage.append(sub)
 				});
 				//退出应用
 				var backButtonPress = 0;
@@ -381,8 +567,37 @@
 						}, 1000);
 						return false;
 					};
+				
+				window.addEventListener('index', function() {
+					var currIndex = 0,
+						currView = self.getStyle().subNViews[currIndex];
+						
+					// 匹配对应tab窗口	
+					if(currIndex > 0){
+						targetPage = plus.webview.getWebviewById(subpages[currIndex-1]);						
+					}else {
+						targetPage = plus.webview.currentWebview();
+					}
 
+					if(targetPage == activePage) {
+						return;
+					}
+
+					if(currIndex !== 4) {
+						//底部选项卡切换
+						util.toggleNview(currView, currIndex);
+						// 子页面切换
+						util.changeSubpage(targetPage, activePage);
+						//更改当前活跃的页面
+						activePage = targetPage;
+					} else {
+						//第四个tab 打开新窗口
+						var newWV = plus.webview.create('tab-webview-subpage-setting.html', 'setting');
+						newWV.show('slide-in-right', 200);
+					}
+				}, false);
 			});
+			
 		</script>
 	</body>
 

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../css/footbar.css"/>
+		<style type="text/css">
+			.mui-media {
+				font-size: 14px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				max-width: initial;
+				width: 90px;
+				height: 70px;
+			}
+			.mui-table-view .mui-pull-right{
+				width: auto;
+			}
+			
+			.meta-info {
+				position: absolute;
+				left: 115px;
+				right: 15px;
+				bottom: 8px;
+				color: #8f8f94;
+				opacity: 0.6;
+			}
+			
+			.meta-info .author,.meta-info .time{
+				display: inline-block;
+			}
+			
+			.meta-info .time{
+				float: right;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				height: 0;
+			}
+			
+			.mui-content>.mui-table-view:first-child {
+				margin-top: 1px;
+			}
+			
+			.banner {
+				height: 180px;
+				overflow: hidden;
+				position: relative;
+				background-position: center;
+				background-color: #ccc;
+			}
+			
+			.banner img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.banner .title {
+				position: absolute;
+				left: 15px;
+				bottom: 15px;
+				width: 90%;
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 21px;
+				color: white;
+				z-index: 11;
+			}
+			.nowrap-style{
+				white-space: nowrap !important;
+				overflow: hidden;     white-space: nowrap;     text-overflow: ellipsis;
+			}
+			.mui-slider-handle .meta-info{
+				position: initial;
+				margin-top: 28px;
+			}
+			.mui-slider-handle .mui-ellipsis{
+				color:#000;
+			}
+			.mui-slider-handle .meta-info .time{
+				transform: translateX(55px);
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content">
+			<!--列表信息流 开始-->
+			<ul id="list" class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" v-for="(item,index) in items">
+					<a href="javascript:;" :data-guid="item.guid" :data-index="index">
+						<img class="mui-media-object mui-pull-left" :src="item.cover">
+						<div class="mui-media-object mui-pull-right">
+							<span class="mui-badge mui-badge-primary">{{item.form_type}}</span>
+						</div>
+						<div class="mui-media-body">
+							<div class="mui-ellipsis">{{item.remark}}</div>
+						</div>
+						<div class="meta-info">
+							<div class="author">{{item.author}}</div>
+							<div class="time">{{item.time}}</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<!--列表信息流 结束-->
+		</div>
+		<script src="../../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../../js/dataFormat.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var webview_detail = null; //详情页webview
+			var titleNView = { //详情页原生导航配置
+				backgroundColor: '#2B85E4', //导航栏背景色
+				titleText: '', //导航栏标题
+				titleColor: '#fff', //文字颜色
+				type: 'transparent', //透明渐变样式
+				autoBackButton:true,
+				back:{//左上角返回箭头
+			        image:{//图片格式
+			            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
+			        }
+			    },
+				splitLine: { //底部分割线
+					color: '#cccccc'
+				}
+			}
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var count = 1,userID,pageSize=userApp.pageSize;
+			mui.plusReady(function() {
+				//获取userid
+				userID=plus.storage.getItem('userId')
+				//预加载详情页
+				webview_detail = mui.preload({
+					url: 'detail.html',
+					id: 'flow-pro-detail',
+					styles: {
+						"render": "always",
+						"popGesture": "hide",
+						"bounce": "vertical",
+						"bounceBackground": "#efeff4",
+						"titleNView": titleNView
+					}
+				});
+			});
+			var vm = new Vue({
+				el: '#pullrefresh',
+				data: {
+					banner: {}, //顶部banner数据
+					items: [] //列表信息流数据
+				}
+			});
+			var lastId = ''; //最新新闻的id
+			function pullupRefresh() {
+				
+				setTimeout(function() {
+					serverUrl=userApp.serverUrl+'/FlowForm/GetPendingApprovalList'
+					let data={userID:userID,page:++count,pageSize:pageSize}
+					userApp.Get(serverUrl,data).then(res=>{
+						console.log(res)
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(res.length==0);
+						vm.items=vm.items.concat(convert(res));
+					})
+				}, 1500);
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				console.log(userID)
+				setTimeout(function() {
+							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+							serverUrl=userApp.serverUrl+'/FlowForm/GetInProgressList'
+							let data={userID:userID,page:1,pageSize:pageSize}
+							userApp.Get(serverUrl,data).then(res=>{
+								mui('#pullrefresh').pullRefresh().endPulldown();
+								vm.showDialog=(res.length==0)
+								vm.items=[]
+								vm.items=convert(res);
+							})
+						}, 1500);
+			}
+			//点击列表，打开详情
+			//TODO 后续应该封装一个v-tap指令，实现tap监听
+			mui('.mui-content').on('tap', '[data-guid]', function() {
+				var guid = this.getAttribute('data-guid');
+				var index=this.getAttribute('data-index');
+				var title = this.querySelector(".mui-ellipsis").innerHTML.trim();
+				var author = this.querySelector(".author").innerHTML;
+				var time = this.querySelector(".time").innerHTML;
+				var cover = this.querySelector("img").getAttribute("src");
+				open_detail(guid, title,author,time,cover,index);
+			});
+			var btnArray = ['确认', '取消'];
+			mui('.mui-table-view').on('tap','[del-data-guid]',function(){
+				var guid = this.getAttribute('del-data-guid'),
+					statu=this.getAttribute('statu'),
+					serverUrl=userApp.serverUrl,
+					data,
+					elem = this,
+					li = elem.parentNode.parentNode;
+				if(parseInt(statu)>0){
+					plus.nativeUI.toast('不可删除')
+					mui.swipeoutClose(li)
+					return
+				}
+				mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+					if (e.index == 0) {
+						console.log('shanchu')
+						serverUrl+='/VisaProject/Delete';
+						data={apply_id:guid}
+						userApp.Post(serverUrl,data).then(res=>{
+							if(res.status){
+								plus.nativeUI.toast('删除成功');
+								li.parentNode.removeChild(li);
+								pulldownRefresh()
+							}else{
+								plus.nativeUI.toast('删除失败');
+								setTimeout(function() {
+									mui.swipeoutClose(li);
+								}, 0);
+							}
+						})
+					} else {
+						setTimeout(function() {
+							console.log('shanchu')
+							mui.swipeoutClose(li);
+						}, 0);
+					}
+				});
+				
+			})
+			//监听刷新事件
+			//添加newId自定义事件监听
+		window.addEventListener('refresh',function(event){
+		  //获得事件参数
+		  pulldownRefresh();
+		  //根据id向服务器请求新闻详情
+		});
+		mui.back = function(event) {
+			plus.webview.currentWebview().hide()
+		};
+			/**
+			 * 打开新闻详情
+			 * 
+			 * @param {String} guid 新闻ID
+			 * @param {String} title  新闻标题
+			 */
+			function open_detail(guid, title,author,time,cover,index) {
+				//若详情页尚未预加载完成，则延时等待再执行
+				if(!webview_detail) {
+					setTimeout(function() {
+						open_detail(guid);
+					}, 100);
+				}
+				//触发子窗口变更新闻详情
+				mui.fire(webview_detail, 'get_detail', {
+					guid: vm.items[index].guid,
+					title:vm.items[index].title,
+					remark:vm.items[index].remark,
+					form_type:vm.items[index].form_type,
+					author:vm.items[index].author,
+					time:vm.items[index].time,
+					cover:vm.items[index].cover,
+				});
+
+				//更改详情页原生导航条信息
+				titleNView.titleText = title;
+				webview_detail.setStyle({
+					"titleNView": titleNView
+				});
+				setTimeout(function () {
+					webview_detail.show("slide-in-right", 300);
+				},150);
+			}
+		
+			/**
+			 * 1、将服务端返回数据，转换成前端需要的格式
+			 * 2、若服务端返回格式和前端所需格式相同，则不需要改功能
+			 * 
+			 * @param {Array} items 
+			 */
+			function convert(items) {
+				var newItems = [];
+				items.forEach(function(item) {
+					newItems.push({
+						guid: item.apply_id,
+						title:item.title,
+						remark: item.remark,
+						form_type:getFormType(item.form_type),
+						author: item.userName,
+						cover: item.imgUrl,
+						time:dateUtils.format(item.sign_date)
+					});
+				});
+				return newItems;
+			}
+			function getFormType(value){
+				switch(value){
+					case 'APP_VS':
+						return '簽證工程'
+						break;
+					default:
+						return '其他';
+				}
+			}
+		</script>
+	</body>
+
+</html>

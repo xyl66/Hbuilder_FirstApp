@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<!--自定义表头样式-->
+		<link rel="stylesheet" type="text/css" href="../../../css/footbar.css"/>
+		<style type="text/css">
+			.bg-color-g{
+				background:#00A600;
+			}
+			.bg-color-b{
+				background: #10AEFF;
+			}
+			.bg-color-r{
+				background: #DD524D !important;
+			}
+			.bg-color-o{
+				background: #FFCC00;
+			}
+			.white,.white p{
+				color: white;
+			}
+			.steps{
+				margin-left: 50%;
+    				transform: translate(-50%,0);
+    				margin-bottom: 20px;
+			}
+			.mui-card-content{
+				display: -webkit-box;
+			    overflow: hidden;
+			    white-space: normal!important;
+			    text-overflow: ellipsis;
+			    word-wrap: break-word;
+			    -webkit-line-clamp: 4;
+			    -webkit-box-orient: vertical;
+			    height: 85px;
+			}
+			.flow-content{
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back  mui-pull-left"></a>
+		    <h1 class="mui-title">{{titleName}}</h1>
+		</header>
+		<div class="mui-content flow-select-content" v-show="currentStep">
+			<ul id="flow-list" class="mui-table-view mui-grid-view">
+				<li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="(flow,index) in flowarr">
+					<div class="mui-card white bg-color-blue flow-div" :class="GetColor(index+1)" :data-fid="flow.flow_id">
+						<!--页眉，放置标题-->
+						<div class="mui-card-header">{{flow.flow_name}}</div>
+						<!--内容区-->
+						<div class="mui-card-content">
+							<p class="mui-inline" v-for="(step,index_step) in flow.flowSteps">{{step.step_name}}<span v-if="(index_step+1)!=flow.flowSteps.length">-</span></p>
+							<!--<p class="mui-inline">工程主管<span>-</span></p>
+							<p class="mui-inline">总经理<span>-</span></p>
+							<p class="mui-inline">完成<span v-if="false">-</span></p>-->
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="mui-content flow-content" v-show="!currentStep" >
+			<div class="center">
+				<div class="steps">
+					<div class="ivu-steps ivu-steps-vertical">
+						<div class="ivu-steps-item ivu-steps-status-process" style="width: 100%;" v-for="step in steparr">
+							<div class="ivu-steps-tail">
+								<i></i>
+							</div> 
+							<div class="ivu-steps-head">
+								<div class="ivu-steps-head-inner">
+									<span>{{step.step_order}}</span>
+								</div>
+							</div> 
+							<div class="ivu-steps-main">
+								<div class="ivu-steps-title">
+									{{step.user_name}}
+								</div> 
+								<div class="ivu-steps-content">
+									这里是该步骤的描述信息
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button id="click-btn" type="button" class="mui-btn mui-btn-success mui-btn-block">确认</button>
+			</div>
+		</div>
+</div>
+		<script src="../../../js/mui.min.js"></script>
+		<!-- 引入Vue -->
+		<script src="../../../js/vue.js"></script>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="../../../css/component/iview/iview.css">
+		<!-- 引入组件库 -->
+		<script src="../../../js/component/iview/iview.min.js"></script>
+		<!--引入个人定义-->
+		<script src="../../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			var vmFlow=new Vue({
+		        el: '#app',
+		        data: {
+		        		titleName:'流程选择',
+		        		currentStep:true,
+		        		flowarr:[],
+		        		steparr:[],
+		            visible: false
+		        },
+		        methods: {
+		            show: function () {
+		                this.visible = true;
+		            },
+		            GetColor:function(val){
+		            		let t=val%4
+		            		switch(t){
+		            			case	 0:
+		            				return 'bg-color-o'
+		            				break;
+		            			case 1:
+		            				return 'bg-color-b'
+		            				break;
+		            			case 2:
+		            				return 'bg-color-g'
+		            				break;
+		            			case 3:
+		            				return 'bg-color-r'
+		            				break;
+		            			default:
+		            				return 'bg-color-b'
+		            		}
+		            }
+		        },
+		  	})
+			mui.plusReady(function(){
+				//获取流程
+				mui.get(userApp.serverUrl+'/workflow/GetFlowDefine',{
+						formType:"APP_VS",
+						userDept:"YPZY",
+					},function(data){
+						console.log(data)
+						vmFlow.flowarr=data
+					},'json'
+				);
+			})
+			mui("#flow-list").on('tap',".flow-div",function(){
+				let fid=this.getAttribute("data-fid")
+				console.log(fid)
+				mui.get(userApp.serverUrl+'/workflow/GetFlowDefaultUser',{
+						flow_id:fid
+					},function(data){
+						vmFlow.steparr=[];
+						vmFlow.steparr=data
+						console.log(vmFlow.steparr)
+					},'json'
+				);
+				vmFlow.currentStep=false;
+			})
+			mui(".flow-content").on("tap","button[id=click-btn]",function(){
+				let fid=plus.storage.getItem('apply_id')
+					count=0,
+					steparr=vmFlow.steparr,
+					dataarr=[]
+				for (let item in steparr) {
+					steparr[item].user_id=count++>0?steparr[item].user_id:plus.storage.getItem('userId')
+					let data={apply_id:fid,flow_id:steparr[item].flow_id,step_id:steparr[item].step_id,step_order:steparr[item].step_order,user_id:steparr[item].user_id}
+					dataarr.push(data)
+				}
+				console.log(JSON.stringify(dataarr))
+				mui.ajax(userApp.serverUrl+'/workflow/compfirmrocess',{
+					data:dataarr,
+					headers: {'Content-Type':'application/json'},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(data.msg)
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(errorThrown)
+					}
+				});
+				let cpage=plus.webview.getWebviewById('signproject_detail')
+				//其他逻辑
+				mui.fire(cpage,'GetFlowId',{flowId:vmFlow.steparr[0].flow_id,stepArr:vmFlow.steparr})
+				vmFlow.currentStep=true;
+				mui.back();
+			})
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().close();
+				//动画结束后，恢复默认值
+				setTimeout(function() {
+					window.scrollTo(0, 0);
+				}, 300);
+			}
+		</script>
+	</body>
+
+</html>

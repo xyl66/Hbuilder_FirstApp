@@ -29,7 +29,7 @@ proto._initParent = function() {
 };
 proto._initNativeView = function() {
 	this.nativeView = new plus.nativeObj.View('__MUI_TAB_NATIVE', {
-		'top': '83px',//这个需要根据顶部导航及顶部选项卡高度自动调整
+		'top': '125px',//这个需要根据顶部导航及顶部选项卡高度自动调整
 		'height': (window.screen.height - 83)+"px",
 		'left': '100%',
 		'width': '100%',
@@ -73,6 +73,7 @@ proto._initWebviewContexts = function() {
 };
 proto._onChange = function(webview) {
 	this.currentWebview = webview;
+	console.log(webview)
 	this.onChange({
 		index: webview.__mui_index
 	});
@@ -230,7 +231,7 @@ var _proto = webviewGroupContext.prototype;
 _proto.createWebview = function(from) {
 	var options = this.options;
 	options.styles = options.styles || {
-		top: "83px",
+		top: "125px",
 		bottom: "0px",
 		render: "always"
 	};

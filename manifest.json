@@ -5,12 +5,12 @@
 		"iPad"
 	],
 	"id": "H55DCB127",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "my2App",/*应用名称，程序桌面图标名称*/
+	"name": "御品置業",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
 	},
-	"description": "",/*应用描述信息*/
+	"description": "工程管理行政及施工现场管理App",/*应用描述信息*/
 	"icons": {
 		"72": "icon.png"
 	},
@@ -24,9 +24,7 @@
 		"Accelerometer": {
 			"description": "访问加速度感应器"
 		},
-		"Audio": {
-			"description": "访问麦克风"
-		},
+		
 		"Cache": {
 			"description": "管理应用缓存"
 		},
@@ -51,18 +49,12 @@
 		"File": {
 			"description": "访问本地文件系统"
 		},
-		"Gallery": {
-			"description": "访问系统相册"
-		},
-		"Geolocation": {
-			"description": "访问位置信息"
-		},
+		"Gallery": {},
+		
 		"Invocation": {
 			"description": "使用Native.js能力"
 		},
-		"Messaging": {
-			"description": "访问通讯能力"
-		},
+		
 		"Orientation": {
 			"description": "访问方向感应器"
 		},
@@ -85,15 +77,11 @@
 		"Zip": {
 			"description": "文件压缩与解压缩"
 		},
-		"Barcode": {
-			"description": "管理二维码扫描插件"
-		},
+		"Barcode": {},
 		"Maps": {
 			"description": "管理地图插件"
 		},
-		"Speech": {
-			"description": "管理语音识别插件"
-		},
+		
 		"Webview": {
 			"description": "窗口管理"
 		},
@@ -106,10 +94,16 @@
 		"NativeObj": {
 			"description": "原生对象"
 		},
-		"OAuth": {}
+		"OAuth": {},"Share":{}
 	},
 	"plus": {
+		"statubar":{
+			"background":"#2B85E4"
+		},
 		"launchwebview": {
+			"statubar":{
+				"background":"#2B85E4"
+			},
 			"bottom": "0px",
 			"background": "#fff",
 			"subNViews": [
@@ -126,7 +120,7 @@
 						{
 							"tag": "font",
 							"id": "tabBar11",
-							"text": "\ue500",
+							"text": "\ue600",
 							"position": {
 								"top": "4px",
 								"left": "0",
@@ -134,14 +128,14 @@
 								"height": "24px"
 							},
 							"textStyles": {
-								"fontSrc": "_www/fonts/mui.ttf",
+								"fontSrc": "_www/fonts/mui-icons.ttf",
 								"align": "center",
 								"size": "24px"
 							}
 						}, {
 							"tag": "font",
 							"id": "tabBar12",
-							"text": "工作區",
+							"text": "應用",
 							"position": {
 								"top": "23px",
 								"left": "0",
@@ -167,7 +161,7 @@
 						{
 							"tag": "font",
 							"id": "tabBar21",
-							"text": "\ue562",
+							"text": "\ue718",
 							"position": {
 								"top": "4px",
 								"left": "-20px",
@@ -175,7 +169,7 @@
 								"height": "24px"
 							},
 							"textStyles": {
-								"fontSrc": "_www/fonts/mui.ttf",
+								"fontSrc": "_www/fonts/mui-icons.ttf",
 								"align": "center",
 								"size": "24px"
 							}
@@ -208,7 +202,7 @@
 						{
 							"tag": "font",
 							"id": "tabBar31",
-							"text": "\ue400",
+							"text": "\ue106",
 							"position": {
 								"top": "4px",
 								"left": "20px",
@@ -216,7 +210,7 @@
 								"height": "24px"
 							},
 							"textStyles": {
-								"fontSrc": "_www/fonts/mui.ttf",
+								"fontSrc": "_www/fonts/mui-icons.ttf",
 								"align": "center",
 								"size": "24px"
 							}
@@ -249,7 +243,7 @@
 						{
 							"tag": "font",
 							"id": "tabBar41",
-							"text": "\ue100",
+							"text": "\ue700",
 							"position": {
 								"top": "4px",
 								"left": "0",
@@ -257,7 +251,7 @@
 								"height": "24px"
 							},
 							"textStyles": {
-								"fontSrc": "_www/fonts/mui.ttf",
+								"fontSrc": "_www/fonts/mui-icons.ttf",
 								"align": "center",
 								"size": "24px"
 							}
@@ -310,7 +304,7 @@
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-		"distribute": {
+		"distribute": {"plugins":{"share":{"weixin":{"appid":"wx73fea456a44c2401","appsecret":"62b627b37091b644336032290ca69863","description":"可选，微信分享"}}},
 			"apple": {
 				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
 				"mobileprovision": "",/*iOS应用打包配置文件*/
@@ -324,32 +318,7 @@
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/
 				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
-				"permissions": [
-					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-					"<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>",
-					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
-					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-					"<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>",
-					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
-					"<uses-feature android:name=\"android.hardware.camera\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
-					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-				]
+				"permissions": ["<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>"]
 			},
 			"orientation": [
 				"portrait-primary",
@@ -396,25 +365,25 @@
 			"splashscreen": {
 				"ios": {
 					"iphone": {
-						"default": ""
+						"default": "","retina40":"/Users/yulongxiang/Downloads/start/5S.png","retina55":"/Users/yulongxiang/Downloads/start/ipone6p-s.png","retina47":"/Users/yulongxiang/Downloads/start/ipone6.png","retina55l":"/Users/yulongxiang/Downloads/start/ipone6p-h.png","retina35":"/Users/yulongxiang/Downloads/start/640-960.png"
 					},
 					"ipad": {
-						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
-						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
-						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
-						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
-						"portrait7": "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
-						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
-						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-						"landscape-retina7": ""
+						"portrait": "/Users/yulongxiang/Downloads/start/ipad.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "/Users/yulongxiang/Downloads/start/1536-2008.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "/Users/yulongxiang/Downloads/start/ipad-h.png", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "/Users/yulongxiang/Downloads/start/2048-1496.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "/Users/yulongxiang/Downloads/start/768-1204.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "/Users/yulongxiang/Downloads/start/1536-2048.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "/Users/yulongxiang/Downloads/start/1024-768.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": "/Users/yulongxiang/Downloads/start/2048-1536.png"
 					}
 				},
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": ""
+					"hdpi": "/Users/yulongxiang/Downloads/start/480-762.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "/Users/yulongxiang/Downloads/start/720-1242.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "/Users/yulongxiang/Downloads/start/1080-1882.png"
 				}
 			}
 		}
@@ -482,21 +451,22 @@
 					"component/tab-top-subpage-1.html",
 					"component/tab-top-subpage-2.html",
 					"css/footbar.css",
-					"component/tableviews.html",
-					"component/new/tableviews.html",
-					"component/new/tab-top-subpage-1.html",
 					"component/change.html",
 					"css/header.css",
 					"css/chatstyle.css",
 					"js/mui.min.js",
-					"component/tab-top-subpage-4.html"
+					"component/tab-top-subpage-4.html",
+					"component/FlowForm/list-to-detail/listview.html",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"component/tab-top-subpage-3.html",
 					"component/tab-top-subpage-5.html",
 					"component/simple-edit.html",
 					"component/edit.html",
-					"component/tab-top-subpage-6.html"
+					"component/tab-top-subpage-6.html",
+					"component/FlowForm/list-to-pro/listview.html",
+					"component/tab-webview-subpage-chat.html"
 				],
 				"priority": 0
 			},
@@ -508,7 +478,18 @@
 					"js/mui.picker.min.js",
 					"css/mui.picker.min.css",
 					"fonts/mui.ttf",
-					null
+					null,
+					"js/imgChange/mui.previewimage.js",
+					"js/imgChange/mui.zoom.js",
+					"js/mui.js",
+					"js/vue.js",
+					"js/user/app.js",
+					"css/component/edit-style.css",
+					"css/imgChange/imgChangeStyle.css",
+					"js/component/simple-edit.js",
+					"js/vue.min.js",
+					"images/2.jpg",
+					"css/header.css"
 				],
 				"refer": [],
 				"priority": 0
@@ -537,11 +518,11 @@
 					"js/mui.lazyload.js",
 					"js/mui.lazyload.img.js",
 					"js/mui.min.js",
-					"css/component/subpage-1.css",
 					"css/component/list-style.css",
 					"js/mui.js",
 					"js/commonidentify.js",
-					"css/footbar.css"
+					"css/footbar.css",
+					"js/user/app.js"
 				],
 				"refer": [
 					"component/edit.html",
@@ -577,7 +558,23 @@
 					"fonts/mui.ttf",
 					"component/tab-webview-subpage-chat.html",
 					"js/user/app.js",
-					"images/加.png"
+					null,
+					"component/imProgress/tab-top-webview-main.html",
+					"images/slider/3.jpg",
+					"images/slider/2.jpg",
+					"images/add2.png",
+					"images/slider/1.jpg",
+					"images/slider/4.jpg",
+					"images/icon/icon5.png",
+					"images/icon/icon4.png",
+					"images/icon/icon7.png",
+					"images/icon/icon6.png",
+					"images/icon/icon8.png",
+					"images/icon/icon3.png",
+					"images/icon/icon1.png",
+					"images/icon/icon9.png",
+					"images/icon/icon2.png",
+					"images/icon/added.png"
 				],
 				"refer": [
 					"component/tab-top-subpage-6.html",
@@ -587,7 +584,15 @@
 					"component/simple-edit.html",
 					"component/StartPage/guide.html",
 					"component/tab-top-subpage-2.html",
-					"component/tab-top-subpage-3.html"
+					"component/tab-top-subpage-3.html",
+					"component/best-practices/list-to-detail/listview.html",
+					"component/edit.html",
+					"component/simple-create.html",
+					"component/imProgress/list-to-detail/listview.html",
+					"component/SignProject/create.html",
+					"login.html",
+					"component/SignProject/list-to-detail/listview.html",
+					"component/SignProject/tab-top-webview-main.html"
 				],
 				"priority": 0
 			},
@@ -606,7 +611,11 @@
 				"resources": [
 					"css/mui.min.css",
 					"css/style.css",
-					"css/component/list-style.css"
+					"css/component/list-style.css",
+					"js/commonidentify.js",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"component/edit.html"
@@ -621,7 +630,10 @@
 					"js/mui.min.js",
 					"js/common.js",
 					"css/component/list-style.css",
-					"js/commonidentify.js"
+					"js/commonidentify.js",
+					"js/vue.js",
+					"fonts/mui.ttf",
+					"js/user/app.js"
 				],
 				"refer": [
 					"component/edit.html"
@@ -632,7 +644,10 @@
 				"resources": [
 					"css/mui.min.css",
 					"css/style.css",
-					"css/component/list-style.css"
+					"css/component/list-style.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"component/edit.html"
@@ -644,7 +659,9 @@
 					"css/mui.min.css",
 					"css/mui.picker.min.css",
 					"js/mui.picker.min.js",
-					"js/mui.min.js"
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"images/add.png"
 				],
 				"refer": [],
 				"priority": 0
@@ -658,38 +675,16 @@
 					"fonts/mui.ttf",
 					"images/sinaweibo.png",
 					"images/weixin.png",
-					"images/qq.png"
+					"images/qq.png",
+					"css/header.css"
 				],
 				"refer": [
 					"component/tab-webview-main.html",
 					"main.html",
 					"component/divbar/tabbar-with-submenus.html",
-					"reg.html"
+					"reg.html",
+					"unlock.html"
 				],
-				"priority": 0
-			},
-			"component/tableviews.html": {
-				"resources": [
-					"css/mui.min.css",
-					"component/tab-top-subpage-2.html"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"component/new/tableviews.html": {
-				"resources": [
-					"css/mui.min.css",
-					"component/new/tab-top-subpage-2.html",
-					"component/new/tab-top-subpage-1.html"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"component/new/tab-top-subpage-2.html": {
-				"resources": [
-					"css/mui.min.css"
-				],
-				"refer": [],
 				"priority": 0
 			},
 			"component/change.html": {
@@ -703,9 +698,18 @@
 			"component/tab-webview-subpage-setting.html": {
 				"resources": [
 					"css/mui.min.css",
-					"js/app.js"
+					"js/app.js",
+					"js/mui.min.js",
+					"js/vue.js",
+					"js/user/app.js",
+					"images/icon/back1.jpg",
+					"images/icon/user.png",
+					"fonts/mui.ttf",
+					"css/header.css"
 				],
-				"refer": [],
+				"refer": [
+					"login.html"
+				],
 				"priority": 0
 			},
 			"component/divbar/tabbar-with-submenus.html": {
@@ -752,7 +756,8 @@
 					"css/imgChange/imgChangeStyle.css",
 					"images/add.png",
 					null,
-					"js/user/app.js"
+					"js/user/app.js",
+					"js/component/simple-creat.js"
 				],
 				"refer": [
 					"component/imgView.html"
@@ -773,19 +778,679 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"component/best-practices/list-to-detail/listview.html": {
+				"resources": [
+					"css/footbar.css",
+					"css/mui.min.css",
+					"component/best-practices/list-to-detail/vue.min.js",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/user/app.js",
+					"js/user/app-edit.js"
+				],
+				"refer": [
+					"component/best-practices/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/best-practices/list-to-detail/detail.html": {
+				"resources": [
+					"component/best-practices/list-to-detail/list-to-detail.css",
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"js/mui.picker.min.js",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"component/best-practices/list-to-detail/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/simple-create.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-create.js",
+					"js/component/simple-creat.js",
+					"js/mui.picker.min.js",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"css/header.css",
+					"images/add.png",
+					"fonts/mui.ttf",
+					"images/add2.png"
+				],
+				"refer": [
+					"component/imProgress/tab-top-webview-main.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/list-to-detail/listview.html": {
+				"resources": [
+					"css/footbar.css",
+					"component/imProgress/list-to-detail/vue.min.js",
+					"css/mui.min.css",
+					"js/user/app-edit.js",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/user/app.js"
+				],
+				"refer": [
+					"component/imProgress/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/list-to-detail/detail.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"component/imProgress/list-to-detail/list-to-detail.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"css/mui.min.css",
+					"component/imProgress/list-to-detail/vue.min.js",
+					"js/mui.picker.min.js",
+					"js/mui.min.js",
+					"js/user/app-edit.js",
+					"js/user/app.js",
+					"images/2.jpg",
+					"images/1.jpg",
+					"images/add.png",
+					"images/add2.png",
+					"fonts/mui.ttf",
+					"css/list-to-detail.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/SignProject/create.html": {
+				"resources": [
+					"css/mui.picker.min.css",
+					"css/mui.min.css",
+					"js/vue.js",
+					"js/component/simple-creat.js",
+					"js/user/app.js",
+					"js/mui.picker.min.js",
+					"js/mui.min.js",
+					"css/component/edit-style.css",
+					"images/add.png",
+					"fonts/mui.ttf",
+					"css/header.css",
+					"js/imgChange/mui.zoom.js",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"images/icon/added.png",
+					"images/add2.png"
+				],
+				"refer": [
+					"component/SignProject/workflow.html",
+					"component/SignProject/list-to-detail/listview.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/workflow.html": {
+				"resources": [
+					"js/vue.js",
+					"css/mui.min.css",
+					"css/footbar.css",
+					"css/component/iview/iview.css",
+					"js/component/iview/iview.min.js",
+					"css/component/iview/fonts/ionicons.ttf",
+					"js/mui.min.js",
+					"js/user/app.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/SignProject/list-to-detail/listview.html": {
+				"resources": [
+					"component/SignProject/list-to-detail/vue.min.js",
+					"css/mui.min.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/user/app-edit.js",
+					"css/footbar.css",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"css/header.css",
+					"js/vue.min.js"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/list-to-detail/detail.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"component/SignProject/list-to-detail/list-to-detail.css",
+					"js/mui.picker.min.js",
+					"component/SignProject/list-to-detail/vue.min.js",
+					"js/mui.min.js",
+					"js/user/app-edit.js",
+					"component/SignProject/workflow.html",
+					"component/SignProject/create.html",
+					"js/user/app.js",
+					"images/2.jpg",
+					"images/1.jpg",
+					"images/add.png",
+					"fonts/mui.ttf",
+					"images/add2.png",
+					"css/header.css",
+					"css/list-to-detail.css",
+					"js/vue.min.js"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/list-to-detail/workflow.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/vue.js",
+					"js/component/iview/iview.min.js",
+					"css/component/iview/iview.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"css/component/iview/fonts/ionicons.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/imProgress/tab-top-webview-main.html": {
+				"resources": [
+					"component/imProgress/list-to-detail/listview.html",
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"js/webviewGroup.js",
+					"component/imProgress/tab-top-subpage-1.html",
+					"css/footbar.css",
+					"fonts/mui.ttf",
+					"css/header.css",
+					"js/user/app.js",
+					"component/imProgress/tab-top-subpage-2.html",
+					"css/component/background.css"
+				],
+				"refer": [
+					"component/imProgress/tab-top-subpage-3.html",
+					"component/imProgress/tab-top-subpage-4.html",
+					"component/imProgress/tab-top-subpage-5.html",
+					"component/simple-create.html"
+				],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-detail/listview.html": {
+				"resources": [
+					"component/FlowForm/list-to-detail/vue.min.js",
+					"css/footbar.css",
+					"css/mui.min.css",
+					"js/dataFormat.js",
+					"js/user/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"component/FlowForm/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-detail/detail.html": {
+				"resources": [
+					"component/FlowForm/list-to-detail/list-to-detail.css",
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"component/FlowForm/list-to-detail/vue.min.js",
+					"js/mui.picker.min.js",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"images/add.png",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"component/FlowForm/list-to-detail/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-detail/workflow.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/vue.js",
+					"js/component/iview/iview.min.js",
+					"js/mui.min.js",
+					"css/component/iview/iview.css",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"css/component/iview/fonts/ionicons.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-pro/listview.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"component/FlowForm/list-to-pro/vue.min.js",
+					"js/user/app.js",
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"component/FlowForm/list-to-pro/detail.html"
+				],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-pro/detail.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"component/FlowForm/list-to-pro/list-to-detail.css",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.picker.min.css",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"js/imgChange/mui.zoom.js",
+					"js/component/simple-edit.js",
+					"component/FlowForm/list-to-pro/vue.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"images/add.png"
+				],
+				"refer": [
+					"component/FlowForm/list-to-pro/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/tab-top-subpage-1.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/vue.min.js",
+					"css/mui.min.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/imProgress/list-to-detail/detail.html",
+					"component/imProgress/list-to-detail/detail-2.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/tab-top-subpage-2.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/imProgress/list-to-detail/detail.html",
+					"component/imProgress/list-to-detail/detail-2.html"
+				],
+				"priority": 0
+			},
+			"main.html": {
+				"href": "main.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 2,
+				"refer": []
+			},
+			"unlock.html": {
+				"href": "unlock.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"js/mui.locker.js",
+					"js/app.js"
+				],
+				"refer": [
+					"login.html",
+					"main.html"
+				],
+				"priority": 1
+			},
+			"component/FlowForm/list-to-pro/workflow.html": {
+				"href": "component/FlowForm/list-to-pro/workflow.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/footbar.css",
+					"js/mui.min.js",
+					"js/vue.js",
+					"css/component/iview/iview.css",
+					"css/component/iview/fonts/ionicons.ttf",
+					"js/component/iview/iview.min.js",
+					"js/user/app.js"
+				],
+				"priority": 4,
+				"refer": []
+			},
+			"component/SignProject/tab-top-subpage-1.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/vue.min.js",
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/tab-top-webview-main.html": {
+				"resources": [
+					"component/SignProject/tab-top-subpage-1.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"js/webviewGroup.js",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"css/header.css"
+				],
+				"refer": [
+					"component/SignProject/tab-top-subpage-2.html",
+					"component/SignProject/tab-top-subpage-3.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/tab-top-subpage-2.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js",
+					"css/icons-extra.css",
+					"fonts/mui.ttf",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/detail-2.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/tab-top-subpage-3.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/footbar.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"js/dataFormat.js",
+					"js/user/share.js",
+					"js/user/app.js",
+					"js/vue.min.js"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/detail-3.html"
+				],
+				"priority": 0
+			},
+			"component/SignProject/list-to-detail/detail-2.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"js/vue.min.js",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					null,
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"fonts/mui.ttf",
+					"css/header.css",
+					"images/add2.png"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/list-to-detail/detail-2.html": {
+				"href": "component/imProgress/list-to-detail/detail-2.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/mui.picker.min.js",
+					"js/user/app.js",
+					"js/component/simple-edit.js",
+					"js/imgChange/mui.zoom.js",
+					"js/imgChange/mui.previewimage.js",
+					"js/vue.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/mui.picker.min.css",
+					"css/component/edit-style.css",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"images/add2.png"
+				],
+				"priority": 5,
+				"refer": []
+			},
+			"component/SignProject/list-to-detail/detail-3.html": {
+				"href": "component/SignProject/list-to-detail/detail-3.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/mui.picker.min.js",
+					"js/user/app.js",
+					"js/component/simple-edit.js",
+					"js/imgChange/mui.zoom.js",
+					"js/imgChange/mui.previewimage.js",
+					"js/vue.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/mui.picker.min.css",
+					"css/component/edit-style.css",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"css/header.css",
+					"images/add2.png"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/workflow.html"
+				],
+				"priority": 5
+			},
+			"component/imProgress/tab-top-subpage-3.html": {
+				"resources": [
+					"css/footbar.css",
+					"css/mui.min.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/imProgress/list-to-detail/detail-3.html"
+				],
+				"priority": 0
+			},
+			"component/imProgress/list-to-detail/detail-3.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"images/add2.png",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
-				"css/mui.css",
-				"images/iconfont-tianjia.png",
-				"unlock.html",
+				"js/simple-edit.js",
+				"js/mui.dtpicker.js",
+				"component/imProgress/back/tab-top-subpage-1.html",
+				"component/imProgress/back/tab-top-subpage-2.html",
+				"js/mui.zoom.js",
+				"component/charts/report.html",
 				"forget_password.html",
+				"js/mui.poppicker.js",
+				"js/mui.previewimage.js",
 				"images/qihoo.png",
-				"js/mui.locker.js",
+				"js/city.data.js",
+				"css/component/flow-state/index.min.js",
+				"README.md",
+				"js/mui.view.js",
+				"js/beecloud.js",
+				"component/9tab-top-subpage-2.html",
+				"js/webviewGroupback.js",
+				"js/mui.picker.js",
+				"js/component/flow-state/index.min.css",
+				"js/mui.pullToRefresh.material.js",
+				"css/component/flow-line/index.min.js",
+				"js/component/vux.min.js",
+				"css/mui.css",
+				"js/city.data-3.js",
+				"css/component/iview/fonts/iconfont.ttf",
+				"js/95516.js",
+				"css/component/flow/index.min.js",
+				"js/component/flow/index.min.css",
+				"js/component/vux.min.css",
+				"js/component/flow-state/index.min.js",
+				"js/update.js",
+				"js/component/flow-line/index.min.js",
+				"images/email.png",
+				"js/feedback.js",
+				"css/component/flow-line/index.min.css",
 				"images/user-photo.png",
-				"README.md"
+				"component/9gonggetab-top-subpage-1.html",
+				"js/arttmpl.js",
+				"js/mui.imageViewer.js",
+				"css/component/iview/fonts/mui.ttf",
+				"ionicons.ttf",
+				"js/component/flow/index.min.js",
+				"js/ad.js",
+				"images/iconfont-tianjia.png",
+				"js/mui.listpicker.js",
+				"component/imProgress/back/tab-top-webview-main.html",
+				"js/mui.indexedlist.js",
+				"component/9tab-top-subpage-3.html",
+				"js/mui.pullToRefresh.js",
+				"js/component/flow-line/index.min.css",
+				"css/component/flow/index.min.css",
+				"css/component/flow-state/index.min.css",
+				"js/mui.picker.all.js",
+				"component/create.html"
 			]
 		}
-	}
+	},
+	"unpackage":[
+	  "css/mui.css",
+	  "images/iconfont-tianjia.png",
+	  "images/qihoo.png",
+	  "images/user-photo.png",
+	  "js/mui.locker.js",
+	  "README.md",
+	  "forget_password.html",
+	  "unlock.html",
+	  "component/charts/report.html",
+	  "component/imProgress/back/tab-top-subpage-1.html",
+	  "component/imProgress/back/tab-top-subpage-2.html",
+	  "component/imProgress/back/tab-top-webview-main.html",
+	  "component/9gonggetab-top-subpage-1.html",
+	  "component/9tab-top-subpage-2.html",
+	  "component/9tab-top-subpage-3.html",
+	  "component/create.html",
+	  "css/component/flow/index.min.css",
+	  "css/component/flow/index.min.js",
+	  "css/component/flow-line/index.min.css",
+	  "css/component/flow-line/index.min.js",
+	  "css/component/flow-state/index.min.css",
+	  "css/component/flow-state/index.min.js",
+	  "css/component/iview/fonts/iconfont.ttf",
+	  "css/component/iview/fonts/mui.ttf",
+	  "css/icons-extra.css",
+	  "images/email.png",
+	  "js/component/flow/index.min.css",
+	  "js/component/flow/index.min.js",
+	  "js/component/flow-line/index.min.css",
+	  "js/component/flow-line/index.min.js",
+	  "js/component/flow-state/index.min.css",
+	  "js/component/flow-state/index.min.js",
+	  "js/component/vux.min.css",
+	  "js/component/vux.min.js",
+	  "js/95516.js",
+	  "js/ad.js",
+	  "js/arttmpl.js",
+	  "js/beecloud.js",
+	  "js/city.data-3.js",
+	  "js/city.data.js",
+	  "js/feedback.js",
+	  "js/mui.dtpicker.js",
+	  "js/mui.imageViewer.js",
+	  "js/mui.indexedlist.js",
+	  "js/mui.listpicker.js",
+	  "js/mui.picker.all.js",
+	  "js/mui.picker.js",
+	  "js/mui.poppicker.js",
+	  "js/mui.previewimage.js",
+	  "js/mui.pullToRefresh.js",
+	  "js/mui.pullToRefresh.material.js",
+	  "js/mui.view.js",
+	  "js/mui.zoom.js",
+	  "js/simple-edit.js",
+	  "js/update.js",
+	  "js/webviewGroupback.js",
+	  "ionicons.ttf",
+	  "fonts/mui-icons-extra.ttf"
+	]
 }
