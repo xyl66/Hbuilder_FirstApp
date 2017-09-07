@@ -105,6 +105,23 @@ span.mui-icon {
 #workflow>li{
 				padding-left: 8px;
 			}
-#savbtn,#subbtn{
+nav #savbtn,nav #subbtn,nav #finitbtn,nav #backbtn{
 				width: 50%;
 			}
+.flex-content {
+	display: flex;
+}
+			
+.flex-content span {
+	font-size: 15px;
+	height: 40px;
+	line-height: 40px;
+}
+header #savbtn{
+	height: 30px;
+    line-height: 30px;
+    margin-top: 7px;
+    width: 55px;
+    border: solid 0.5px #2B85E4;
+    font-size: 13px;
+}

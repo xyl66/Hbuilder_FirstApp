@@ -8,7 +8,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../../css/footbar.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -196,7 +196,6 @@
 			});
 			var count = 1,userID,pageSize=userApp.pageSize;
 			mui.plusReady(function() {
-				console.log(plus.webview.all().length)
 				//获取userid
 				userID=plus.storage.getItem('userId')
 				//预加载详情页
@@ -230,7 +229,6 @@
 							status:'1',
 						}
 					userApp.Get(serurl,data).then(response=>{
-						console.log('结果'+response)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(response.length==0);
 						news.items = news.items.concat(convert(response));
 					}).catch(err=>{
@@ -243,7 +241,6 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -258,14 +255,13 @@
 								pageSize:pageSize,
 								status:'0',
 							}
-							console.log(JSON.stringify(data))
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
+								news.items=[];
 								if(!response.length>0){
-									plus.nativeUI.toast("没有数据")
+									//plus.nativeUI.toast("没有数据")
 									return
 								}
-								news.items=[];
 								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
@@ -291,22 +287,22 @@
 					elem = this,
 					li = elem.parentNode.parentNode;
 				if(parseInt(statu)>0){
-					plus.nativeUI.toast('不可删除')
+					mui.toast('不可删除',{ duration:1000, type:'div' })
 					return
 				}
 				mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
 					if (e.index == 0) {
-						console.log('shanchu')
 						let serverUrl=userApp.serverUrl+'/ImageProgress/Delete';
 						data={apply_id:guid}
 						userApp.Post(serverUrl,data).then(res=>{
 							if(res.status){
-								plus.nativeUI.toast('删除成功');
+								mui.toast('删除成功',{ duration:1000, type:'div' })
 								mui.swipeoutClose(li);
 								//news.items.splice(index,1)
 								pulldownRefresh()
+								mui.fire(plus.webview.getWebviewById("./imProgress/tab-top-webview-main.html"),"countFresh",null)
 							}else{
-								plus.nativeUI.toast('删除失败');
+								mui.toast('删除失败',{ duration:1000, type:'div' })
 								setTimeout(function() {
 									mui.swipeoutClose(li);
 								}, 0);
@@ -314,7 +310,6 @@
 						})
 					} else {
 						setTimeout(function() {
-							console.log('shanchu')
 							mui.swipeoutClose(li);
 						}, 0);
 					}
@@ -324,9 +319,9 @@
 			//添加newId自定义事件监听
 		window.addEventListener('refresh',function(event){
 		  //获得事件参数
-		  console.log(event.detail.status)
 		  if(event.detail.status){
-		  	plus.nativeUI.toast('操作成功')
+		  	mui.toast(event.detail.msg,{ duration:1000, type:'div' })
+		  	//plus.nativeUI.toast('操作成功')
 		  }
 		  pulldownRefresh();
 		  //根据id向服务器请求新闻详情
@@ -370,7 +365,7 @@
 					"titleNView": titleNView
 				});
 				setTimeout(function () {
-					webview_detail.show("slide-in-right", 300);
+					webview_detail.show("pop-in", 300);
 				},150);
 			}
 		

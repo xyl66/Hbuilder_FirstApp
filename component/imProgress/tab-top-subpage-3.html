@@ -9,7 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../../css/footbar.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -226,7 +226,6 @@
 							status:'2',
 						}
 					userApp.Get(serurl,data).then(response=>{
-						console.log('结果'+response)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(response.length==0);
 						news.items = news.items.concat(convert(response));
 					}).catch(err=>{
@@ -239,7 +238,6 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -256,11 +254,10 @@
 								}
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
+								news.items=[];
 								if(!response.length>0){
-									plus.nativeUI.toast("没有数据")
 									return
 								}
-								news.items=[];
 								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
@@ -283,18 +280,17 @@
 				var guid = this.getAttribute('del-data-guid'),
 					statu=this.getAttribute('statu');
 				if(parseInt(statu)>0){
-					plus.nativeUI.toast('不可删除')
+					mui.toast('不可删除',{ duration:1000, type:'div' })
 					return
 				}
-				plus.nativeUI.toast('删除成功')
+				mui.toast('删除成功',{ duration:1000, type:'div' })
 			})
 			//监听刷新事件
 			//添加newId自定义事件监听
 		window.addEventListener('refresh',function(event){
 		  //获得事件参数
-		  console.log(event.detail.status)
 		  if(event.detail.status){
-		  	plus.nativeUI.toast('保存成功')
+		  	mui.toast('保存成功',{ duration:1000, type:'div' })
 		  }
 		  pulldownRefresh();
 		  //根据id向服务器请求新闻详情
@@ -338,7 +334,7 @@
 					"titleNView": titleNView
 				});
 				setTimeout(function () {
-					webview_detail.show("slide-in-right", 300);
+					webview_detail.show("pop-in", 300);
 				},150);
 			}
 		

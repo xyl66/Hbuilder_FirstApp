@@ -90,7 +90,7 @@
 					</div>
 					<div id='userResult' class="ui-alert"></div>
 					<ul id="workflow" class="mui-table-view">
-				    <li class="mui-table-view-cell mui-collapse">
+				    <li class="mui-table-view-cell mui-collapse mui-active">
 				        <a class="mui-navigate-right" href="#">作业流程</a>
 				        <div class="mui-collapse-content">
 				            <div class="mui-input-row">
@@ -243,7 +243,6 @@
 			}
 			//关闭actionsheet
 			if(a.innerHTML=="选取现有的"){
-				console.log(vm.apply_id)
 				appendByGallery(vm.apply_id).then(data=>{
 					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
 					vm.imginfo.push(imginfo)
@@ -256,8 +255,7 @@
 				});
 			}
 			else if(a.innerHTML=="删除照片"){
-				console.log(img_selectNode.getAttribute('fileID'));
-				console.log(img_selectNode.getAttribute('fileType'));
+
 			}
 			mui('#' + parent.id).popover('toggle');
 		});
@@ -314,7 +312,6 @@
 				return
 			}
 			for (let {step_id,user_id,sign_action} of vm.stepArr) {
-				console.log(sign_action)
 				if(!sign_action&&user_id!=userId){
 					nextStepId=step_id
 					nextUserId=user_id
@@ -328,8 +325,7 @@
 					next_step:nextStepId,
 					next_userid :nextUserId,
 					sign_remark:signRemark,
-				}
-			console.log(JSON.stringify(data))
+			}
 			userApp.Post(serverUrl,data).then(res=>{
 				if(res){
 					plus.nativeUI.toast('確認成功')
@@ -354,16 +350,14 @@
 			//插入会签
 			var flowSelectButton = document.getElementById('savbtn');
 			flowSelectButton.addEventListener('tap', function(event) {
-				console.log(plus.webview.all().length)
 				let steid
 				for (let {step_id,user_id,sign_action} of vm.stepArr) {
-					console.log(sign_action)
 					if(!sign_action&&user_id==userId){
 						steid=step_id
 						break
 					}
 				}
-				mui.openWindow('workflow.html','pro-workflow',{
+				mui.openWindow('workflow.html','flow-pro-workflow',{
 					title:{//标题配置
 						    text:"商品详情",//标题文字
 					},
@@ -393,7 +387,6 @@
 				vm.apply_id=event.detail.guid;
 				plus.storage.setItem('apply_id',event.detail.guid)
 				vm.imginfo=[];
-			console.log(vm.apply_id)
 			//加载图片
 			mui.get(userApp.serverUrl+'/Attachment/GetThumImage',{formType:"APP_IP",applyID:vm.apply_id,projectNO:vm.projectNo},function(response){ 
 				let imgarr=[]
@@ -401,8 +394,6 @@
 					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
 					imgarr.push(imginfo)
 				}
-				console.log(imgarr.length)
-				console.log(vm.imginfo)
 				vm.imginfo=imgarr;
 			},'json' );	
 			//获取详细信息
@@ -412,7 +403,6 @@
 				vm.projectName=data.projectName
 			})
 			userApp.GetFlowDetail(vm.apply_id).then(data=>{
-				console.log(data)
 				vm.stepArr=data
 			})
 		});
@@ -433,7 +423,6 @@
 		  	vm.flowId=event.detail.flowId
 		  }
 		  userApp.GetFlowDetail(vm.apply_id).then(data=>{
-			console.log(data)
 			vm.stepArr=[]
 			vm.stepArr=data
 		  })

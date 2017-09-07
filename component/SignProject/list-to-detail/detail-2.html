@@ -74,7 +74,7 @@
 						</li>-->
 						<li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap" v-for="(item,index) in imginfo">
 							<a>
-								<img :src="item.url" :fileID="item.fileId" :fileType="item.fileType" :data-preview-src="item.previewSrc" data-preview-group="1" class="mui-media-object" />
+								<img :src="item.url" :index="index" :fileID="item.fileId" :fileType="item.fileType" :data-preview-src="item.previewSrc" data-preview-group="1" class="mui-media-object" />
 							</a>
 						</li>
 						<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6" v-show="status==0">
@@ -114,7 +114,7 @@
 							<ul class="mui-table-view">
 							    <li class="mui-table-view-cell" v-for="step in stepArr">
 							    	<p>{{step.user_name}}<span v-show="step.residenceTime">
-							    		停留時間:{{step.residenceTime}}
+							    		停留時間:{{step.residenceTime}} 分鐘
 							    	</span>
 							    	</p>
 							    	<p><span>
@@ -253,21 +253,35 @@
 			}
 			//关闭actionsheet
 			if(a.innerHTML=="选取现有的"){
-				console.log(vm.apply_id)
 				appendByGallery(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="拍照或录像"){
 				appendByCamera(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="删除照片"){
-				console.log(img_selectNode.getAttribute('fileID'));
-				console.log(img_selectNode.getAttribute('fileType'));
+				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
+					index=img_selectNode.getAttribute('index'),
+					data={
+						fileID:img_selectNode.getAttribute('fileID'),
+						fileType:img_selectNode.getAttribute('fileType'),
+						userID:userApp.userId
+					};
+				userApp.Post(serurl,data).then(res=>{
+					if(res.code==200){
+						plus.nativeUI.toast(res.msg)
+						vm.imginfo.splice(index,1)
+					}else{
+						plus.nativeUI.toast(res.msg)
+					}
+				}).catch(err=>{
+					plus.nativeUI.toast(err)
+				})
 			}
 			mui('#' + parent.id).popover('toggle');
 		});
@@ -290,11 +304,6 @@
 				flowId=vm.flowId,
 				UserDept='YPZY',
 				serverUrl=userApp.serverUrl;
-			console.log(newId);
-			console.log(projectNo);
-			console.log(UserId);
-			console.log(Remark);
-			console.log(flowId);
 			if(!projectNo){
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
@@ -311,13 +320,10 @@
 					userDept:UserDept,
 			};
 			userApp.Post(serverUrl,data).then(res=>{
-				console.log(res.msg)
-				let page=plus.webview.getWebviewById('./SignProject/list-to-detail/listview.html')
+				let page=plus.webview.getWebviewById('signpro-tab-top-subpage-2.html')
 				mui.back();
-				console.log('关闭窗口')
 				mui.fire(page,'refresh',{status:1});
 			})
-			console.log(serverUrl)
 //			mui.ajax(serverUrl,{
 //				data:{ 
 //					apply_id:newId,
@@ -365,8 +371,7 @@
 					status:"0",
 					flow_id:flowId,
 					userDept:UserDept,
-				}
-			console.log(serverUrl)
+			}
 			userApp.Post(serverUrl,data).then(response=>{
 				let sdata={
 							apply_id:newId,
@@ -375,9 +380,8 @@
 						}
 				return userApp.Post(userApp.serverUrl+'/workflow/submit',sdata)
 			}).then(response=>{
-				let page=plus.webview.getWebviewById('./SignProject/list-to-detail/listview.html')
+				let page=plus.webview.getWebviewById('./SignProject/tab-top-webview-main.html')
 				mui.back();
-				console.log('关闭窗口')
 				mui.fire(page,'refresh',{status:1});
 			}).catch(err=>{
 				console.log(err)
@@ -430,9 +434,7 @@
 					showUserPickerButton.addEventListener('tap', function(event) {
 						userPicker.show(function(items) {
 							vm.projectName = items[0].text;
-							console.log(vm.projectName)
-							subentry_caseno.value = items[0].value;
-							console.log(subentry_caseno.value)
+							vm.projectNo = items[0].value;
 							//返回 false 可以阻止选择框的关闭
 							//return false;
 						});
@@ -441,18 +443,20 @@
 		mui.ready(function(){
 			var flowSelectButton = document.getElementById('flow-select');
 			flowSelectButton.addEventListener('tap', function(event) {
-				console.log(plus.webview.all().length)
-				mui.openWindow('workflow.html','workflow',{
-					title:{//标题配置
-						    text:"商品详情",//标题文字
+				mui.openWindow({url:'workflow.html',id:'signpro_workflow',styles:{
+						title:{//标题配置
+							    text:"商品详情",//标题文字
+						},
+						back:{//左上角返回箭头
+							image:{
+							    base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
+							}
+	    					}
 					},
-					back:{//左上角返回箭头
-						image:{
-						    base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
-						}
-    					}
-				}
-				)
+					extras:{
+						parentId:"signproject_detail_2"
+					}
+				})
 			}, false);
 					
 		})
@@ -474,16 +478,13 @@
 //						vm.projectName=text
 //					}
 //				}
-				console.log(JSON.stringify(event.detail))
 			//加载图片
 			mui.get(userApp.serverUrl+'/Attachment/GetThumImage',{formType:"APP_IP",applyID:vm.apply_id,projectNO:vm.projectNo},function(response){ 
 				let imgarr=[]
 				for (let data of response) {
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					imgarr.push(imginfo)
 				}
-				console.log(imgarr.length)
-				console.log(vm.imginfo)
 				vm.imginfo=imgarr;
 			},'json' );	
 			//获取详细信息
@@ -493,7 +494,6 @@
 				vm.projectName=data.projectName
 			})
 			userApp.GetFlowDetail(vm.apply_id).then(data=>{
-				console.log(data)
 				vm.stepArr=data
 			})
 		});
@@ -514,7 +514,6 @@
 		  	vm.flowId=event.detail.flowId
 		  }
 		  userApp.GetFlowDetail(vm.apply_id).then(data=>{
-			console.log(data)
 			vm.stepArr=[]
 			vm.stepArr=data
 		  })

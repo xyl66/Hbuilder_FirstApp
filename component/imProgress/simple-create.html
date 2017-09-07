@@ -8,40 +8,29 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<!--标准mui.css-->
-		<link rel="stylesheet" href="../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
 		<!--App自定义的css-->
-		<link rel="stylesheet" type="text/css" href="../css/component/edit-style.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/edit-style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/background.css"/>
 		<!--图片预览-->
-		<link rel="stylesheet" type="text/css" href="../css/imgChange/imgChangeStyle.css"/>
-		<style>
-			#savbtn{
-				width: 35%;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="../../css/imgChange/imgChangeStyle.css"/>
 </head>
 <body>
 	<header class="mui-bar mui-bar-nav">
 	    <a class="mui-action-back mui-pull-left"></a>
-	    <h1 class="mui-title">形象進度</h1>
+	    <button id="savbtn" class="bg-color-g mui-btn white-color mui-btn-link mui-pull-right">保存</button>
+	    <h1 class="mui-title">形象進度新增</h1>
 	</header>
 	<div class="mui-content status-content">
-			<nav class="mui-bar mui-bar-tab">
-				<a class="mui-tab-item" href="#">
-					<button id="savbtn" type="button" class="mui-btn mui-btn-primary">保存</button>
-				</a>
-				<a class="mui-tab-item" href="#" style="display: none;">
-					<button id="subbtn" type="button" class="mui-btn mui-btn-success">提交</button>
-				</a>
-			</nav>
 			<div class="mui-content">
 				<input type="text" name="apply_id" id="apply_id" hidden value="" />
 				<div class="mui-content-padded">
 					<ul id="pic-list" class="mui-table-view mui-grid-view">
 						<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6">
 							<a href="#picture">
-								<img id="pic" class="mui-media-object" src="../images/add2.png"/>
+								<img id="pic" class="mui-media-object" src="../../images/add2.png"/>
 							</a>
 						</li>
 					</ul>
@@ -80,9 +69,6 @@
 					<li class="mui-table-view-cell">
 						<a href="#">删除照片</a>
 					</li>
-					<li class="mui-table-view-cell">
-						<a href="#">确认删除</a>
-					</li>
 				</ul>
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell">
@@ -92,13 +78,13 @@
 			</div>
 	</div>
 </body>
-	<script src="../js/mui.min.js"></script>
-	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/component/simple-creat.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/component/simple-creat.js" type="text/javascript" charset="utf-8"></script>
 	<!--图片预览-->
-	<script src="../js/imgChange/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/imgChange/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/imgChange/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/imgChange/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		var subpage_style = {
 					top: '0px',
@@ -137,8 +123,23 @@
 				appendByCamera(document.getElementById("apply_id").value);
 			}
 			else if(a.innerHTML=="删除照片"){
-				console.log(img_selectNode.getAttribute('fileID'));
-				console.log(img_selectNode.getAttribute('fileType'));
+				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
+					index=img_selectNode.getAttribute('index'),
+					data={
+						fileID:img_selectNode.getAttribute('fileID'),
+						fileType:img_selectNode.getAttribute('fileType'),
+						userID:userApp.userId
+					};
+				userApp.Post(serurl,data).then(res=>{
+					if(res.code==200){
+						plus.nativeUI.toast(res.msg)
+						document.getElementById("pic-list").removeChild(img_selectNode.parentNode.parentNode)
+					}else{
+						plus.nativeUI.toast(res.msg)
+					}
+				}).catch(err=>{
+					plus.nativeUI.toast(err)
+				})
 			}
 			mui('#' + parent.id).popover('toggle');
 		});
@@ -149,25 +150,18 @@
 			mui('#picture-del').popover('toggle');//show hide toggle
 		})
 		//保存提交按钮事件
-		mui('body').on('tap','.mui-bar-tab a button',function(){
-			console.log(plus.webview.all().length)
+		mui('body').on('tap','header button[id="savbtn"]',function(){
 			var a=this;
 			let newId=document.getElementById("apply_id").value
 			let projectNo = document.getElementById('subentry_caseno').value
 			let UserId=plus.storage.getItem('userId')
 			let Remark=document.getElementById("textarea").value
-			console.log(newId);
-			console.log(projectNo);
-			console.log(UserId);
-			console.log(Remark);
-			console.log(apply_id);
 			if(!projectNo){
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
 			var serverUrl=userApp.serverUrl
-			console.log(apply_id)
-			serverUrl+=apply_id==''?'/ImageProgress/InsertData':'/ImageProgress/UpdateData'
+			serverUrl+='/ImageProgress/InsertData'
 			mui.ajax(serverUrl,{
 				data:{ 
 					apply_id:newId,
@@ -182,8 +176,12 @@
 				success:function(data){
 					plus.nativeUI.toast("保存成功")
 					//获得服务器响应
-					var sub=plus.webview.create("./imProgress/tab-top-webview-main.html","./imProgress/tab-top-webview-main.html",subpage_style)
-					console.log(plus.webview.all().length)
+					var sub=plus.webview.getWebviewById("./imProgress/tab-top-webview-main.html");
+					if(sub){
+						mui.fire(sub,"savrefresh",{status:0})
+					}else{
+						sub=plus.webview.create("tab-top-webview-main.html","./imProgress/tab-top-webview-main.html",subpage_style)
+					}
 					sub.show('slide-in-right', 500)
 					setTimeout(function(){
 						plus.webview.currentWebview().close()
@@ -213,7 +211,6 @@
 						userPicker.show(function(items) {
 							showUserPickerButton.value = items[0].text;
 							subentry_caseno.value = items[0].value;
-							console.log(subentry_caseno.value)
 							//返回 false 可以阻止选择框的关闭
 							//return false;
 						});
@@ -227,14 +224,12 @@
 			apply_id = self.name;
 			var apply_idbtn=document.getElementById("apply_id")
 			apply_idbtn.value=apply_id?apply_id:newUuId;  //apply_id赋值
-			console.log('applu_id:'+apply_idbtn.value)
 			statusInit(Number.parseInt(self.status))
 			if(apply_id!=''){
 				plus.nativeUI.showWaiting('拼命獲取數據中...')
 				//加载数据
 				mui.get(userApp.serverUrl+'/ImageProgress/GetDetail',{apply_id:apply_id},function(response){ 
 					let data=response[0]
-					console.log(data)
 					let text=document.getElementById("textarea")
 					text.innerHTML=data.remark
 					let showUserPickerButton = document.getElementById('showUserPicker');

@@ -5,13 +5,14 @@
  */
 var userApp={
 	serverUrl:"http://supplier.foxconn.com/yupintest/api",//"http://supplier.foxconn.com/yupin/api",
+	imgServerUrl:"http://supplier.foxconn.com/yupintest/api",
 	userId:'',
 	pageSize:5,
 	//打开新页面
-	openCreatePage:function(value,title){
+	openCreatePage:function(id,value,title){
 				mui.openWindowWithTitle({
-				    url:value+'.html',
-				    id:value,
+				    url:value,
+				    id:id,
 				    extras:{
 				        name:'',
 				        status:0
@@ -31,6 +32,9 @@ getStatus:function(value){
 	case 2:
 	  return '已完成'
 	  break;
+	case 3:
+	  return '已结案'
+	  break;
 	default:
 	  return '其它'
 	}
@@ -46,6 +50,9 @@ getStatusBadge:function(value){
 	  return 'mui-badge mui-badge-warning'
 	  break;
 	case 2:
+	  return 'mui-badge mui-badge-success'
+	  break;
+	case 3:
 	  return 'mui-badge mui-badge-success'
 	  break;
 	default:
@@ -64,6 +71,30 @@ generateUUID:function() {
 	  return (c=='x' ? r : (r&0x3|0x8)).toString(16);
 	});
 	return uuid;
+},
+// 压缩图片
+compressImage:function ({url:url, size:size}){
+	return new Promise((resolve,reject)=>{
+		let sSize = parseInt(size) / 1024, //取得图片文件的大小KB
+			rate = 100;
+		console.log(rate)
+		plus.zip.compressImage({
+				src: url,
+				dst: "_doc/cm.jpg",
+				quality: rate,
+				width:"640px",
+				overwrite: true
+			},
+			function(i) {
+				console.log("压缩图片成功原来大小" + url+"size:"+sSize+"kb")
+				console.log("压缩图片成功：" + (i.size/1024)+"kb")
+				resolve(i);
+			},
+			function(e) {
+				console.log("压缩图片失败: " + JSON.stringify(e));
+			});
+	})
+	
 },
 /**
  *@description 获取base64 参数为对象:地址url,大小size,类型outType 
@@ -160,6 +191,7 @@ GetFlowDetail:function(apply_id){
 	
 },
 Post:function(url,gdata){
+	console.log(url)
 	console.log(JSON.stringify(gdata))
 	return new Promise((resolve,reject)=>{
 		if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
@@ -181,8 +213,6 @@ Post:function(url,gdata){
 	})	
 },
 Get:function(url,gdata){
-	console.log(url)
-	console.log(JSON.stringify(gdata))
 	return new Promise((resolve,reject)=>{
 		if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 				return reject('似乎已断开与互联网的连接')
@@ -200,6 +230,17 @@ Get:function(url,gdata){
 			}
 		});
 	})
+},
+/**
+ *@description 关闭预加载窗口 
+ * @param {Object} obj 需关闭的预加载页面数组
+ */
+clearView: function(obj) {
+	for(let i of obj) {
+		if(plus.webview.getWebviewById(i)) {
+			plus.webview.getWebviewById(i).close();
+		}
+	}
 },
 checkImg:function(url){
 	return new Promise((resolve,reject)=>{
@@ -281,4 +322,46 @@ var shareHelper={
 //					} );
 				}
 	}
+}
+var taskTrack={
+getStatus:function(value){
+	var num=Number.parseInt(value)
+	switch(num)
+	{
+	case 0:
+	  return '待处理'
+	  break;
+	case 1:
+	  return '处理中'
+	  break;
+	case 2:
+	  return '处理中'
+	  break;
+	case 3:
+	  return '已结案'
+	  break;
+	default:
+	  return '其它'
+	}
+},
+getStatusBadge:function(value){
+	let num=Number.parseInt(value)
+	switch(num)
+	{
+	case 0:
+	  return 'mui-badge mui-badge-danger'
+	  break;
+	case 1:
+	  return 'mui-badge mui-badge-warning'
+	  break;
+	case 2:
+	  return 'mui-badge mui-badge-warning'
+	  break;
+	case 3:
+	  return 'mui-badge mui-badge-success'
+	  break;
+	default:
+	  return 'mui-badge'
+	}
+},
 }

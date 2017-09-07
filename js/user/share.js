@@ -35,7 +35,7 @@ function shareAction(obj,sb,bh) {
 	}
 	var msg={content:"我正在使用HBuilder+HTML5开发移动应用，赶紧跟我一起来体验！",extra:{scene:sb.x}};
 	if(bh){
-		msg.href="http://www.dcloud.io/";
+		msg.href="http://supplier.foxconn.com/yupintest/ShareView.aspx?id="+obj.guid;
 		msg.pictures=['_www/logo.png'];
 		console.log(JSON.stringify(obj))
 		if(obj.pic&&obj.pic!=""){

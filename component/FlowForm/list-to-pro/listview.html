@@ -124,13 +124,10 @@
 				backgroundColor: '#2B85E4', //导航栏背景色
 				titleText: '', //导航栏标题
 				titleColor: '#fff', //文字颜色
-				type: 'transparent', //透明渐变样式
+				type: 'default', //透明渐变样式
 				autoBackButton:true,
-				back:{//左上角返回箭头
-			        image:{//图片格式
-			            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
-			        }
-			    },
+				buttons:[{text:'···',float:'right',onclick:function(){
+				}}],
 				splitLine: { //底部分割线
 					color: '#cccccc'
 				}
@@ -180,7 +177,6 @@
 					serverUrl=userApp.serverUrl+'/FlowForm/GetPendingApprovalList'
 					let data={userID:userID,page:++count,pageSize:pageSize}
 					userApp.Get(serverUrl,data).then(res=>{
-						console.log(res)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(res.length==0);
 						vm.items=vm.items.concat(convert(res));
 					})
@@ -190,7 +186,7 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
+				userID=plus.storage.getItem('userId')
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -234,7 +230,6 @@
 				}
 				mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
 					if (e.index == 0) {
-						console.log('shanchu')
 						serverUrl+='/VisaProject/Delete';
 						data={apply_id:guid}
 						userApp.Post(serverUrl,data).then(res=>{
@@ -251,7 +246,6 @@
 						})
 					} else {
 						setTimeout(function() {
-							console.log('shanchu')
 							mui.swipeoutClose(li);
 						}, 0);
 					}

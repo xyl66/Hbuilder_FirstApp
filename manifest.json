@@ -7,7 +7,7 @@
 	"id": "H55DCB127",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "御品置業",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.0",/*应用版本名称*/
+		"name": "1.0.1",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "工程管理行政及施工现场管理App",/*应用描述信息*/
@@ -457,15 +457,20 @@
 					"js/mui.min.js",
 					"component/tab-top-subpage-4.html",
 					"component/FlowForm/list-to-detail/listview.html",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"js/webviewGroupIni.js",
+					null,
+					"component/FlowForm/list-to-pro/listview.html",
+					"component/tab-top-subpage-6.html",
+					"css/component/background.css",
+					"js/user/app.js",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"component/tab-top-subpage-3.html",
 					"component/tab-top-subpage-5.html",
 					"component/simple-edit.html",
 					"component/edit.html",
-					"component/tab-top-subpage-6.html",
-					"component/FlowForm/list-to-pro/listview.html",
 					"component/tab-webview-subpage-chat.html"
 				],
 				"priority": 0
@@ -574,7 +579,8 @@
 					"images/icon/icon1.png",
 					"images/icon/icon9.png",
 					"images/icon/icon2.png",
-					"images/icon/added.png"
+					"images/icon/added.png",
+					"css/header.css"
 				],
 				"refer": [
 					"component/tab-top-subpage-6.html",
@@ -592,7 +598,9 @@
 					"component/SignProject/create.html",
 					"login.html",
 					"component/SignProject/list-to-detail/listview.html",
-					"component/SignProject/tab-top-webview-main.html"
+					"component/SignProject/tab-top-webview-main.html",
+					"component/TaskTracking/tab-top-webview-main.html",
+					"component/imProgress/simple-create.html"
 				],
 				"priority": 0
 			},
@@ -647,10 +655,13 @@
 					"css/component/list-style.css",
 					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"css/component/background.css",
+					"js/user/app.js"
 				],
 				"refer": [
-					"component/edit.html"
+					"component/edit.html",
+					"component/FlowForm/list-to-finished/project-sign.html"
 				],
 				"priority": 0
 			},
@@ -676,7 +687,8 @@
 					"images/sinaweibo.png",
 					"images/weixin.png",
 					"images/qq.png",
-					"css/header.css"
+					"css/header.css",
+					"images/slider/4.jpg"
 				],
 				"refer": [
 					"component/tab-webview-main.html",
@@ -872,7 +884,8 @@
 					"images/add2.png",
 					"fonts/mui.ttf",
 					"css/list-to-detail.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/imgChange/helper.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -894,7 +907,8 @@
 					"js/imgChange/mui.previewimage.js",
 					"css/imgChange/imgChangeStyle.css",
 					"images/icon/added.png",
-					"images/add2.png"
+					"images/add2.png",
+					"css/component/background.css"
 				],
 				"refer": [
 					"component/SignProject/workflow.html",
@@ -958,7 +972,8 @@
 					"images/add2.png",
 					"css/header.css",
 					"css/list-to-detail.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/imgChange/helper.js"
 				],
 				"refer": [
 					"component/SignProject/list-to-detail/workflow.html"
@@ -992,13 +1007,15 @@
 					"css/header.css",
 					"js/user/app.js",
 					"component/imProgress/tab-top-subpage-2.html",
-					"css/component/background.css"
+					"css/component/background.css",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"component/imProgress/tab-top-subpage-3.html",
 					"component/imProgress/tab-top-subpage-4.html",
 					"component/imProgress/tab-top-subpage-5.html",
-					"component/simple-create.html"
+					"component/simple-create.html",
+					"component/imProgress/simple-create.html"
 				],
 				"priority": 0
 			},
@@ -1032,7 +1049,9 @@
 					"js/mui.min.js",
 					"js/user/app.js",
 					"images/add.png",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"js/imgChange/helper.js",
+					"images/add2.png"
 				],
 				"refer": [
 					"component/FlowForm/list-to-detail/workflow.html"
@@ -1084,7 +1103,8 @@
 					"css/mui.min.css",
 					"js/user/app.js",
 					"fonts/mui.ttf",
-					"images/add.png"
+					"images/add.png",
+					"js/imgChange/helper.js"
 				],
 				"refer": [
 					"component/FlowForm/list-to-pro/workflow.html"
@@ -1100,7 +1120,8 @@
 					"js/mui.min.js",
 					"js/user/app.js",
 					"fonts/mui.ttf",
-					"js/user/share.js"
+					"js/user/share.js",
+					"css/header.css"
 				],
 				"refer": [
 					"component/imProgress/list-to-detail/detail.html",
@@ -1117,7 +1138,8 @@
 					"js/vue.min.js",
 					"js/user/app.js",
 					"fonts/mui.ttf",
-					"js/user/share.js"
+					"js/user/share.js",
+					"css/header.css"
 				],
 				"refer": [
 					"component/imProgress/list-to-detail/detail.html",
@@ -1191,11 +1213,16 @@
 					"js/webviewGroup.js",
 					"css/mui.min.css",
 					"js/user/app.js",
-					"css/header.css"
+					"css/header.css",
+					"js/webviewGroupIni.js",
+					"js/vue.min.js",
+					"css/component/background.css"
 				],
 				"refer": [
 					"component/SignProject/tab-top-subpage-2.html",
-					"component/SignProject/tab-top-subpage-3.html"
+					"component/SignProject/tab-top-subpage-3.html",
+					"component/SignProject/tab-top-subpage-4.html",
+					"component/SignProject/create.html"
 				],
 				"priority": 0
 			},
@@ -1250,7 +1277,8 @@
 					"js/user/app.js",
 					"fonts/mui.ttf",
 					"css/header.css",
-					"images/add2.png"
+					"images/add2.png",
+					"js/imgChange/helper.js"
 				],
 				"refer": [
 					"component/SignProject/list-to-detail/workflow.html"
@@ -1273,7 +1301,8 @@
 					"css/component/edit-style.css",
 					"css/imgChange/imgChangeStyle.css",
 					"css/list-to-detail.css",
-					"images/add2.png"
+					"images/add2.png",
+					"js/imgChange/helper.js"
 				],
 				"priority": 5,
 				"refer": []
@@ -1295,7 +1324,8 @@
 					"css/imgChange/imgChangeStyle.css",
 					"css/list-to-detail.css",
 					"css/header.css",
-					"images/add2.png"
+					"images/add2.png",
+					"js/imgChange/helper.js"
 				],
 				"refer": [
 					"component/SignProject/list-to-detail/workflow.html"
@@ -1310,7 +1340,9 @@
 					"js/mui.min.js",
 					"js/vue.min.js",
 					"js/user/app.js",
-					"js/user/share.js"
+					"js/user/share.js",
+					"css/header.css",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"component/imProgress/list-to-detail/detail-3.html"
@@ -1328,7 +1360,258 @@
 					"js/imgChange/mui.zoom.js",
 					"css/mui.picker.min.css",
 					"js/component/simple-edit.js",
+					"css/mui.min.css",
+					"js/imgChange/helper.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/SignProject/list-to-detail/detail-4.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"js/imgChange/helper.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/SignProject/tab-top-subpage-4.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/SignProject/list-to-detail/detail-4.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/list-to-detail/detail.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"images/add2.png",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"css/list-to-detail.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"js/imgChange/helper.js",
+					"js/vue.min.js",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"js/vue.js",
+					"images/2.jpg"
+				],
+				"refer": [
+					"component/TaskTracking/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/tab-top-subpage-1.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js",
+					"css/header.css"
+				],
+				"refer": [
+					"component/TaskTracking/list-to-detail/detail.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/tab-top-webview-main.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/webviewGroup.js",
+					"css/mui.min.css",
+					"component/TaskTracking/tab-top-subpage-1.html",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"css/component/background.css",
+					"css/header.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"component/TaskTracking/create.html",
+					"component/TaskTracking/tab-top-subpage-3.html",
+					"component/TaskTracking/tab-top-subpage-2.html",
+					"component/TaskTracking/tab-top-subpage-4.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/create.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"js/imgChange/mui.previewimage.js",
+					"js/vue.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"js/component/simple-creat.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"css/header.css",
+					"fonts/mui.ttf",
+					"images/add2.png",
+					"css/component/background.css"
+				],
+				"refer": [
+					"component/TaskTracking/workflow.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/workflow.html": {
+				"resources": [
+					"css/footbar.css",
+					"js/vue.js",
+					"js/component/iview/iview.min.js",
+					"js/mui.min.js",
+					"css/component/iview/iview.css",
+					"css/mui.min.css",
+					"js/user/app.js",
+					"css/header.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/imProgress/simple-create.html": {
+				"resources": [
+					"js/component/simple-creat.js",
+					"css/mui.min.css",
+					"css/component/edit-style.css",
+					"images/add2.png",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"js/mui.min.js",
+					"js/user/app.js",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"css/header.css",
+					"css/component/background.css"
+				],
+				"refer": [
+					"component/imProgress/tab-top-webview-main.html"
+				],
+				"priority": 0
+			},
+			"component/FlowForm/list-to-finished/project-sign.html": {
+				"resources": [
+					"css/footbar.css",
+					"css/mui.min.css",
+					"js/dataFormat.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/TaskTracking/tab-top-subpage-3.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js",
+					"css/header.css"
+				],
+				"refer": [
+					"component/TaskTracking/list-to-detail/detail-3.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/tab-top-subpage-2.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/footbar.css",
+					"js/dataFormat.js",
+					"js/user/share.js"
+				],
+				"refer": [
+					"component/TaskTracking/list-to-detail/detail-2.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/list-to-detail/detail-2.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"css/list-to-detail.css",
+					"css/mui.picker.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/TaskTracking/tab-top-subpage-4.html": {
+				"resources": [
+					"css/footbar.css",
+					"css/mui.min.css",
+					"js/dataFormat.js",
+					"js/mui.min.js",
+					"js/vue.min.js",
+					"js/user/app.js",
+					"js/user/share.js",
+					"css/header.css"
+				],
+				"refer": [
+					"component/TaskTracking/list-to-detail/detail-4.html"
+				],
+				"priority": 0
+			},
+			"component/TaskTracking/list-to-detail/detail-3.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"images/add2.png",
+					"js/vue.js",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"css/imgChange/imgChangeStyle.css",
+					"fonts/mui.ttf",
+					"css/list-to-detail.css",
+					"js/imgChange/mui.zoom.js",
+					"css/mui.picker.min.css",
+					"js/component/simple-edit.js",
+					"js/imgChange/helper.js",
 					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"component/TaskTracking/list-to-detail/detail-4.html": {
+				"resources": [
+					"css/component/edit-style.css",
+					"css/imgChange/imgChangeStyle.css",
+					"css/mui.min.css",
+					"css/list-to-detail.css",
+					"css/mui.picker.min.css",
+					"images/add2.png",
+					"js/vue.js",
+					"js/imgChange/mui.previewimage.js",
+					"js/mui.picker.min.js",
+					"fonts/mui.ttf",
+					"js/imgChange/mui.zoom.js",
+					"js/component/simple-edit.js",
+					"js/imgChange/helper.js",
+					"css/header.css"
 				],
 				"refer": [],
 				"priority": 0

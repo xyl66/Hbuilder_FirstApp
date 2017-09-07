@@ -92,20 +92,6 @@
 			.mui-pull-top-canvas canvas {
 				width: 40px;
 			}
-			
-			.mui-slider-indicator.mui-segmented-control {
-				background-color: #efeff4;
-			}
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll,.mui-segmented-control.mui-scroll-wrapper .mui-scroll .mui-control-item {
-				width: 100%;
-			}
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll{
-				display: flex;
-			}
-			.mui-scroll,.mui-scroll-wrapper{
-				height: 80px !important;
-				border-bottom: solid 1px #e8e8e8;
-			}
 		</style>
 	</head>
 
@@ -140,12 +126,12 @@
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
 						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="impro-tab-top-subpage-1.html">
-							<div class="bg-color-y  circle">
+							<div class="bg-color-q  circle">
 								<span class="span-center white-color">{{countArr.all}}</span>
 							</div>
 							全部
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="impro-tab-top-subpage-2.html">
+						<a class="mui-control-item" id="cshow" href="#item2mobile" data-wid="impro-tab-top-subpage-2.html">
 							<div class="bg-color-r  circle">
 								<span class="span-center white-color">{{countArr.uncommit}}</span>
 							</div>
@@ -167,21 +153,7 @@
 		<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			var vm=new Vue({
-				el:"#slider",
-				data:{
-					countArr:{
-						all:"",
-						uncommit:"",
-						finished:""
-					}
-				}
-			})
-			mui.init();
-			
-			mui.plusReady(function() {
-				var group = new webviewGroup("./imProgress/tab-top-webview-main.html", {
-					items: [{
+			var viewItems=[{
 						id: "impro-tab-top-subpage-1.html",
 						url: "tab-top-subpage-1.html",
 						extras: {}
@@ -194,6 +166,21 @@
 						url: "tab-top-subpage-3.html",
 						extras: {}
 					}],
+				vm=new Vue({
+					el:"#slider",
+					data:{
+						countArr:{
+							all:"",
+							uncommit:"",
+							finished:""
+						}
+					}
+				})
+			mui.init();
+			
+			mui.plusReady(function() {
+				var group = new webviewGroup("./imProgress/tab-top-webview-main.html", {
+					items: viewItems,
 					onChange: function(obj) {
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
@@ -204,15 +191,12 @@
 				});
 				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
 					var wid = this.getAttribute("data-wid");
-					console.log('单击'+wid)
 					group.switchTab(wid);
 				});
 
 			});
 			mui("body").on("tap","header[class='mui-bar mui-bar-nav']>span",function(){
-				console.log(plus.webview.all().length)
-				userApp.openCreatePage('../simple-create','形象進度')
-				console.log(plus.webview.all().length)
+				userApp.openCreatePage('impro-create','./simple-create.html','形象進度')
 			})
 			function getCount(){
 				var url=userApp.serverUrl+"/ImageProgress/GetQuantity",
@@ -232,7 +216,46 @@
 			mui.ready(function(){
 				getCount()
 			})
+			window.addEventListener('countFresh',function(event){
+				getCount()
+				var c = document.querySelector(".mui-control-item.mui-active"),
+					nid=c.getAttribute("data-wid");
+				for(let i in viewItems){
+					if(viewItems[i].id!=nid){
+						mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:0})
+					}
+				}
+			})
+			window.addEventListener('savrefresh',function(event){
+		  		getCount()
+		  		var btn=document.getElementById("cshow"),
+		  			vid=btn.getAttribute("data-wid");
+		  		mui.trigger(btn,"tap")
+		  		var wbview=plus.webview.getWebviewById(vid),
+		  			iniView=plus.webview.getWebviewById(viewItems[0].id)
+		  		if(event.detail.status){
+		  			mui.toast('保存成功',{ duration:1000, type:'div' })
+		  		}
+		  		mui.fire(wbview,'refresh',{status:0});
+		  		mui.fire(iniView,'refresh',{status:0});
+			});
+			window.addEventListener('refresh',function(event){
+		  		getCount()
+		  		var btn=document.getElementById("cshow"),
+		  			vid=btn.getAttribute("data-wid");
+		  		mui.trigger(btn,"tap")
+		  		var wbview=plus.webview.getWebviewById(vid),
+		  			iniView=plus.webview.getWebviewById(viewItems[0].id),
+		  			fiView=plus.webview.getWebviewById(viewItems[2].id);
+//		  		if(event.detail.status){
+//		  			mui.toast('提交成功',{ duration:1000, type:'div' })
+//		  		}
+		  		mui.fire(wbview,'refresh',{status:1,msg:"提交成功"});
+		  		mui.fire(iniView,'refresh',{status:0});
+		  		mui.fire(fiView,'refresh',{status:0});
+			});
 			mui.back = function() {
+				userApp.clearView(["improgress_detail_1","improgress_detail_2","improgress_detail_3"])
 				var _self = plus.webview.currentWebview();
 				_self.close("auto");
 			}

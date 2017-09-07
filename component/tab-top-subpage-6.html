@@ -27,12 +27,13 @@
 	</head>
 
 	<body>
+		<div id="app">
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<ul class="main-circle mui-table-view mui-grid-view mui-grid-9">
 		            <li class="icon-btn mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" data-wid="./FlowForm/list-to-finished/project-sign.html">
 			            <div class="bg-color-blue  circle">
-							<span class="span-center white-color">{{count}}</span>
+							<span class="span-center white-color">{{countArr.APP_VS}}</span>
 						</div>
 						<p>現場簽證</p>
 					</li>
@@ -63,6 +64,7 @@
 		        </ul> 
 			</div>
 		</div>
+		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/user/app.js"></script>
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
@@ -72,9 +74,14 @@
 					bottom: '0px'
 				},
 			 vm=new Vue({
-				el:"#pullrefresh",
+				el:"#app",
 				data:{
-					count:'',
+					showDialog:true,
+					countArr:{
+							APP_VS:"",
+							uncommit:"",
+							finished:""
+					},
 					dataList:{
 						imgData:[],
 						signData:[]
@@ -100,6 +107,7 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
+				getCount()
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -126,11 +134,9 @@
 			//单击事件
 			//主内容图标单击事件
 				mui(".mui-grid-view").on("tap", ".icon-btn", function(e) {
-					console.log("单击九宫格")
 					vm.count="50"
 					//读取本地存储，检查是否为已登录
 					var userId = plus.storage.getItem("userId");
-					console.log(userId)
 					if(!userId){
 						var newWV = plus.webview.create('../login.html', 'login');
 						newWV.show('slide-in-right', 200);
@@ -141,12 +147,34 @@
 						plus.nativeUI.toast("功能完善中")
 						return
 					}
-					console.log(plus.webview.all().length)
 					var sub=plus.webview.create(wid,wid,subpage_style)
-					console.log(plus.webview.all().length)
 					sub.show()
 					//activePage.append(sub)
 				});
+		function getCount(){
+				var url=userApp.serverUrl+"/FlowForm/GetQuantityByList",
+					userId=plus.storage.getItem("userId")
+					data={
+						userID:userId
+					}
+				userApp.Get(url,data).then(res=>{
+					if(res.length>0){
+					vm.countArr.APP_VS=res[0].count
+					}else{
+						vm.countArr.APP_VS="0"
+					}
+				})
+			}
+			mui.ready(function(){
+				getCount()
+			})
+			//监听刷新事件
+		window.addEventListener('refresh',function(event){
+			getCount()
+		  //获得事件参数
+		  pulldownRefresh();
+		  //根据id向服务器请求新闻详情
+		});
 		</script>
 	</body>
 

@@ -10,6 +10,7 @@
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/background.css"/>
 		<style>
 			html,
 			body {
@@ -91,19 +92,6 @@
 			.mui-pull-top-canvas canvas {
 				width: 40px;
 			}
-			
-			.mui-slider-indicator.mui-segmented-control {
-				background-color: #efeff4;
-			}
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll,.mui-segmented-control.mui-scroll-wrapper .mui-scroll .mui-control-item {
-				width: 100%;
-			}
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll{
-				display: flex;
-			}
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll a{
-				padding: initial;
-			}
 		</style>
 	</head>
 
@@ -117,16 +105,28 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="impro-tab-top-subpage-1.html">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="signpro-tab-top-subpage-1.html">
+							<div class="bg-color-q  circle">
+								<span class="span-center white-color">{{countArr.all}}</span>
+							</div>
 							全部
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="impro-tab-top-subpage-2.html">
+						<a class="mui-control-item" id="cshow" href="#item2mobile" data-wid="signpro-tab-top-subpage-2.html">
+							<div class="bg-color-r  circle">
+								<span class="span-center white-color">{{countArr.uncommit}}</span>
+							</div>
 							待處理
 						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="impro-tab-top-subpage-3.html">
+						<a class="mui-control-item" href="#item3mobile" data-wid="signpro-tab-top-subpage-3.html">
+							<div class="bg-color-y  circle">
+								<span class="span-center white-color">{{countArr.process}}</span>
+							</div>
 							處理中
 						</a>
-						<a class="mui-control-item" href="#item4mobile" data-wid="impro-tab-top-subpage-4.html">
+						<a class="mui-control-item" href="#item4mobile" data-wid="signpro-tab-top-subpage-4.html">
+							<div class="bg-color-g  circle">
+								<span class="span-center white-color">{{countArr.finished}}</span>
+							</div>
 							已完成
 						</a>
 					</div>
@@ -135,30 +135,42 @@
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
-		<script src="../../js/webviewGroupIni.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init();
-			
-			mui.plusReady(function() {
-				var group = new webviewGroup("./SignProject/tab-top-webview-main.html", {
-					items: [{
-						id: "impro-tab-top-subpage-1.html",
+			var viewItems=[{
+						id: "signpro-tab-top-subpage-1.html",
 						url: "tab-top-subpage-1.html",
 						extras: {}
 					},{
-						id: "impro-tab-top-subpage-2.html",
+						id: "signpro-tab-top-subpage-2.html",
 						url: "tab-top-subpage-2.html",
 						extras: {}
 					},{
-						id: "impro-tab-top-subpage-3.html",
+						id: "signpro-tab-top-subpage-3.html",
 						url: "tab-top-subpage-3.html",
 						extras: {}
 					},{
-						id: "impro-tab-top-subpage-4.html",
+						id: "signpro-tab-top-subpage-4.html",
 						url: "tab-top-subpage-4.html",
 						extras: {}
 					}],
+				vm=new Vue({
+					el:"#slider",
+					data:{
+						countArr:{
+							all:"",
+							uncommit:"",
+							process:"",
+							finished:""
+						}
+					}
+				});
+			mui.plusReady(function() {
+				var group = new webviewGroup("./SignProject/tab-top-webview-main.html", {
+					items: viewItems,
 					onChange: function(obj) {
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
@@ -169,17 +181,71 @@
 				});
 				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
 					var wid = this.getAttribute("data-wid");
-					console.log('单击'+wid)
 					group.switchTab(wid);
 				});
 
 			});
 			mui("body").on("tap","header[class='mui-bar mui-bar-nav']>span",function(){
-				console.log(plus.webview.all().length)
-				userApp.openCreatePage('../simple-create','形象進度')
-				console.log(plus.webview.all().length)
+				userApp.openCreatePage('signpro-create','./create.html','簽證工程新增')
 			})
+			function getCount(){
+				var url=userApp.serverUrl+"/VisaProject/GetQuantity",
+					data={
+						status:""
+					}
+				userApp.Get(url,data).then(res=>{
+					vm.countArr.all=res
+					return  userApp.Get(url,{status:"0"})
+				}).then(res=>{
+					vm.countArr.uncommit=res
+					return userApp.Get(url,{status:"1"})
+				}).then(res=>{
+					vm.countArr.process=res
+					return userApp.Get(url,{status:"2"})
+				}).then(res=>{
+					vm.countArr.finished=res
+				})
+			}
+			mui.ready(function(){
+				getCount()
+			})
+			window.addEventListener('countFresh',function(event){
+				getCount();
+				var c = document.querySelector(".mui-control-item.mui-active"),
+					nid=c.getAttribute("data-wid");
+				for(let i in viewItems){
+					if(viewItems[i].id!=nid){
+						mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:0})
+					}
+				}
+			})
+			window.addEventListener('savrefresh',function(event){
+				getCount();
+		  		var btn=document.getElementById("cshow"),
+		  			vid=btn.getAttribute("data-wid");
+		  		mui.trigger(btn,"tap")
+		  		var wbview=plus.webview.getWebviewById(vid),
+		  			iniView=plus.webview.getWebviewById(viewItems[0].id)
+		  		if(event.detail.status){
+		  			plus.nativeUI.toast("保存成功")
+		  		}
+		  		mui.fire(wbview,'refresh',{status:0});
+		  		mui.fire(iniView,'refresh',{status:0});
+			});
+			window.addEventListener('refresh',function(event){
+				getCount();
+		  		var wbview=plus.webview.getWebviewById(viewItems[1].id),
+		  			iniView=plus.webview.getWebviewById(viewItems[0].id),
+		  			fiView=plus.webview.getWebviewById(viewItems[2].id);
+		  		if(event.detail.status){
+		  			plus.nativeUI.toast("保存成功")
+		  		}
+		  		mui.fire(wbview,'refresh',{status:0});
+		  		mui.fire(iniView,'refresh',{status:0});
+		  		mui.fire(fiView,'refresh',{status:0});
+			});
 			mui.back = function() {
+				userApp.clearView(["signproject_detail_1","signproject_detail_2","signproject_detail_3","signproject_detail_4"])
 				var _self = plus.webview.currentWebview();
 				_self.close("auto");
 			}

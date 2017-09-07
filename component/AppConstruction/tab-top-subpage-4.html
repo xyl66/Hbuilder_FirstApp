@@ -8,8 +8,8 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="../../../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../css/header.css"/>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -92,112 +92,45 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-pull-left"></a>
-			<span class="mui-icon mui-icon-plusempty mui-pull-right"></span>
-			<h1 class="mui-title">签证工程</h1>
-		</header>
 		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content">
 			<!--列表信息流 开始-->
 			<ul id="list" class="mui-table-view">
-				<!--<li class="mui-table-view-cell mui-media">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red">删除</a>
-					</div>
-					<div class="mui-slider-handle">
-						<a href="javascript:;" data-guid="item.guid" data-index="index">
-						<img class="mui-media-object mui-pull-left" src="item.cover">
-						<div class="mui-media-object mui-pull-right">
-								<span class="mui-badge mui-badge-warning">待处理</span>
-						</div>
-						<div class="mui-media-body">
-							<div class="mui-ellipsis">测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊</div>
-						</div>
-						<div class="meta-info">
-							<div class="author">李冰</div>
-							<div class="time">2017/07/05-08:47</div>
-						</div>
-					</a>
-					</div>
-					
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red">删除</a>
-					</div>
-					<div class="mui-slider-handle">
-						<a href="javascript:;" data-guid="item.guid" data-index="index">
-							<img class="mui-media-object mui-pull-left" src="item.cover">
-							<div class="mui-media-object mui-pull-right">
-									<span class="mui-badge mui-badge-warning">待处理</span>
-							</div>
-							<div class="mui-media-body">
-								<div class="mui-ellipsis">测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊</div>
-							</div>
-							<div class="meta-info">
-								<div class="author">F3233253</div>
-								<div class="time">2017/07/05-08:47</div>
-							</div>
-						</a>
-					</div>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;" data-guid="item.guid" data-index="index">
-						<img class="mui-media-object mui-pull-left" src="item.cover">
-						<div class="mui-media-object mui-pull-right">
-								<span class="mui-badge mui-badge-warning">待处理</span>
-						</div>
-						<div class="mui-media-body">
-							<div class="mui-ellipsis">测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊</div>
-						</div>
-						<div class="meta-info">
-							<div class="author">李冰</div>
-							<div class="time">2017/07/05-08:47</div>
-						</div>
-					</a>
-				</li>-->
 				<li class="mui-table-view-cell mui-media" v-for="(item,index) in items">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red" :index="index" :del-data-guid="item.guid" :statu="item.status">删除</a>
-					</div>
-					<div class="mui-slider-handle">
-						<a href="javascript:;" :data-guid="item.guid" :data-index="index">
-							<input type="text" class="data-title" :value="item.title" hidden="" />
-							<img class="mui-media-object mui-pull-left" :src="item.cover">
-							<div class="mui-media-object mui-pull-right">
-									<span :class="userApp.getStatusBadge(item.status)">{{userApp.getStatus(item.status)}}</span>
-							</div>
-							<div class="mui-media-body">
-								<div class="mui-ellipsis">{{item.remark}}</div>
-							</div>
-							<div class="meta-info">
-								<div class="author">{{item.author}}</div>
-								<div class="time">{{item.time}}</div>
-							</div>
-						</a>
-					</div>
+					<a href="javascript:;" :data-guid="item.guid" :data-index="index">
+						<input type="text" class="data-title" :value="item.title" hidden="" />
+						<img class="mui-media-object mui-pull-left" :src="item.cover">
+						<div class="mui-media-object mui-pull-right">
+							<span :class="userApp.getStatusBadge(item.status)">{{userApp.getStatus(item.status)}}</span>
+						</div>
+						<div class="mui-media-body">
+							<div class="mui-ellipsis">{{item.remark}}</div>
+						</div>
+						<div class="meta-info">
+							<div class="author">{{item.author}}</div>
+							<div class="time">{{item.time}}</div>
+						</div>
+					</a>
 				</li>
 			</ul>
 			<!--列表信息流 结束-->
 		</div>
-		<script src="../../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../../js/dataFormat.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/dataFormat.js" type="text/javascript" charset="utf-8"></script>
+		<!--分享js 需放在user/app.js前面-->
+		<script src="../../js/user/share.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
 				backgroundColor: '#2B85E4', //导航栏背景色
 				titleText: '', //导航栏标题
 				titleColor: '#fff', //文字颜色
-				type: 'transparent', //透明渐变样式
+				type: 'default', //透明渐变样式
 				autoBackButton:true,
-				back:{//左上角返回箭头
-			        image:{//图片格式
-			            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
-			        }
-			    },
+				buttons:[{text:'···',float:'right',onclick:function(){
+				}}],
 				splitLine: { //底部分割线
 					color: '#cccccc'
 				}
@@ -216,14 +149,14 @@
 					}
 				}
 			});
-			var count = 1,userID,pageSize=5;
+			var count = 1,userID,pageSize=userApp.pageSize;
 			mui.plusReady(function() {
 				//获取userid
 				userID=plus.storage.getItem('userId')
 				//预加载详情页
 				webview_detail = mui.preload({
-					url: 'detail.html',
-					id: 'signproject_detail',
+					url: './list-to-detail/detail-4.html',
+					id: 'appcon_detail_4',
 					styles: {
 						"render": "always",
 						"popGesture": "hide",
@@ -244,15 +177,19 @@
 			function pullupRefresh() {
 				
 				setTimeout(function() {
-					let serurl=userApp.serverUrl+"/VisaProject/GetList",
-						data={userID:userID,Page:++count,status:'1',pageSize:pageSize}
+					let serurl=userApp.serverUrl+'/VisaProject/GetList',
+						data={
+							userID:userID,
+							page:++count,
+							pageSize:pageSize,
+							status:'2',
+						}
 					userApp.Get(serurl,data).then(response=>{
-						console.log('结果'+response)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(response.length==0);
 						news.items = news.items.concat(convert(response));
 					}).catch(err=>{
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-						plus.nativeUI.toast(err.type);
+						plus.nativeUI.toast(err);
 					})
 				}, 1500);
 			}
@@ -260,7 +197,6 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -268,27 +204,30 @@
 								});
 								return;
 							}
-							let serurl=userApp.serverUrl+"/VisaProject/GetList",
-								data={userID:userID,Page:'1',status:'1',pageSize:pageSize,projectName:'VisaProject'}
+							let serurl=userApp.serverUrl+'/VisaProject/GetList',
+								data={
+									userID:userID,
+									page:'1',
+									pageSize:pageSize,
+									status:'2',
+								}
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
-								console.log('结果'+response)
+								if(!response.length>0){
+									
+									return
+								}
 								news.items=[];
-								news.items = news.items.concat(convert(response));
+								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
-								plus.nativeUI.toast(err.type);
+								plus.nativeUI.toast(err);
 							})
 						}, 1500);
 			}
-			//新增
-			mui("body").on("tap","header[class='mui-bar mui-bar-nav']>span",function(){
-				userApp.openCreatePage('../create','形象進度')
-				console.log(plus.webview.all().length)
-			})
 			//点击列表，打开详情
 			//TODO 后续应该封装一个v-tap指令，实现tap监听
-			mui('.mui-content').on('tap', '[data-guid]', function() {
+			mui('.mui-table-view').on('tap', '[data-guid]', function() {
 				var guid = this.getAttribute('data-guid');
 				var index=this.getAttribute('data-index');
 				var title = this.querySelector(".data-title").value;
@@ -301,27 +240,26 @@
 			mui('.mui-table-view').on('tap','[del-data-guid]',function(){
 				var guid = this.getAttribute('del-data-guid'),
 					statu=this.getAttribute('statu'),
-					serverUrl=userApp.serverUrl,
-					data,
 					elem = this,
 					li = elem.parentNode.parentNode;
 				if(parseInt(statu)>0){
-					plus.nativeUI.toast('不可删除')
-					mui.swipeoutClose(li)
+					mui.toast('不可删除',{ duration:1000, type:'div' })
 					return
 				}
-				mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
+			mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
 					if (e.index == 0) {
-						console.log('shanchu')
-						serverUrl+='/VisaProject/Delete';
+						let serverUrl=userApp.serverUrl+'/VisaProject/Delete';
 						data={apply_id:guid}
 						userApp.Post(serverUrl,data).then(res=>{
 							if(res.status){
-								plus.nativeUI.toast('删除成功');
+								mui.toast('删除成功',{ duration:1000, type:'div' })
 								mui.swipeoutClose(li);
+								//news.items.splice(index,1)
 								pulldownRefresh()
+								mui.fire(plus.webview.getWebviewById("./AppConstruction/tab-top-webview-main.html"),"countFresh",null)
+								
 							}else{
-								plus.nativeUI.toast('删除失败');
+								mui.toast('删除失败',{ duration:1000, type:'div' })
 								setTimeout(function() {
 									mui.swipeoutClose(li);
 								}, 0);
@@ -329,28 +267,21 @@
 						})
 					} else {
 						setTimeout(function() {
-							console.log('shanchu')
 							mui.swipeoutClose(li);
 						}, 0);
 					}
 				});
-				
 			})
 			//监听刷新事件
 			//添加newId自定义事件监听
 		window.addEventListener('refresh',function(event){
 		  //获得事件参数
-		  console.log(event.detail.status)
 		  if(event.detail.status){
 		  	plus.nativeUI.toast('保存成功')
 		  }
 		  pulldownRefresh();
 		  //根据id向服务器请求新闻详情
 		});
-		mui.back = function(event) {
-			var _self = plus.webview.currentWebview();
-				_self.close("auto");
-		};
 			/**
 			 * 打开新闻详情
 			 * 
@@ -379,6 +310,14 @@
 
 				//更改详情页原生导航条信息
 				titleNView.titleText = title;
+				//分享按钮事件
+				var obj={
+					guid:news.items[index].guid,
+					title:news.items[index].title,
+					content:news.items[index].remark,
+					pic:news.items[index].cover,
+				}
+				titleNView.buttons[0].onclick=shareHelper.shareHandler(obj)
 				webview_detail.setStyle({
 					"titleNView": titleNView
 				});

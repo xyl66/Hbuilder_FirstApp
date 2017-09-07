@@ -9,212 +9,239 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../css/mui.min.css">
-			<link rel="stylesheet" type="text/css" href="../css/footbar.css"/>
-		<style>
-			html,
-			body {
-				background-color: #efeff4;
-			}
-			
-			.mui-bar~.mui-content .mui-fullscreen {
-				top: 44px;
-				height: auto;
-			}
-			
-			.mui-pull-top-tips {
-				position: absolute;
-				top: -20px;
-				left: 50%;
-				margin-left: -25px;
-				width: 40px;
-				height: 40px;
-				border-radius: 100%;
-				z-index: 1;
-			}
-			
-			.mui-bar~.mui-pull-top-tips {
-				top: 24px;
-			}
-			
-			.mui-pull-top-wrapper {
-				width: 42px;
-				height: 42px;
-				display: block;
-				text-align: center;
-				background-color: #efeff4;
-				border: 1px solid #ddd;
-				border-radius: 25px;
-				background-clip: padding-box;
-				box-shadow: 0 4px 10px #bbb;
-				overflow: hidden;
-			}
-			
-			.mui-pull-top-tips.mui-transitioning {
-				-webkit-transition-duration: 200ms;
-				transition-duration: 200ms;
-			}
-			
-			.mui-pull-top-tips .mui-pull-loading {
-				/*-webkit-backface-visibility: hidden;
+		<link rel="stylesheet" type="text/css" href="../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/component/about.css"/>
+		<style type="text/css">
+			html,body {
+	background-color: #efeff4;
+}
+
+.mui-bar~.mui-content .mui-fullscreen {
+	top: 44px;
+	height: auto;
+}
+
+.mui-pull-top-tips {
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	margin-left: -25px;
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+	z-index: 1;
+}
+
+.mui-bar~.mui-pull-top-tips {
+	top: 24px;
+}
+
+.mui-pull-top-wrapper {
+	width: 42px;
+	height: 42px;
+	display: block;
+	text-align: center;
+	background-color: #efeff4;
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	background-clip: padding-box;
+	box-shadow: 0 4px 10px #bbb;
+	overflow: hidden;
+}
+
+.mui-pull-top-tips.mui-transitioning {
+	-webkit-transition-duration: 200ms;
+	transition-duration: 200ms;
+}
+
+.mui-pull-top-tips .mui-pull-loading {
+	/*-webkit-backface-visibility: hidden;
 				-webkit-transition-duration: 400ms;
 				transition-duration: 400ms;*/
-				margin: 0;
-			}
-			
-			.mui-pull-top-wrapper .mui-icon,
-			.mui-pull-top-wrapper .mui-spinner {
-				margin-top: 7px;
-			}
-			
-			.mui-pull-top-wrapper .mui-icon.mui-reverse {
-				/*-webkit-transform: rotate(180deg) translateZ(0);*/
-			}
-			
-			.mui-pull-bottom-tips {
-				text-align: center;
-				background-color: #efeff4;
-				font-size: 15px;
-				line-height: 40px;
-				color: #777;
-			}
-			
-			.mui-pull-top-canvas {
-				overflow: hidden;
-				background-color: #fafafa;
-				border-radius: 40px;
-				box-shadow: 0 4px 10px #bbb;
-				width: 40px;
-				height: 40px;
-				margin: 0 auto;
-			}
-			
-			.mui-pull-top-canvas canvas {
-				width: 40px;
-			}
-			
-			.mui-slider-indicator.mui-segmented-control {
-				background-color: #efeff4;
-			}
-			.bg-color-blue{
-				background: #007AFF !important;
-			}
-			.bg-color-c{
-				background: #DD524D !important;
-			}
-			.bg-color-g{
-				background: #00a600 !important;
-			}
-			.bg-color-z{
-				background: #6641E2 !important;
-			}
-			.bg-color-o{
-				background: #F29100 !important;
-			}
-			.bg-color-p{
-				background: #F76260 !important;
-			}
-			.bg-color-q{
-				background: #57C5F7 !important;
-			}
-			.bg-color-l{
-				background: #4CD964 !important;
-			}
-			.color-white{
-				color: white !important;
-			}
-			.border-radius{
-				border-radius: 15%;
-			}
-			.bg-img-1{
-				background: url(../images/icon/icon1.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-2{
-				background: url(../images/icon/icon2.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-3{
-				background: url(../images/icon/icon3.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-4{
-				background: url(../images/icon/icon4.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-5{
-				background: url(../images/icon/icon5.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-6{
-				background: url(../images/icon/icon6.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-7{
-				background: url(../images/icon/icon7.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-8{
-				background: url(../images/icon/icon8.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-9{
-				background: url(../images/icon/icon9.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .bg-img-10{
-				background: url(../images/icon/added.png);
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                border-radius: 15%; //边框弧度
-            }
-            .hide-icon{
-                color:#eee;
-                opacity: 0.0;
-            }
-            body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body.font-size-9{
-            	 font-size: 10px;
-            }
-            body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
-            	 margin-top: 0px;
-            }
-            body .mui-table-view.mui-grid-view .mui-table-view-cell.boder-none{
-            		border: none;
-            }
-            .mui-slider,.mui-slider img{
-            	height: 140px;
-            }
-            .mui-slider{
-            		border-top: #69717D solid 0.5px;
-            		border-bottom: #69717D solid 0.5px;
-            }
+	margin: 0;
+}
+
+.mui-pull-top-wrapper .mui-icon,
+.mui-pull-top-wrapper .mui-spinner {
+	margin-top: 7px;
+}
+
+.mui-pull-top-wrapper .mui-icon.mui-reverse {
+	/*-webkit-transform: rotate(180deg) translateZ(0);*/
+}
+
+.mui-pull-bottom-tips {
+	text-align: center;
+	background-color: #efeff4;
+	font-size: 15px;
+	line-height: 40px;
+	color: #777;
+}
+
+.mui-pull-top-canvas {
+	overflow: hidden;
+	background-color: #fafafa;
+	border-radius: 40px;
+	box-shadow: 0 4px 10px #bbb;
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.mui-pull-top-canvas canvas {
+	width: 40px;
+}
+
+.mui-slider-indicator.mui-segmented-control {
+	background-color: #efeff4;
+}
+
+.bg-color-blue {
+	background: #007AFF !important;
+}
+
+.bg-color-c {
+	background: #DD524D !important;
+}
+
+.bg-color-g {
+	background: #00a600 !important;
+}
+
+.bg-color-z {
+	background: #6641E2 !important;
+}
+
+.bg-color-o {
+	background: #F29100 !important;
+}
+
+.bg-color-p {
+	background: #F76260 !important;
+}
+
+.bg-color-q {
+	background: #57C5F7 !important;
+}
+
+.bg-color-l {
+	background: #4CD964 !important;
+}
+
+.color-white {
+	color: white !important;
+}
+
+.border-radius {
+	border-radius: 15%;
+}
+
+.bg-img-1 {
+	background: url(../images/icon/icon1.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-2 {
+	background: url(../images/icon/icon2.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-3 {
+	background: url(../images/icon/icon3.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-4 {
+	background: url(../images/icon/icon4.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-5 {
+	background: url(../images/icon/icon5.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-6 {
+	background: url(../images/icon/icon6.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-7 {
+	background: url(../images/icon/icon7.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-8 {
+	background: url(../images/icon/icon8.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-9 {
+	background: url(../images/icon/icon9.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.bg-img-10 {
+	background: url(../images/icon/added.png);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 15%; //边框弧度
+}
+
+.hide-icon {
+	color: #eee;
+	opacity: 0.0;
+}
+
+body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body.font-size-9 {
+	font-size: 10px;
+}
+
+body .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+	margin-top: 0px;
+}
+
+body .mui-table-view.mui-grid-view .mui-table-view-cell.boder-none {
+	border: none;
+}
+
+.mui-slider,
+.mui-slider img {
+	height: 140px;
+}
+
+.mui-slider {
+	border-top: #69717D solid 0.5px;
+	border-bottom: #69717D solid 0.5px;
+}
 		</style>
 	</head>
 
@@ -270,21 +297,18 @@
 			</div>
 		</div>
 			<ul class="mui-table-view mui-grid-view mui-grid-9">
-		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
-		            		<a class="icon-btn bg-img-1 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-1 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
 		                    <span class="mui-icon mui-icon-home color-white hide-icon"></span>
-		                </a>
-		                <div class="mui-media-body font-size-9">形象進度</div>
-		            </li>
-		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-2 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		                		</a><div class="mui-media-body font-size-9">形象進度</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-2 border-radius" href="#" data-wid="./SignProject/tab-top-webview-main.html">
 		                    <span class="mui-icon mui-icon-chatbubble color-white hide-icon"></span>
-		                    </a><div class="mui-media-body font-size-9">報批報建</div></li>
-		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-3 border-radius" href="#" data-wid="./imProgress/tab-top-webview-main.html">
+		                    </a><div class="mui-media-body font-size-9">現場簽證</div></li>
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-3 border-radius" href="#" data-wid="./TaskTracking/tab-top-webview-main.html">
 		                    <span class="mui-icon mui-icon-search color-white hide-icon"></span>
 		                    </a><div class="mui-media-body font-size-9">任務追蹤</div></li>
-		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-4 border-radius" href="#" data-wid="./SignProject/tab-top-webview-main.html">
+		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-4 border-radius" href="#" data-wid="./AppConstruction/tab-top-webview-main.html">
 		                    <span class="mui-icon mui-icon-email color-white hide-icon"></span>
-		                    </a><div class="mui-media-body font-size-9">現場簽證</div></li>        
+		                    </a><div class="mui-media-body font-size-9">報批報建</div></li>        
 		            <li class="boder-none mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a class="icon-btn bg-img-5 border-radius" href="#" disabled="true" >
 		                    <span class="mui-icon mui-icon-compose color-white hide-icon"></span>
 		                    </a><div class="mui-media-body font-size-9">工作匯報</div></li>
@@ -454,7 +478,6 @@
 				drawNativeIcon.addEventListener('click', function(e) {
 					//读取本地存储，检查是否为已登录
 					var userId = plus.storage.getItem("userId");
-					console.log(userId)
 					if(!userId){
 						mui.openWindow('../login.html','login',{})
 					}
@@ -462,10 +485,10 @@
 					plus.nativeUI.actionSheet( {title:"選擇新增單據類型",cancel:"取消",buttons:[{title:"形象進度"},{title:"簽證工程"}]}, function(e){
 						switch (e.index){
 							case 1:
-								userApp.openCreatePage('simple-create','形象進度')
+								userApp.openCreatePage('impro-create','imProgress/simple-create.html','形象進度')
 								break;
 							case 2:
-								userApp.openCreatePage('SignProject/create','簽證工程')
+								userApp.openCreatePage('signpro-create','SignProject/create.html','簽證工程')
 								break;
 							default:
 								break;
@@ -513,7 +536,10 @@
 					}else {
 						targetPage = plus.webview.currentWebview();
 					}
-
+					if(currIndex==1){
+						//第二个页面打开选择默认项
+						mui.fire(plus.webview.getWebviewById(subpages[0]),"loginRefresh",null)
+					}
 					if(targetPage == activePage) {
 						return;
 					}
@@ -533,10 +559,8 @@
 				}
 				//主内容图标单击事件
 				mui(".mui-grid-view").on("tap", ".icon-btn", function(e) {
-					console.log("单击九宫格")
 					//读取本地存储，检查是否为已登录
 					var userId = plus.storage.getItem("userId");
-					console.log(userId)
 					if(!userId){
 						var newWV = plus.webview.create('../login.html', 'login');
 						newWV.show('slide-in-right', 200);
@@ -547,9 +571,7 @@
 						plus.nativeUI.toast("功能完善中")
 						return
 					}
-					console.log(plus.webview.all().length)
 					var sub=plus.webview.create(wid,wid,subpage_style)
-					console.log(plus.webview.all().length)
 					sub.show()
 					//activePage.append(sub)
 				});

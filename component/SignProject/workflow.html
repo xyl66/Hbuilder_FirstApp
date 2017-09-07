@@ -149,21 +149,18 @@
 				mui.get(userApp.serverUrl+'/workflow/GetFlowDefine',{
 						formType:"APP_VS",
 						userDept:"YPZY",
-					},function(data){
-						console.log(data)
+				},function(data){
 						vmFlow.flowarr=data
 					},'json'
 				);
 			})
 			mui("#flow-list").on('tap',".flow-div",function(){
 				let fid=this.getAttribute("data-fid")
-				console.log(fid)
 				mui.get(userApp.serverUrl+'/workflow/GetFlowDefaultUser',{
 						flow_id:fid
 					},function(data){
 						vmFlow.steparr=[];
 						vmFlow.steparr=data
-						console.log(vmFlow.steparr)
 					},'json'
 				);
 				vmFlow.currentStep=false;
@@ -178,7 +175,6 @@
 					let data={apply_id:fid,flow_id:steparr[item].flow_id,step_id:steparr[item].step_id,step_order:steparr[item].step_order,user_id:steparr[item].user_id}
 					dataarr.push(data)
 				}
-				console.log(JSON.stringify(dataarr))
 				mui.ajax(userApp.serverUrl+'/workflow/compfirmrocess',{
 					data:dataarr,
 					headers: {'Content-Type':'application/json'},
@@ -186,15 +182,13 @@
 					type:'post',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
 					success:function(data){
-						console.log(data.msg)
-						let cpage=plus.webview.getWebviewById('SignProject/create')
+						let cpage=plus.webview.getWebviewById('signpro-create')
 				//其他逻辑
 				mui.fire(cpage,'GetFlowId',{flowId:vmFlow.steparr[0].flow_id,stepArr:vmFlow.steparr})
 				vmFlow.currentStep=true;
 				mui.back();
 					},
 					error:function(xhr,type,errorThrown){
-						console.log(errorThrown)
 					}
 				});
 				

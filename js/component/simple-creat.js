@@ -1,33 +1,40 @@
 /*<!--上传照片-->*/
-	var server=userApp.serverUrl+"/Attachment/PostFile";
+	var server=userApp.imgServerUrl+"/Attachment/PostFile";
 	const newUuId=getUid();
 	var files=[];
 	// 上传文件
 	function upload(newId,imgUrl,size){
-		let fname=imgUrl.substring(imgUrl.lastIndexOf("\/")+1)
+		let fname=imgUrl.substring(imgUrl.lastIndexOf("\/")+1),
+			nimgUrl;
 			if((size/1024/1024)>4){
 				plus.nativeUI.toast('上传图片过大！请重新选择(4M以内)')
 			}
 			plus.nativeUI.showWaiting('上傳中，請稍候...',{loading:{display:"inline"}})
-		var task=plus.uploader.createUpload(server,
-			{method:"POST"},
-			function(t,status){ //上传完成
-				if(status==200){
-					var res=JSON.parse(t.responseText)
-					plus.nativeUI.closeWaiting()
-					addPic(res.data,res.initialData,res.code,res.type);
-					plus.nativeUI.toast('上傳成功')
-				}else{
-					plus.nativeUI.closeWaiting()
-					plus.nativeUI.toast('上傳失敗:'+status)
-				}
-			}
-		);
-		task.addData("userID",userApp.userId);
-		task.addData("fileName",fname);
-		task.addData("applyID",newId);
-		task.addFile(imgUrl,{key:'uploadkey1'});
-		task.start();
+			userApp.compressImage({url:imgUrl,size:size}).then(res=>{
+				nimgUrl=res.target
+				var task = plus.uploader.createUpload(server, {
+						method: "POST"
+					},
+					function(t, status) { //上传完成
+						if(status == 200) {
+							var res = JSON.parse(t.responseText)
+							plus.nativeUI.closeWaiting()
+							addPic(res.data, res.initialData, res.id, res.type);
+							plus.nativeUI.toast('上傳成功')
+						} else {
+							plus.nativeUI.closeWaiting()
+							plus.nativeUI.toast('上傳失敗:' + status)
+						}
+					}
+				);
+				task.addData("userID", userApp.userId);
+				task.addData("fileName", fname);
+				task.addData("applyID", newId);
+				task.addFile(nimgUrl, {
+					key: 'uploadkey1'
+				});
+				task.start();
+			})
 	}
 	// 拍照添加文件
 	function appendByCamera(newId){

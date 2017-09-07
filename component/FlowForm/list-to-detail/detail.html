@@ -77,9 +77,9 @@
 								<img :src="item.url" :fileID="item.fileId" :fileType="item.fileType" :data-preview-src="item.previewSrc" data-preview-group="1" class="mui-media-object" />
 							</a>
 						</li>
-						<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6" v-show="status==0">
+						<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6">
 							<a href="#picture">
-								<img id="pic" class="mui-media-object" src="../../../images/add.png"/>
+								<img id="pic" class="mui-media-object" src="../../../images/add2.png"/>
 							</a>
 						</li>
 					</ul>
@@ -99,7 +99,7 @@
 					</div>
 					<div id='userResult' class="ui-alert"></div>
 					<ul id="workflow" class="mui-table-view">
-				    <li class="mui-table-view-cell mui-collapse">
+				    <li class="mui-table-view-cell mui-collapse mui-active">
 				        <a class="mui-navigate-right" href="#">作业流程</a>
 				        <div class="mui-collapse-content">
 				            <div class="mui-input-row">
@@ -109,7 +109,7 @@
 							<ul class="mui-table-view">
 							    <li class="mui-table-view-cell" v-for="step in stepArr">
 							    	<p>{{step.user_name}}<span v-show="step.residenceTime">
-							    		停留時間:{{step.residenceTime}}
+							    		停留時間: {{step.residenceTime}} 分钟
 							    	</span>
 							    	</p>
 							    	<p><span>
@@ -153,9 +153,6 @@
 					<li class="mui-table-view-cell">
 						<a href="#">删除照片</a>
 					</li>
-					<li class="mui-table-view-cell">
-						<a href="#">确认删除</a>
-					</li>
 				</ul>
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell">
@@ -183,7 +180,7 @@
 					author: '',
 					time: '',
 					projectName: '',
-					signRemark:'',
+					signRemark:'同意',
 					imginfo:[],
 					flowId:'',
 					stepArr:[],
@@ -252,21 +249,35 @@
 			}
 			//关闭actionsheet
 			if(a.innerHTML=="选取现有的"){
-				console.log(vm.apply_id)
 				appendByGallery(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="拍照或录像"){
 				appendByCamera(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="删除照片"){
-				console.log(img_selectNode.getAttribute('fileID'));
-				console.log(img_selectNode.getAttribute('fileType'));
+				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
+					index=img_selectNode.getAttribute('index'),
+					data={
+						fileID:img_selectNode.getAttribute('fileID'),
+						fileType:img_selectNode.getAttribute('fileType'),
+						userID:userApp.userId
+					};
+				userApp.Post(serurl,data).then(res=>{
+					if(res.code==200){
+						plus.nativeUI.toast(res.msg)
+						vm.imginfo.splice(index,1)
+					}else{
+						plus.nativeUI.toast(res.msg)
+					}
+				}).catch(err=>{
+					plus.nativeUI.toast(err)
+				})
 			}
 			mui('#' + parent.id).popover('toggle');
 		});
@@ -276,12 +287,13 @@
 			if(vm.status==2){
 				return
 			}
-			//mui('#picture-del').popover('toggle');//show hide toggle
+			mui('#picture-del').popover('toggle');//show hide toggle
 		})
 		/**
 		 * @description 退回
 		 */
 		mui('body').on('tap','.mui-bar-tab a button[id="backbtn"]',function(){
+			userId=plus.storage.getItem('userId') //获取用户id
 			var a=this;
 			let newId=vm.apply_id,
 				UserId=userId,
@@ -296,8 +308,8 @@
 			userApp.Post(serverUrl,data).then(res=>{
 				if(res){
 					plus.nativeUI.toast('退回成功');
-					let cpage=plus.webview.getWebviewById('tab-top-subpage-4.html')
-					mui.fire(cpage,'refresh')
+					var page=plus.webview.getWebviewById("flow-tab-top-subpage-4.html");
+					mui.fire(page,"refresh",null)
 					plus.webview.currentWebview().hide();
 				}else{
 					plus.nativeUI.toast('出錯')
@@ -311,6 +323,7 @@
 		})
 		//提交按钮事件
 		mui('body').on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
+			userId=plus.storage.getItem('userId') //获取用户id
 			var a=this;
 			let newId=vm.apply_id,
 				UserId=userId,
@@ -323,13 +336,14 @@
 				return
 			}
 			for (let {step_id,user_id,sign_action} of vm.stepArr) {
-				console.log(sign_action)
 				if(!sign_action&&user_id!=userId){
 					nextStepId=step_id
 					nextUserId=user_id
 					break
 				}
 			}
+			nextStepId=nextStepId==""?"end":nextStepId
+			nextUserId=nextUserId==""?"end":nextUserId
 			serverUrl+='/workflow/agree'
 			let data={ 
 					apply_id:newId,
@@ -337,13 +351,12 @@
 					next_step:nextStepId,
 					next_userid :nextUserId,
 					sign_remark:signRemark,
-				}
-			console.log(JSON.stringify(data))
+			}
 			userApp.Post(serverUrl,data).then(res=>{
 				if(res){
 					plus.nativeUI.toast('確認成功')
-					let cpage=plus.webview.getWebviewById('tab-top-subpage-4.html')
-					mui.fire(cpage,'refresh')
+					var page=plus.webview.getWebviewById("flow-tab-top-subpage-4.html");
+					mui.fire(page,"refresh",null)
 					plus.webview.currentWebview().hide()
 				}else{
 					plus.nativeUI.toast('出錯')
@@ -363,16 +376,15 @@
 			//插入会签
 			var flowSelectButton = document.getElementById('savbtn');
 			flowSelectButton.addEventListener('tap', function(event) {
-				console.log(plus.webview.all().length)
+				userId=plus.storage.getItem('userId') //获取用户id
 				let procid
 				for (let {process_id,user_id,sign_action} of vm.stepArr) {
-					console.log(sign_action)
 					if(!sign_action&&user_id==userId){
 						procid=process_id
 						break
 					}
 				}
-				mui.openWindow('workflow.html','detail-workflow',{
+				mui.openWindow('workflow.html','flow-detail-workflow',{
 					title:{//标题配置
 						    text:"商品详情",//标题文字
 					},
@@ -402,7 +414,6 @@
 				vm.apply_id=event.detail.guid;
 				plus.storage.setItem('apply_id',event.detail.guid)
 				vm.imginfo=[];
-			console.log(vm.apply_id)
 			//加载图片
 			mui.get(userApp.serverUrl+'/Attachment/GetThumImage',{formType:"APP_IP",applyID:vm.apply_id,projectNO:vm.projectNo},function(response){ 
 				let imgarr=[]
@@ -410,8 +421,6 @@
 					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
 					imgarr.push(imginfo)
 				}
-				console.log(imgarr.length)
-				console.log(vm.imginfo)
 				vm.imginfo=imgarr;
 			},'json' );	
 			//获取详细信息
@@ -421,7 +430,6 @@
 				vm.projectName=data.projectName
 			})
 			userApp.GetFlowDetail(vm.apply_id).then(data=>{
-				console.log(data)
 				vm.stepArr=data
 			})
 		});
@@ -442,7 +450,6 @@
 		  	vm.flowId=event.detail.flowId
 		  }
 		  userApp.GetFlowDetail(vm.apply_id).then(data=>{
-			console.log(data)
 			vm.stepArr=[]
 			vm.stepArr=data
 		  })

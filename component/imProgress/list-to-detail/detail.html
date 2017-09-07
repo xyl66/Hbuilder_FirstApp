@@ -166,19 +166,17 @@
 			//关闭actionsheet
 			if(a.innerHTML=="选取现有的"){
 				appendByGallery(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="拍照或录像"){
 				appendByCamera(vm.apply_id).then(data=>{
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					vm.imginfo.push(imginfo)
 				});
 			}
 			else if(a.innerHTML=="删除照片"){
-				console.log(img_selectNode.getAttribute('fileID'));
-				console.log(img_selectNode.getAttribute('fileType'));
 				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
 					index=img_selectNode.getAttribute('index'),
 					data={
@@ -186,8 +184,6 @@
 						fileType:img_selectNode.getAttribute('fileType'),
 						userID:userApp.userId
 					};
-				console.log("data"+JSON.stringify(data))
-				console.log("url"+serurl)
 				userApp.Post(serurl,data).then(res=>{
 					if(res.code==200){
 						plus.nativeUI.toast(res.msg)
@@ -232,36 +228,17 @@
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
-			console.log(JSON.stringify(data))
-			console.log(serverUrl)
 			userApp.Post(serverUrl,data).then(res=>{
 				//获得服务器响应
-					console.log(res.msg)
 					let page=plus.webview.getWebviewById('impro-tab-top-subpage-1.html')
-					mui.back();
-					console.log('关闭窗口')
-					mui.fire(page,'refresh',{status:1});
+					if(statu==2){
+						page=plus.webview.getWebviewById('./imProgress/tab-top-webview-main.html')
+					}
+					mui.back();	
+					mui.fire(page,'refresh',{status:res.status});
 			}).catch(err=>{
 				plus.nativeUI.toast("錯誤:"+err)
-			})
-//			mui.ajax(serverUrl,{
-//				data:data,
-//				dataType:'json',//服务器返回json格式数据
-//				headers: {'Content-Type':'application/json'},
-//				type:'post',//HTTP请求类型
-//				success:function(data){
-//					//获得服务器响应
-//					console.log(data.msg)
-//					let page=plus.webview.getWebviewById('impro-tab-top-subpage-1.html')
-//					mui.back();
-//					console.log('关闭窗口')
-//					mui.fire(page,'refresh',{status:1});
-//				},
-//				error:function(xhr,type,errorThrown){
-//					plus.nativeUI.toast("錯誤:"+errorThrown)
-//				}
-//			});
-			
+			})	
 		})
 		mui.plusReady(function () {
 		    userId=plus.storage.getItem('userId') //获取用户id
@@ -275,8 +252,6 @@
 				for (let {subentry_caseno,contract_name} of response) {
 					arr.push({value:subentry_caseno,text:contract_name})
 				}
-				console.log('添加选择器数据')
-				console.log(arr)
 				userPicker.setData(arr)
 			},'json' );	
 					var showUserPickerButton = dc.getElementById('showUserPicker');
@@ -284,9 +259,7 @@
 					showUserPickerButton.addEventListener('tap', function(event) {
 						userPicker.show(function(items) {
 							vm.projectName = items[0].text;
-							console.log(vm.projectName)
-							subentry_caseno.value = items[0].value;
-							console.log(subentry_caseno.value)
+							vm.projectNo = items[0].value;
 							//返回 false 可以阻止选择框的关闭
 							//return false;
 						});
@@ -308,16 +281,13 @@
 				vm.projectName=event.detail.projectName;
 				vm.apply_id=event.detail.guid;
 				vm.imginfo=[];
-			console.log(vm.apply_id)
 			//加载图片
 			mui.get(userApp.serverUrl+'/Attachment/GetThumImage',{formType:"APP_IP",applyID:vm.apply_id,projectNO:vm.projectNo},function(response){ 
 				let imgarr=[]
 				for (let data of response) {
-					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.code,fileType:data.type}
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
 					imgarr.push(imginfo)
 				}
-				console.log(imgarr.length)
-				console.log(vm.imginfo)
 				vm.imginfo=imgarr;
 			},'json' );	
 		});

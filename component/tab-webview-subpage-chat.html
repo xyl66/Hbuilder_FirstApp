@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/header.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/chatstyle.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/component/background.css"/>
 		<style>
 			html,
 			body {
@@ -107,13 +108,22 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted  mui-segmented-control-primary">
 					
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tab-top-subpage-4.html">
+						<a id="cshow" class="mui-control-item mui-active" href="#item1mobile" data-wid="flow-tab-top-subpage-4.html">
+							<div class="bg-color-r  circle">
+								<span class="span-center white-color">{{countArr.uncommit}}</span>
+							</div>
 							待辦理
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-5.html">
+						<a class="mui-control-item" href="#item2mobile" data-wid="flow-tab-top-subpage-5.html">
+							<div class="bg-color-y  circle">
+								<span class="span-center white-color">{{countArr.process}}</span>
+							</div>
 							辦理中
 						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="tab-top-subpage-6.html">
+						<a class="mui-control-item" href="#item3mobile" data-wid="flow-tab-top-subpage-6.html">
+							<div class="bg-color-g  circle">
+								<span class="span-center white-color">{{countArr.finished}}</span>
+							</div>
 							已完成
 						</a>
 					
@@ -122,7 +132,9 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/webviewGroupIni.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/user/app.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init({
 				swipeBack: false,
@@ -151,22 +163,32 @@
 				  ],*/
 
 			});
-			
-			mui.plusReady(function() {
-				var group = new webviewGroup("tab-webview-subpage-chat.html", {
-					items: [{
-						id: "tab-top-subpage-4.html",
+			var viewItems=[{
+						id: "flow-tab-top-subpage-4.html",
 						url: "./FlowForm/list-to-detail/listview.html",
 						extras: {}
 					}, {
-						id: "tab-top-subpage-5.html",
+						id: "flow-tab-top-subpage-5.html",
 						url: "./FlowForm/list-to-pro/listview.html",
 						extras: {}
 					}, {
-						id: "tab-top-subpage-6.html",
+						id: "flow-tab-top-subpage-6.html",
 						url: "tab-top-subpage-6.html",
 						extras: {}
 					}],
+				vm=new Vue({
+					el:"#slider",
+					data:{
+						countArr:{
+							all:"",
+							uncommit:"",
+							finished:""
+						}
+					}
+				});
+			mui.plusReady(function() {
+				var group = new webviewGroup("tab-webview-subpage-chat.html", {
+					items: viewItems,
 					onChange: function(obj) {
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
@@ -181,6 +203,42 @@
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
+			function getCount(){
+				var url=userApp.serverUrl+"/FlowForm/GetQuantity",
+					userId=plus.storage.getItem("userId"),
+					data={
+						status:"0",
+						userID:userId
+					}
+				userApp.Get(url,data).then(res=>{
+					vm.countArr.uncommit=res
+					return  userApp.Get(url,{status:"1",userID:userId})
+				}).then(res=>{
+					vm.countArr.process=res
+					return userApp.Get(url,{status:"2",userID:userId})
+				}).then(res=>{
+					vm.countArr.finished=res
+				})
+			}
+			mui.ready(function(){
+				getCount()
+			})
+			function refreshPage(){
+				getCount()
+				for(let i in viewItems){
+					mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:0})
+				}
+			}
+			window.addEventListener('loginRefresh',function(event){
+				var c = document.querySelector(".mui-control-item.mui-active"),
+					btn=document.getElementById("cshow")
+				if(c.id&&c.id=="cshow"){
+					
+				}else{
+					mui.trigger(btn,"tap");
+				}
+		  		refreshPage()
+			}, false);
 				var backButtonPress = 0;
 				mui.back = function(event) {
 						backButtonPress++;

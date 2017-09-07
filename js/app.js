@@ -18,7 +18,9 @@
 		if (loginInfo.password.length < 6) {
 			return callback('密码最短为 6 个字符');
 		}
-		mui.ajax('http://supplier.foxconn.com/yupin/api/Users/UserLogin',{
+		plus.nativeUI.showWaiting()
+		var serverUrl=userApp.serverUrl+"/Users/UserLogin"
+		mui.ajax(serverUrl,{
 			data:{
 				userID:loginInfo.account,
 				password:loginInfo.password
@@ -28,6 +30,7 @@
 			type:'post',//HTTP请求类型
 			timeout:10000,//超时时间设置为10秒；
 			success:function(data){
+				plus.nativeUI.closeWaiting()
 				if(data.code==null){
 					return callback('用户名或密码错误');
 				}
@@ -39,6 +42,7 @@
 				}
 			},
 			error:function(xhr,type,errorThrown){
+				plus.nativeUI.closeWaiting()
 				return callback(errorThrown);
 			}
 		});

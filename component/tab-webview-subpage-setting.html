@@ -123,7 +123,6 @@
 			}
 			data={userID:userId}
 			userApp.Post(serurl,data).then(res=>{
-				console.log(JSON.stringify(res))
 				vm.userInfo=res
 			})
 			serurl=userApp.serverUrl+"/System/GetVersion"
@@ -150,7 +149,6 @@
 					};
 		//退出操作******************
 		document.getElementById('exit').addEventListener('tap', function() {
-			console.log("退出")
 			if (mui.os.ios) {
 				app.setState({});
 				plus.storage.removeItem('userId');//恢复加载条显示状态

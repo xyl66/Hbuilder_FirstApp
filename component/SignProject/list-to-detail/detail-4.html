@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../css/mui.picker.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/icons-extra.css"/>
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../../css/component/edit-style.css"/>
+		<!--图片预览-->
+		<link rel="stylesheet" type="text/css" href="../../../css/imgChange/imgChangeStyle.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/list-to-detail.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/header.css"/>
+		<style>
+			#workflow input{
+				background-color: dodgerblue;
+				color: #F0F0F0;
+				text-align: center;
+			}
+			.mui-input-row .width-full{
+				width: auto;
+			}
+		</style>
+</head>
+<body>
+	<div id="app">
+	<div class="mui-content status-content">
+			<!--顶部banner图 开始-->
+			<!--<div id="kr-article-banner" class="kr-article-banner">
+				<div id="kr-article-cover" class="kr-article-cover">
+					<img :src="cover">
+				</div>
+				<h2 id="kr-article-title" class="kr-article-title">{{title}}</h2>
+			</div>-->
+			<!--顶部banner图 结束-->
+			<div class="kr-article-content">
+				<!-- 文章作者、发布时间等信息 -->
+				<!--<div class="kr-article-meta">
+					<div id="kr-article-author" class="kr-article-author">{{author}}</div>
+					<div class="kr-article-text">发表于</div>
+					<div id="kr-article-time" class="kr-article-time">{{time}}</div>
+				</div>-->
+				<!--文章详细内容-->
+				<div id="kr-article-article" class="kr-article-article" >
+					
+				</div>
+			</div>
+			<nav class="mui-bar mui-bar-tab" v-show="status==0">
+				<a class="mui-tab-item" href="#">
+					<button id="savbtn" type="button" class="mui-btn mui-btn-primary">保存</button>
+				</a>
+				<a class="mui-tab-item" href="#">
+					<button id="subbtn" type="button" class="mui-btn mui-btn-success">提交</button>
+				</a>
+			</nav>
+			<div class="mui-content">
+				<input type="text" name="apply_id" id="apply_id" hidden value="" />
+				<div class="mui-content-padded">
+					<ul id="pic-list" class="mui-table-view mui-grid-view">
+						<!--<li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap" >
+							<a>
+								<img src="../../../images/1.jpg" fileID="item.fileId" fileType="item.fileType" data-preview-src="" data-preview-group="1" class="mui-media-object" />
+							</a>
+						</li><li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap" >
+							<a>
+								<img src="../../../images/2.jpg" fileID="item.fileId" fileType="item.fileType" data-preview-src="" data-preview-group="1" class="mui-media-object" />
+							</a>
+						</li>-->
+						<li class="mui-table-view-cell mui-media mui-col-xs-6 img-longtap" v-for="(item,index) in imginfo">
+							<a>
+								<img :src="item.url" :index="index" :fileID="item.fileId" :fileType="item.fileType" :data-preview-src="item.previewSrc" data-preview-group="1" class="mui-media-object" />
+							</a>
+						</li>
+						<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6" v-show="status==0">
+							<a href="#picture">
+								<img id="pic" class="mui-media-object" src="../../../images/add2.png"/>
+							</a>
+						</li>
+					</ul>
+					<div class="kr-article-meta">
+						<div id="kr-article-author" class="kr-article-author">{{author}}</div>
+						<div class="kr-article-text">发表于</div>
+						<div id="kr-article-time" class="kr-article-time">{{time}}</div>
+					</div>
+					<label>描述说明：</label>
+					<div class="mui-input-row">
+						<textarea id="textarea" v-model="remark" :disabled="status >0" rows="5" placeholder=""></textarea>
+					</div>
+					<label>工程項目：</label>
+					<div class="mui-input-row">
+							<input type="text" id="subentry_caseno" hidden>
+							<input id='showUserPicker' class="pickerstyle" v-show="status ==0" v-model="projectName" type="text" placeholder="点击查询...">
+							<input v-show="status >0" readonly="true" class="pickerstyle" v-model="projectName" type="text" placeholder="">
+					</div>
+					<label>簽證標題：</label>
+					<div class="mui-input-row">
+						<input   :readonly="status >0" v-model="title" type="text" placeholder="">
+					</div>
+					<div id='userResult' class="ui-alert"></div>
+					<ul id="workflow" class="mui-table-view">
+				    <li class="mui-table-view-cell mui-collapse mui-active">
+				        <a class="mui-navigate-right" href="#">作业流程</a>
+				        <div class="mui-collapse-content">
+				            <div class="mui-input-row">
+								<label>签核流程</label>
+								<button id="flow-select" type="button" class="mui-btn mui-btn-primary width-full" v-show="status ==0">点击查询...</button>
+							</div>
+							<ul class="mui-table-view">
+							    <li class="mui-table-view-cell" v-for="step in stepArr">
+							    	<p>{{step.user_name}}<span v-show="step.residenceTime">
+							    		停留時間:{{step.residenceTime}}
+							    	</span>
+							    	</p>
+							    	<p><span>
+							    		{{step.sign_date}}
+							    	</span></p>
+							    <p v-show="step.sign_remark">備註：<span>{{step.sign_remark}}</span></p>
+							    <span class="mui-badge" :class="getStatuBtn(step.sign_action)" v-show="step.sign_action">{{getStatuText(step.sign_action)}}</span>
+							    </li>
+							</ul>
+				        </div>
+				    </li>
+				</ul>
+				</div>
+			</div>
+	
+			<!--上传照片方式-->
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">拍照或录像</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">选取现有的</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+			<!--删除照片确定-->
+			<div id="picture-del" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">删除照片</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">确认删除</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture-del"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+	</div>
+	</div>
+</body>
+	<script src="../../../js/mui.min.js"></script>
+	<script src="../../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../js/component/simple-edit.js" type="text/javascript" charset="utf-8"></script>
+	<!--图片预览-->
+	<script src="../../../js/imgChange/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../js/imgChange/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../js/imgChange/helper.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		function getDefaultData() {
+				return {
+					cover: '',
+					title: '',
+					remark:'',
+					author: '',
+					time: '',
+					projectName: '',
+					projectNo:'',
+					status:'',
+					imginfo:[],
+					flowId:'',
+					stepArr:[],
+				}
+		}
+		var serverUrl=userApp.serverUrl,
+		    img_selectNode,
+		    	userId,
+		    	projectArr=[],
+		    vm = new Vue({
+				el: '#app',
+				data: getDefaultData(),
+				methods: {
+					resetData: function() {//重置数据
+						this.$data=getDefaultData()
+						//Object.assign(this.$data, getDefaultData());
+					},
+					getStatuBtn:function(val){
+						switch(val){
+							case '0':
+								return 'mui-badge-danger'
+								break;
+							case '1':
+								return 'mui-badge-success'
+								break;
+							default:
+								return 'mui-badge-primary'
+						}
+					},
+					getStatuText:function(val){
+						switch(val){
+							case '0':
+								return '退回'
+								break;
+							case '1':
+								return '同意'
+								break;
+							default:
+								return ''
+						}
+					}
+				}
+			});
+		/*图片预览*/
+		mui.previewImage();
+		mui.init({
+			gestureConfig:{
+			   longtap: true, //默认为false  
+			}
+		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		//选取照片单击事件
+		mui('body').on('tap', '.mui-popover-action li>a', function() {
+			var a = this,
+				parent;
+			//根据点击按钮，反推当前是哪个actionsheet
+			for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+				if (parent.classList.contains('mui-popover-action')) {
+					break;
+				}
+			}
+			//关闭actionsheet
+			if(a.innerHTML=="选取现有的"){
+				appendByGallery(vm.apply_id).then(data=>{
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
+					vm.imginfo.push(imginfo)
+				});
+			}
+			else if(a.innerHTML=="拍照或录像"){
+				appendByCamera(vm.apply_id).then(data=>{
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
+					vm.imginfo.push(imginfo)
+				});
+			}
+			else if(a.innerHTML=="删除照片"){
+				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
+					index=img_selectNode.getAttribute('index'),
+					data={
+						fileID:img_selectNode.getAttribute('fileID'),
+						fileType:img_selectNode.getAttribute('fileType'),
+						userID:userApp.userId
+					};
+				userApp.Post(serurl,data).then(res=>{
+					if(res.code==200){
+						plus.nativeUI.toast(res.msg)
+						vm.imginfo.splice(index,1)
+					}else{
+						plus.nativeUI.toast(res.msg)
+					}
+				}).catch(err=>{
+					plus.nativeUI.toast(err)
+				})
+			}
+			mui('#' + parent.id).popover('toggle');
+		});
+		//删除已上传照片
+		mui('#pic-list').on('longtap','.img-longtap',function(){
+			img_selectNode=this.getElementsByTagName('img')[0]
+			if(vm.status>0){
+				return
+			}
+			mui('#picture-del').popover('toggle');//show hide toggle
+		})
+		//保存按钮事件
+		mui('body').on('tap','.mui-bar-tab a button[id="savbtn"]',function(){
+			var a=this;
+			let newId=vm.apply_id,
+				projectNo = vm.projectNo,
+				UserId=userId,
+				Title=vm.title,
+				Remark=vm.remark,
+				flowId=vm.flowId,
+				UserDept='YPZY',
+				serverUrl=userApp.serverUrl;
+			if(!projectNo){
+				plus.nativeUI.toast('請選擇所屬分項工程')
+				return
+			}
+			serverUrl+='/VisaProject/UpdateData'
+			let data={ 
+					apply_id:newId,
+					ProjectNo:projectNo,
+					userID:UserId,
+					title:Title,
+					remark :Remark,
+					status:"0",
+					flow_id:flowId,
+					userDept:UserDept,
+			};
+			userApp.Post(serverUrl,data).then(res=>{
+				let page=plus.webview.getWebviewById('signpro-tab-top-subpage-4.html')
+				mui.back();
+				mui.fire(page,'refresh',{status:1});
+			})
+//			mui.ajax(serverUrl,{
+//				data:{ 
+//					apply_id:newId,
+//					ProjectNo:projectNo,
+//					userID:UserId,
+//					title:Title,
+//					remark :Remark,
+//					status:"0",
+//					flow_id:flowId,
+//					userDept:UserDept,
+//				},
+//				dataType:'json',//服务器返回json格式数据
+//				headers: {'Content-Type':'application/json'},
+//				type:'post',//HTTP请求类型
+//				success:function(data){
+//					//获得服务器响应
+//					console.log(data.msg)
+//					
+//				}
+//			});
+			
+		})
+		//提交按钮事件
+		mui('body').on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
+			var a=this;
+			let newId=vm.apply_id,
+				projectNo = vm.projectNo,
+				UserId=userId,
+				Title=vm.title,
+				Remark=vm.remark,
+				flowId=vm.flowId,
+				UserDept='YPZY',
+				serverUrl=userApp.serverUrl;
+			if(!projectNo){
+				plus.nativeUI.toast('請選擇所屬分項工程')
+				return
+			}
+			serverUrl+='/VisaProject/UpdateData'
+			let data={ 
+					apply_id:newId,
+					ProjectNo:projectNo,
+					userID:UserId,
+					title:Title,
+					remark :Remark,
+					status:"0",
+					flow_id:flowId,
+					userDept:UserDept,
+			}
+			userApp.Post(serverUrl,data).then(response=>{
+				let sdata={
+							apply_id:newId,
+							userID:UserId,
+							sign_remark:'经办人提交'
+						}
+				return userApp.Post(userApp.serverUrl+'/workflow/submit',sdata)
+			}).then(response=>{
+				let page=plus.webview.getWebviewById('signpro-tab-top-subpage-4.html')
+				mui.back();
+				mui.fire(page,'refresh',{status:1});
+			}).catch(err=>{
+				console.log(err)
+			})
+//			mui.ajax(serverUrl,{
+//				data:{ 
+//					apply_id:newId,
+//					ProjectNo:projectNo,
+//					userID:UserId,
+//					title:Title,
+//					remark :Remark,
+//					status:"0",
+//					flow_id:flowId,
+//					userDept:UserDept,
+//				},
+//				dataType:'json',//服务器返回json格式数据
+//				headers: {'Content-Type':'application/json'},
+//				type:'post',//HTTP请求类型
+//				success:function(data){
+//					//获得服务器响应
+//					mui.post(userApp.serverUrl+'/workflow/submit',{
+//							apply_id:newId,
+//							userID:UserId,
+//							sign_remark:'经办人提交'
+//						},function(data){
+//							
+//						},'json'
+//					);
+//					
+//				}
+//			});
+			
+		})
+		
+		mui.plusReady(function () {
+		    userId=plus.storage.getItem('userId') //获取用户id
+		    userApp.userId=userId=plus.storage.getItem('userId') //获取用户id
+		    //普通示例
+			var userPicker = new mui.PopPicker();
+			let serurl=userApp.serverUrl,
+				dc=document;
+			mui.get(serurl+'/Search/GetData',{formType:"APP_PRO",userID:userId,condition:''},function(response){ 
+				for (let {subentry_caseno,contract_name} of response) {
+					projectArr.push({value:subentry_caseno,text:contract_name})
+				}
+				userPicker.setData(projectArr)
+			},'json' );	
+					var showUserPickerButton = dc.getElementById('showUserPicker');
+					var subentry_caseno = dc.getElementById('subentry_caseno');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							vm.projectName = items[0].text;
+							vm.projectNo = items[0].value;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);	
+		})
+		mui.ready(function(){
+			var flowSelectButton = document.getElementById('flow-select');
+			flowSelectButton.addEventListener('tap', function(event) {
+				mui.openWindow({url:'workflow.html',id:'signpro_workflow',styles:{
+						title:{//标题配置
+							    text:"商品详情",//标题文字
+						},
+						back:{//左上角返回箭头
+							image:{
+							    base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
+							}
+	    					}
+					},
+					extras:{
+						parentId:"signproject_detail_4"
+					}
+				})
+			}, false);
+					
+		})
+		//监听自定义事件，获取新闻详情
+			document.addEventListener('get_detail', function(event) {
+				//前页传入的数据，直接渲染，无需等待ajax请求详情后
+				vm.cover = event.detail.cover;
+				vm.title=event.detail.title;//標題
+				vm.remark = event.detail.remark; //描述说明
+				vm.author = event.detail.author;
+				vm.time = event.detail.time;
+				vm.status=Number.parseInt(event.detail.status);
+				vm.projectNo=event.detail.projectNo;
+				vm.apply_id=event.detail.guid;
+				plus.storage.setItem('apply_id',event.detail.guid)
+				vm.imginfo=[];
+//				for (let {value,text} of projectArr) {
+//					if(value==vm.projectNo){
+//						vm.projectName=text
+//					}
+//				}
+			//加载图片
+			mui.get(userApp.serverUrl+'/Attachment/GetThumImage',{formType:"APP_IP",applyID:vm.apply_id,projectNO:vm.projectNo},function(response){ 
+				let imgarr=[]
+				for (let data of response) {
+					let imginfo={url:data.data,previewSrc:data.initialData,fileId:data.id,fileType:data.type}
+					imgarr.push(imginfo)
+				}
+				vm.imginfo=imgarr;
+			},'json' );	
+			//获取详细信息
+			let data={applyId:vm.apply_id,projectName:'VisaProject'}
+			userApp.GetDetail(data).then(data=>{
+				vm.flowId=data.flow_id
+				vm.projectName=data.projectName
+			})
+			userApp.GetFlowDetail(vm.apply_id).then(data=>{
+				vm.stepArr=data
+			})
+		});
+		//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("auto", 300);
+				//动画结束后，恢复默认值
+				setTimeout(function() {
+					window.scrollTo(0, 0);
+					vm.resetData();
+					closePreview()
+				}, 300);
+			}
+		//监听获取flowid事件
+		window.addEventListener('GetFlowId',function(event){
+		  //获得事件参数
+		  if(event.detail.flowId){
+		  	vm.flowId=event.detail.flowId
+		  }
+		  userApp.GetFlowDetail(vm.apply_id).then(data=>{
+			vm.stepArr=[]
+			vm.stepArr=data
+		  })
+		  //根据id向服务器请求新闻详情
+		});
+	</script>
+
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/background.css"/>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				margin: 0;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-pull-left"></a>
+			<span class="mui-icon mui-icon-plusempty mui-pull-right"></span>
+			<h1 class="mui-title">任務追蹤</h1>
+		</header>
+		<div class="mui-content">
+			<!--<div class="chart-content">
+				<div class="mui-col-xs-4 mui-col-sm-4">
+					<div class="bg-color-blue  circle">
+						<span class="span-center white-color">1</span>
+					</div>
+					<p>全部</p>
+				</div>
+				<div class="mui-col-xs-4 mui-col-sm-4">
+					<div class="bg-color-c  circle">
+						<span class="span-center white-color">10</span>
+					</div>
+					<p>待处理</p>
+				</div>
+				<div class="mui-col-xs-4 mui-col-sm-4">
+					<div class="bg-color-g  circle">
+						<span class="span-center white-color">20</span>
+					</div>
+					<p>已完成</p>
+				</div>
+			</div>-->
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tasktrack-tab-top-subpage-1.html">
+							<div class="bg-color-q  circle">
+								<span class="span-center white-color">{{countArr.all}}</span>
+							</div>
+							全部
+						</a>
+						<a id="cshow" class="mui-control-item" href="#item2mobile" data-wid="tasktrack-tab-top-subpage-2.html">
+							<div class="bg-color-r  circle">
+								<span class="span-center white-color">{{countArr.uncommit}}</span>
+							</div>
+							待處理
+						</a>
+						<a class="mui-control-item" href="#item3mobile" data-wid="tasktrack-tab-top-subpage-3.html">
+							<div class="bg-color-y  circle">
+								<span class="span-center white-color">{{countArr.process}}</span>
+							</div>
+							處理中
+						</a>
+						<a class="mui-control-item" href="#item4mobile" data-wid="tasktrack-tab-top-subpage-4.html">
+							<div class="bg-color-g  circle">
+								<span class="span-center white-color">{{countArr.finished}}</span>
+							</div>
+							已結案
+						</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var viewItems=[{
+						id: "tasktrack-tab-top-subpage-1.html",
+						url: "tab-top-subpage-1.html",
+						extras: {}
+					}, {
+						id: "tasktrack-tab-top-subpage-2.html",
+						url: "tab-top-subpage-2.html",
+						extras: {}
+					}, {
+						id: "tasktrack-tab-top-subpage-3.html",
+						url: "tab-top-subpage-3.html",
+						extras: {}
+					},{
+						id: "tasktrack-tab-top-subpage-4.html",
+						url: "tab-top-subpage-4.html",
+						extras: {}
+					}],
+				vm=new Vue({
+					el:"#slider",
+					data:{
+						countArr:{
+							all:"",
+							uncommit:"",
+							process:"",
+							finished:""
+						}
+					}
+				})
+			mui.init();
+			
+			mui.plusReady(function() {
+				var group = new webviewGroup("./TaskTracking/tab-top-webview-main.html", {
+					items: viewItems,
+					onChange: function(obj) {
+						var c = document.querySelector(".mui-control-item.mui-active");
+						if(c) {
+							c.classList.remove("mui-active");
+						}
+						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+					}
+				});
+				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
+					var wid = this.getAttribute("data-wid");
+					group.switchTab(wid);
+				});
+
+			});
+			mui("body").on("tap","header[class='mui-bar mui-bar-nav']>span",function(){
+				userApp.openCreatePage('tasktra-create','./create.html','形象進度')
+			})
+			function getCount(){
+				var url=userApp.serverUrl+"/TaskTracking/GetQuantity",
+					data={
+						status:""
+					}
+				userApp.Get(url,data).then(res=>{
+					vm.countArr.all=res
+					return  userApp.Get(url,{status:"0"})
+				}).then(res=>{
+					vm.countArr.uncommit=res
+					return userApp.Get(url,{status:"1"})
+				}).then(res=>{
+					vm.countArr.process=res
+					return userApp.Get(url,{status:"3"})
+				}).then(res=>{
+					vm.countArr.finished=res
+				})
+			}
+			mui.ready(function(){
+				getCount()
+			})
+			window.addEventListener('countFresh',function(event){
+				getCount()
+				var c = document.querySelector(".mui-control-item.mui-active"),
+					nid=c.getAttribute("data-wid");
+				for(let i in viewItems){
+					if(viewItems[i].id!=nid){
+						mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:0})
+					}
+				}
+			})
+			function refreshPage(nid,msg){
+				for(let i in viewItems){
+					if(viewItems[i].id==nid){
+						mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:1,msg:msg})
+					}else{
+						mui.fire(plus.webview.getWebviewById(viewItems[i].id),'refresh',{status:0})
+					}
+				}
+			}
+			window.addEventListener('savrefresh',function(event){
+		  		getCount()
+		  		var c = document.querySelector(".mui-control-item.mui-active"),
+					nid=c.getAttribute("data-wid");
+		  		refreshPage(nid,"提交成功")
+			});
+			window.addEventListener('refresh',function(event){
+		  		getCount()
+		  		var c = document.querySelector(".mui-control-item.mui-active"),
+					nid=c.getAttribute("data-wid");
+		  		refreshPage(nid,"结案成功")
+			});
+			window.addEventListener('initrefresh',function(event){
+		  		getCount()
+		  		var btn=document.getElementById("cshow"),
+		  			vid=btn.getAttribute("data-wid");
+		  		mui.trigger(btn,"tap")
+		  		refreshPage(vid,"保存成功")
+			});
+			mui.back = function() {
+				userApp.clearView(["tasktrack_detail_1","tasktrack_detail_2","tasktrack_detail_3"])
+				var _self = plus.webview.currentWebview();
+				_self.close("auto");
+			}
+		</script>
+	</body>
+
+</html>

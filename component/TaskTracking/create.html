@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/edit-style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/component/background.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
+		<!--图片预览-->
+		<link rel="stylesheet" type="text/css" href="../../css/imgChange/imgChangeStyle.css"/>
+		<!--时间选择-->
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
+		<style>
+			.mui-bar .mui-btn {
+				top:0px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			#info {
+				padding: 20px 10px;
+			}
+			#showUserPicker{
+				background-color: dodgerblue;
+				color: #F0F0F0;
+				text-align: center;
+			}
+			#workflow input{
+				background-color: dodgerblue;
+				color: #F0F0F0;
+				text-align: center;
+			}
+			.mui-input-row .width-full{
+				width: auto;
+			}
+			/*.des {
+				margin: .5em 0;
+			}
+			.des>li {
+				font-size: 14px;
+				color: #8f8f94;
+			}*/
+		</style>
+	</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-pull-left"></a>
+	    <button id="savbtn" class="bg-color-g mui-btn white-color mui-btn-link mui-pull-right">保存</button>
+	    <h1 class="mui-title">任務追蹤新增</h1>
+	</header>
+	<div class="mui-content status-content">
+		<div class="mui-content">
+			<input type="text" name="apply_id" id="apply_id" hidden value="" />
+			<div class="mui-content-padded">
+				<ul id="pic-list" class="mui-table-view mui-grid-view">
+					<li id="add-pic-li" class="mui-table-view-cell mui-media mui-col-xs-6">
+						<a href="#picture">
+							<img id="pic" class="mui-media-object" src="../../images/add2.png"/>
+						</a>
+					</li>
+				</ul>
+				<label>工程項目：</label>
+				<div class="mui-input-row">
+					<input id='showUserPicker' class="pickerstyle" :disabled="status == 2" v-model="projectName" type="text" placeholder="点击查询...">
+				</div>
+				<label>工程標題：</label>
+				<div class="mui-input-row">
+					<input   :disabled="status == 2" v-model="projectTitle" type="text" placeholder="">
+				</div>
+				<label>任務說明：</label>
+				<div class="mui-input-row">
+					<textarea id="textarea" rows="5" v-model="remark" placeholder=""></textarea>
+				</div>
+				<label>任務進度：</label>
+				<div class="mui-input-row">
+					<textarea id="textarea" rows="5" v-model="progressNotes" placeholder=""></textarea>
+				</div>
+				
+				<div class="mui-input-row flex-content">
+					<span class="mui-col-sm-4 mui-col-xs-4">負責人:</span>
+					<input class="mui-col-sm-8 mui-col-xs-8"  :disabled="status == 2" v-model="userInfo.userName"  type="text" placeholder="">
+				</div>
+				<div class="mui-input-row flex-content">
+					<span class="mui-col-sm-4 mui-col-xs-4">部門:</span>
+					<input class="mui-col-sm-8 mui-col-xs-8"  :disabled="status == 2" v-model="userInfo.userDept"  type="text" placeholder="">
+				</div>
+				<div class="mui-input-row flex-content">
+					<span class="mui-col-sm-4 mui-col-xs-4">完成時間:</span>
+					<input class="mui-col-sm-8 mui-col-xs-8 pickerstyle" id='showDatePicker' :disabled="status == 2" v-model="finishDate" type="text" placeholder="選擇日期...">
+				</div>
+				<ul id="workflow" class="mui-table-view">
+				    <li class="mui-table-view-cell mui-collapse mui-active">
+				        <a class="mui-navigate-right" href="#">作业流程</a>
+				        <div class="mui-collapse-content">
+				            <div class="mui-input-row">
+								<label>签核流程</label>
+								<button id="flow-select" type="button" class="mui-btn mui-btn-primary width-full">点击查询...</button>
+							</div>
+							<ul class="mui-table-view">
+							    <li class="mui-table-view-cell" v-for="step in stepArr">{{step.user_name}}</li>
+							</ul>
+				        </div>
+				    </li>
+				</ul>
+				<!--<p class="heading">上传文件列表：</p>
+			<ul id="files" style="text-align:left;">
+				<p id="empty" style="font-size:12px;color:#C6C6C6;">无上传文件</p>
+			</ul>-->
+			</div>
+			<!--上传照片方式-->
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">拍照或录像</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">选取现有的</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+			<!--删除照片确定-->
+			<div id="picture-del" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">删除照片</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture-del"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+	<script src="../../js/mui.min.js"></script>
+	<!--时间选择-->
+	<script src="../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/component/simple-creat.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<!--图片预览-->
+	<script src="../../js/imgChange/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/imgChange/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		function getDefaultData() {
+				return {
+					cover: '',
+					title: '',
+					remark:'',
+					author: '',
+					time: '',
+					finishDate:'',
+					projectName: '',
+					projectTitle:'',
+					projectNo:'',
+					progressNotes:'',
+					status:'',
+					imginfo:[],
+					flowId:'',
+					stepArr:[],
+					showSub:false,
+					userInfo:[]
+				}
+		}
+		var userId,
+			applyId='',
+			subpage_style = {
+				top: '0px',
+				bottom: '0px'
+			},
+			vm = new Vue({
+				el: '.status-content',
+				data: getDefaultData(),
+				methods: {
+					resetData: function() {//重置数据
+						Object.assign(this.$data, getDefaultData());
+					}
+				}
+			});
+		/*图片预览*/
+		mui.previewImage();
+		mui.init({
+			swipeBack:true, //启用右滑关闭功能
+			gestureConfig:{
+			   longtap: true, //默认为false  
+			}
+		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		//选取照片单击事件
+		mui('body').on('tap', '.mui-popover-action li>a', function() {
+			var a = this,
+				parent;
+			//根据点击按钮，反推当前是哪个actionsheet
+			for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+				if (parent.classList.contains('mui-popover-action')) {
+					break;
+				}
+			}
+			//关闭actionsheet
+			if(a.innerHTML=="选取现有的"){
+				appendByGallery(document.getElementById("apply_id").value);
+			}
+			else if(a.innerHTML=="拍照或录像"){
+				appendByCamera(document.getElementById("apply_id").value);
+			}
+			else if(a.innerHTML=="删除照片"){
+				let serurl=userApp.serverUrl+"/Attachment/DeleteFile",
+					index=img_selectNode.getAttribute('index'),
+					data={
+						fileID:img_selectNode.getAttribute('fileID'),
+						fileType:img_selectNode.getAttribute('fileType'),
+						userID:userApp.userId
+					};
+				userApp.Post(serurl,data).then(res=>{
+					if(res.code==200){
+						plus.nativeUI.toast(res.msg)
+						document.getElementById("pic-list").removeChild(img_selectNode.parentNode.parentNode)
+					}else{
+						plus.nativeUI.toast(res.msg)
+					}
+				}).catch(err=>{
+					plus.nativeUI.toast(err)
+				})
+			}
+			mui('#' + parent.id).popover('toggle');
+		});
+		//删除已上传照片
+		var img_selectNode
+		mui('#pic-list').on('longtap','.img-longtap',function(){
+			img_selectNode=this.getElementsByTagName('img')[0]
+			mui('#picture-del').popover('toggle');//show hide toggle
+		})
+		//保存按钮事件
+		mui('body').on('tap','header button[id="savbtn"]',function(){
+			var a=this;
+			let newId=vm.apply_id,
+				projectNo = vm.projectNo,
+				UserId=userId,
+				Title=vm.projectTitle,
+				Remark=vm.remark,
+				flowId=vm.flowId,
+				UserDept='YPZY',
+				serverUrl=userApp.serverUrl;
+			if(!projectNo){
+				plus.nativeUI.toast('請選擇所屬分項工程')
+				return
+			}
+			if(!flowId){
+				plus.nativeUI.toast('請選擇流程')
+				return
+			}
+			serverUrl+=applyId==''?'/TaskTracking/InsertData':'/TaskTracking/UpdateData'
+			let data={ 
+					apply_id:newId,
+					ProjectNo:projectNo,
+					userID:UserId,
+					title:Title,
+					remark :Remark,
+					progressNotes:vm.progressNotes,
+					dept_name:vm.userInfo.userDept,
+					project_manager:vm.userInfo.userName,
+					finish_date:vm.finishDate,
+					status:"0",
+					flow_id:flowId,
+					userDept:UserDept,
+			};
+			userApp.Post(serverUrl,data).then(res=>{
+				if(res.status){
+					//获得服务器响应
+					var sub=plus.webview.getWebviewById("./TaskTracking/tab-top-webview-main.html");
+					if(sub){
+						mui.fire(sub,"initrefresh",{status:0})
+					}else{
+						sub=plus.webview.create("tab-top-webview-main.html","./TaskTracking/tab-top-webview-main.html",subpage_style)
+					}
+					plus.webview.currentWebview().close()
+
+				}
+			}).catch(err=>{
+				plus.nativeUI.toast(err)
+			})
+		})
+		//提交按钮事件
+		mui('body').on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
+			var a=this;
+			let newId=vm.apply_id,
+				projectNo = vm.projectNo,
+				UserId=userId,
+				Title='',
+				Remark=vm.remark,
+				flowId=vm.flowId,
+				UserDept='YPZY',
+				serverUrl=userApp.serverUrl;
+			if(!projectNo){
+				plus.nativeUI.toast('請選擇所屬分項工程')
+				return
+			}
+			if(!flowId){
+				plus.nativeUI.toast('請選擇簽核流程')
+				return
+			}
+			serverUrl+='/VisaProject/UpdateData'
+			let data={ 
+					apply_id:newId,
+					ProjectNo:projectNo,
+					userID:UserId,
+					title:Title,
+					remark :Remark,
+					status:"0",
+					flow_id:flowId,
+					userDept:UserDept,
+			}
+			userApp.Post(serverUrl,data).then(response=>{
+				let sdata={
+							apply_id:newId,
+							userID:UserId,
+							sign_remark:'经办人提交'
+						}
+				return userApp.Post(userApp.serverUrl+'/workflow/submit',sdata)
+			}).then(response=>{
+				console.log(response)
+			}).catch(err=>{
+				console.log(err)
+			})
+		})
+		mui.ready(function(){
+		    //普通示例
+			var serurl=userApp.serverUrl,
+				dc=document,
+				userPicker = new mui.PopPicker(),
+				dtPicker = new mui.DtPicker({"type":"date"}), 
+				showUserPickerButton = dc.getElementById('showUserPicker'),
+				subentry_caseno = dc.getElementById('subentry_caseno'),
+				showDatePickerButton=dc.getElementById("showDatePicker")	;
+			mui.get(serurl+'/Search/GetData',{formType:"APP_PRO",userID:userId,condition:''},function(response){ 
+				let arr=[]
+				for (let {subentry_caseno,contract_name} of response) {
+					arr.push({value:subentry_caseno,text:contract_name})
+				}
+				userPicker.setData(arr)
+			},'json' );	
+//			工程選擇显示
+			showUserPickerButton.addEventListener('tap', function(event) {
+				userPicker.show(function(items) {
+					vm.projectName = items[0].text;
+					vm.projectNo= items[0].value;
+					//返回 false 可以阻止选择框的关闭
+					//return false;
+				});
+			}, false);
+			//日期选择显示
+			showDatePickerButton.addEventListener('tap',function(event){
+			    dtPicker.show(function (selectItems) { 
+			    		vm.finishDate=selectItems.value
+			    })
+			})
+			var flowSelectButton = document.getElementById('flow-select');
+			flowSelectButton.addEventListener('tap', function(event) {
+				plus.storage.setItem('apply_id',vm.apply_id)
+				mui.openWindow({url:'workflow.html',id:'tasktra_workflow',styles:{
+						title:{//标题配置
+							    text:"商品详情",//标题文字
+						},
+						back:{//左上角返回箭头
+							image:{
+							    base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
+							}
+	    					}
+					},
+					extras:{
+						parentId:"tasktra-create"
+					}
+				})
+			}, false);
+		})
+		//获取数据
+		function initData(){
+			var serurl=userApp.serverUrl+"/Users/GetUserInfo",
+				data;
+			if(!userId){
+				var newWV = plus.webview.create('../login.html', 'login');
+				newWV.show('slide-in-right', 200);
+				return
+			}
+			data={userID:userId}
+			userApp.Post(serurl,data).then(res=>{
+				vm.userInfo=res
+			})
+		}
+		mui.plusReady(function(){
+			userApp.userId=userId=plus.storage.getItem('userId') //获取用户id
+			var self = plus.webview.currentWebview();
+			applyId = self.name;
+			vm.apply_id=vm.apply_id?vm.apply_id:newUuId;  //apply_id赋值
+			document.getElementById("apply_id").value=vm.apply_id;
+			initData()
+		})
+		//监听获取flowid事件
+		window.addEventListener('GetFlowId',function(event){
+		  //获得事件参数
+		  if(event.detail.flowId){
+		  	vm.flowId=event.detail.flowId
+		  	vm.stepArr=event.detail.stepArr
+		  }
+		  userApp.GetFlowDetail(vm.apply_id).then(data=>{
+			vm.stepArr=[]
+			vm.stepArr=data
+		  })
+		  //根据id向服务器请求新闻详情
+		});
+		//返回事件
+		mui.back = function(event) {
+			plus.webview.currentWebview().close()			
+		};
+	</script>
+
+</html>

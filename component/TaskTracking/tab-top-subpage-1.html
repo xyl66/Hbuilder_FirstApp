@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<title>Hello MUI</title>
@@ -8,7 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../../css/footbar.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -103,7 +104,7 @@
 						<a href="javascript:;" data-guid="item.guid" data-index="index">
 						<img class="mui-media-object mui-pull-left" src="item.cover">
 						<div class="mui-media-object mui-pull-right">
-								<span class="mui-badge mui-badge-warning">待处理</span>
+								<span class="mui-badge mui-badge-warning bg-color-q">待处理</span>
 						</div>
 						<div class="mui-media-body">
 							<div class="mui-ellipsis">测试用例请及时处理清不清楚啊测试用例请及时处理清不清楚啊</div>
@@ -131,15 +132,17 @@
 						</div>
 					</a>
 				</li>-->
+				
 				<li class="mui-table-view-cell mui-media" v-for="(item,index) in items">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red" :del-data-guid="item.guid" :statu="item.status">删除</a>
+					<!--可删除-->
+					<div class="mui-slider-right mui-disabled" v-show="item.status!=3">
+						<a class="mui-btn mui-btn-red" :index="index" :del-data-guid="item.guid" :statu="item.status">删除</a>
 					</div>
-					<div class="mui-slider-handle">
+					<div class="mui-slider-handle" v-show="item.status!=3">
 						<a href="javascript:;" :data-guid="item.guid" :data-index="index">
 							<img class="mui-media-object mui-pull-left" :src="item.cover">
 							<div class="mui-media-object mui-pull-right">
-									<span :class="userApp.getStatusBadge(item.status)">{{userApp.getStatus(item.status)}}</span>
+									<span :class="taskTrack.getStatusBadge(item.status)">{{taskTrack.getStatus(item.status)}}</span>
 							</div>
 							<div class="mui-media-body">
 								<div class="mui-ellipsis">{{item.title}}</div>
@@ -149,24 +152,41 @@
 								<div class="author">{{item.author}}</div>
 							</div>
 						</a>
-					</div>
-					
+					</div>	
+					<!--不可删除-->
+					<a href="javascript:;" v-show="item.status==3" :data-guid="item.guid" :data-index="index">
+							<img class="mui-media-object mui-pull-left" :src="item.cover">
+							<div class="mui-media-object mui-pull-right">
+									<span :class="taskTrack.getStatusBadge(item.status)">{{taskTrack.getStatus(item.status)}}</span>
+							</div>
+							<div class="mui-media-body">
+								<div class="mui-ellipsis">{{item.title}}</div>
+							</div>
+							<div class="meta-info">
+								<div class="time">{{item.time}}</div>
+								<div class="author">{{item.author}}</div>
+							</div>
+						</a>
 				</li>
 			</ul>
 			<!--列表信息流 结束-->
 		</div>
 		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/dataFormat.js" type="text/javascript" charset="utf-8"></script>
+		<!--分享js 需放在user/app.js前面-->
+		<script src="../../js/user/share.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/user/app.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			var webview_detail = null; //详情页webview
 			var titleNView = { //详情页原生导航配置
-				backgroundColor: '#f7f7f7', //导航栏背景色
+				backgroundColor: '#2B85E4', //导航栏背景色
 				titleText: '', //导航栏标题
-				titleColor: '#000000', //文字颜色
-				type: 'transparent', //透明渐变样式
+				titleColor: '#fff', //文字颜色
+				type: 'default', //透明渐变样式
 				autoBackButton:true,
+				buttons:[{text:'···',float:'right',onclick:function(){
+				}}],
 				back:{//左上角返回箭头
 			        image:{//图片格式
 			            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABd0lEQVR4Xu3Y4Q2CQAwFYG4UN8FJlI3cQEbRDXQTN8BeIgkxhPtB3/WVKwm/iCfvu1ZzTV3jV2o8fxcAUQGNC0QLNF4A8SMYLRAt0LhAtEDjBcD7LzBN0002Z0wpvZCbRNkCEn6U0Be5P3KfkQh0AIvw88ZDEagAVsLPCE+pgh7RCjQAG+HfErwXgFwJ6hcFgFX4rGkOYBneHMA6vCkAQ3gzAJbwJgBM4asDsIWvCsAYvhoAa/gqAMzh4QDs4aEAHsLDALyEhwB4Cq8O4C28KoCEv8qC95UDez7Hn1Dn+b0DAtXj8EYF5OHmsPdlEZ9XBcgv6A1BHcAbAgTAEwIMwAsCFMADAhyAHaEKADNCNQBWhKoAjAjVAdgQTACYEMwAWBBMARgQzAGsESgALBFoAKwQqAA2EAYZqIwuBiIaL/k3VIGFV50JagRfrvFDeKB2fv4uuhbQhiytFwAloaM/jwo4+g6X8kUFlISO/jwq4Og7XMrXfAV8AXit4EEot4OAAAAAAElFTkSuQmCC'
@@ -197,7 +217,7 @@
 				//预加载详情页
 				webview_detail = mui.preload({
 					url: './list-to-detail/detail.html',
-					id: 'improgress_detail',
+					id: 'tasktrack_detail_1',
 					styles: {
 						"render": "always",
 						"popGesture": "hide",
@@ -216,21 +236,21 @@
 			});
 			var lastId = ''; //最新新闻的id
 			function pullupRefresh() {
+				
 				setTimeout(function() {
-					let serurl=userApp.serverUrl+'/ImageProgress/GetList',
+					let serurl=userApp.serverUrl+'/TaskTracking/GetList',
 						data={
 							userID:userID,
 							page:++count,
 							pageSize:pageSize,
-							status:'1',
+							status:'',
 						}
 					userApp.Get(serurl,data).then(response=>{
-						console.log('结果'+response)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(response.length==0);
 						news.items = news.items.concat(convert(response));
 					}).catch(err=>{
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-						plus.nativeUI.toast(err.type);
+						plus.nativeUI.toast(err);
 					})
 				}, 1500);
 			}
@@ -238,7 +258,6 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -246,21 +265,23 @@
 								});
 								return;
 							}
-							let serurl=userApp.serverUrl+'/ImageProgress/GetList',
-							data={
-								userID:userID,
-								page:'1',
-								pageSize:pageSize,
-								status:'0',
-							}
-							console.log(JSON.stringify(data))
+							let serurl=userApp.serverUrl+'/TaskTracking/GetList',
+								data={
+									userID:userID,
+									page:'1',
+									pageSize:pageSize,
+									status:'',
+								}
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
 								news.items=[];
+								if(!response.length>0){
+									return
+								}
 								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
-								plus.nativeUI.toast(err.type);
+								plus.nativeUI.toast(err);
 							})
 						}, 1500);
 			}
@@ -277,20 +298,45 @@
 			});
 			mui('.mui-table-view').on('tap','[del-data-guid]',function(){
 				var guid = this.getAttribute('del-data-guid'),
-					statu=this.getAttribute('statu');
-				if(parseInt(statu)>0){
-					plus.nativeUI.toast('不可删除')
+					statu=this.getAttribute('statu'),
+					elem = this,
+					li = elem.parentNode.parentNode;
+				if(parseInt(statu)==3){
+					mui.toast('不可删除',{ duration:1000, type:'div' })
 					return
 				}
-				plus.nativeUI.toast('删除成功')
+				var btnArray = ['确认', '取消'];
+				mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
+					if (e.index == 0) {
+						let serverUrl=userApp.serverUrl+'/TaskTracking/Delete';
+						data={apply_id:guid}
+						userApp.Post(serverUrl,data).then(res=>{
+							if(res.status){
+								mui.toast('删除成功',{ duration:1000, type:'div' })
+								mui.swipeoutClose(li);
+								//news.items.splice(index,1)
+								pulldownRefresh()
+								mui.fire(plus.webview.getWebviewById("./TaskTracking/tab-top-webview-main.html"),"countFresh",null)
+							}else{
+								mui.toast('删除失败',{ duration:1000, type:'div' })
+								setTimeout(function() {
+									mui.swipeoutClose(li);
+								}, 0);
+							}
+						})
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
+				});
 			})
 			//监听刷新事件
 			//添加newId自定义事件监听
 		window.addEventListener('refresh',function(event){
 		  //获得事件参数
-		  console.log(event.detail.status)
 		  if(event.detail.status){
-		  	plus.nativeUI.toast('保存成功')
+		  	mui.toast(event.detail.msg,{ duration:1000, type:'div' })
 		  }
 		  pulldownRefresh();
 		  //根据id向服务器请求新闻详情
@@ -312,21 +358,31 @@
 				mui.fire(webview_detail, 'get_detail', {
 					guid: news.items[index].guid,
 					title:news.items[index].title,
+					remark:news.items[index].remark,
 					author:news.items[index].author,
 					time:news.items[index].time,
 					cover:news.items[index].cover,
 					status:news.items[index].status,
 					projectNo:news.items[index].projectNo,
 					projectName:news.items[index].projectName,
+					progressNotes:news.items[index].progressNotes,
 				});
 
 				//更改详情页原生导航条信息
 				titleNView.titleText = title;
+				//分享按钮事件
+				var obj={
+					guid:news.items[index].guid,
+					title:news.items[index].projectName,
+					content:news.items[index].title,
+					pic:news.items[index].cover,
+				}
+				titleNView.buttons[0].onclick=shareHelper.shareHandler(obj)
 				webview_detail.setStyle({
 					"titleNView": titleNView
 				});
 				setTimeout(function () {
-					webview_detail.show("slide-in-right", 300);
+					webview_detail.show("pop-in", 300);
 				},150);
 			}
 		
@@ -341,12 +397,14 @@
 				items.forEach(function(item) {
 					newItems.push({
 						guid: item.apply_id,
-						title: item.remark,
+						title: item.title,
+						remark:item.remark,
 						author: item.userName,
 						cover: item.imgUrl,
-						time:dateUtils.format(item.update_date),
-						projectNo:item.projectNO,
+						time:dateUtils.format(item.edit_date),
+						projectNo:item.project_no,
 						projectName:item.projectName,
+						progressNotes:item.progressNotes,
 						status:item.status
 					});
 				});
@@ -386,7 +444,7 @@
 					var _format = function(number) {
 						return(number < 10 ? ('0' + number) : number);
 					};
-					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDay()); //+ '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
+					return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDate()); //+ '-' + _format(date.getHours()) + ':' + _format(date.getMinutes());
 				},
 				parse:function (str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
 					var a = str.split(/[^0-9]/);

@@ -135,8 +135,6 @@
 		            		this.search=val
 		            },
 		            SearchUser:function(val,oldval){
-		            	console.log(val)
-		            	console.log(oldval)
 		            	
 //			            	let serUrl=userApp.serverUrl+'/Users/SearchUser',
 //						data={user_dept:"YPZY",condition:val}
@@ -159,7 +157,6 @@
 				let serUrl=userApp.serverUrl+'/Users/GetUsers',
 					data={user_dept:"YPZY",}
 				userApp.Post(serUrl,data).then(res=>{
-						console.log(JSON.stringify(res))
 						vmFlow.userList=res
 					}).catch(err=>{
 						plus.nativeUI.toast(err, {
@@ -190,7 +187,6 @@ function enterSearch(e) {
 //单选事件
 document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected',function(e){
 			vmFlow.assignUserId=e.detail.el.firstChild.getAttribute('data-uid')
-			console.log("当前选中的为："+e.detail.el.firstChild.getAttribute('data-uid'))
 	});
 //提交
 mui(".mui-content").on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
@@ -205,8 +201,14 @@ mui(".mui-content").on('tap','.mui-bar-tab a button[id="subbtn"]',function(){
 			process_id:vmFlow.processId
 		}
 	userApp.Post(serUrl,data).then(res=>{
-		console.log(JSON.stringify(res))
-		plus.nativeUI.toast('確認成功')
+		plus.nativeUI.toast('提交成功')
+		var page=plus.webview.getWebviewById("flow-tab-top-subpage-4.html"),
+			flowpage=plus.webview.getWebviewById("flow-detail-detail"),
+			cuview=plus.webview.currentWebview();
+		mui.fire(page,"refresh",null)
+		flowpage.hide();
+		page.show();
+		cuview.close()
 	}).catch(err=>{
 		plus.nativeUI.toast(err, {
 			verticalAlign: 'top'

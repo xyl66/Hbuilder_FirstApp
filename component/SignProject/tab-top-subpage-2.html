@@ -10,7 +10,7 @@
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../../css/icons-extra.css"/>
-		<link rel="stylesheet" type="text/css" href="../../css/footbar.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/header.css"/>
 		<style type="text/css">
 			.mui-media {
 				font-size: 14px;
@@ -134,20 +134,25 @@
 					</a>
 				</li>-->
 				<li class="mui-table-view-cell mui-media" v-for="(item,index) in items">
-					<a href="javascript:;" :data-guid="item.guid" :data-index="index">
-						<input type="text" class="data-title" :value="item.title" hidden="" />
-						<img class="mui-media-object mui-pull-left" :src="item.cover">
-						<div class="mui-media-object mui-pull-right">
-							<span :class="userApp.getStatusBadge(item.status)">{{userApp.getStatus(item.status)}}</span>
-						</div>
-						<div class="mui-media-body">
-							<div class="mui-ellipsis">{{item.remark}}</div>
-						</div>
-						<div class="meta-info">
-							<div class="author">{{item.author}}</div>
-							<div class="time">{{item.time}}</div>
-						</div>
-					</a>
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red" :index="index" :del-data-guid="item.guid" :statu="item.status">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<a href="javascript:;" :data-guid="item.guid" :data-index="index">
+							<input type="text" class="data-title" :value="item.title" hidden="" />
+							<img class="mui-media-object mui-pull-left" :src="item.cover">
+							<div class="mui-media-object mui-pull-right">
+									<span :class="userApp.getStatusBadge(item.status)">{{userApp.getStatus(item.status)}}</span>
+							</div>
+							<div class="mui-media-body">
+								<div class="mui-ellipsis">{{item.remark}}</div>
+							</div>
+							<div class="meta-info">
+								<div class="author">{{item.author}}</div>
+								<div class="time">{{item.time}}</div>
+							</div>
+						</a>
+					</div>
 				</li>
 			</ul>
 			<!--列表信息流 结束-->
@@ -191,7 +196,6 @@
 				//获取userid
 				userID=plus.storage.getItem('userId')
 				//预加载详情页
-				webview_detail=plus.webview.getWebviewById("signproject_detail")
 				webview_detail = mui.preload({
 					url: './list-to-detail/detail-2.html',
 					id: 'signproject_detail_2',
@@ -203,7 +207,6 @@
 						"titleNView": titleNView
 					}
 				});
-				console.log("页面数："+plus.webview.all().length)
 			});
 			var news = new Vue({
 				el: '#pullrefresh',
@@ -252,11 +255,11 @@
 								}
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
+								news.items=[];
 								if(!response.length>0){
-									plus.nativeUI.toast("没有数据")
+									
 									return
 								}
-								news.items=[];
 								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
@@ -275,14 +278,41 @@
 				var cover = this.querySelector("img").getAttribute("src");
 				open_detail(guid, title,author,time,cover,index);
 			});
+			var btnArray = ['确认', '取消'];
 			mui('.mui-table-view').on('tap','[del-data-guid]',function(){
 				var guid = this.getAttribute('del-data-guid'),
-					statu=this.getAttribute('statu');
+					statu=this.getAttribute('statu'),
+					elem = this,
+					li = elem.parentNode.parentNode;
 				if(parseInt(statu)>0){
-					plus.nativeUI.toast('不可删除')
+					mui.toast('不可删除',{ duration:1000, type:'div' })
 					return
 				}
-				plus.nativeUI.toast('删除成功')
+			mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
+					if (e.index == 0) {
+						let serverUrl=userApp.serverUrl+'/VisaProject/Delete';
+						data={apply_id:guid}
+						userApp.Post(serverUrl,data).then(res=>{
+							if(res.status){
+								mui.toast('删除成功',{ duration:1000, type:'div' })
+								mui.swipeoutClose(li);
+								//news.items.splice(index,1)
+								pulldownRefresh()
+								mui.fire(plus.webview.getWebviewById("./SignProject/tab-top-webview-main.html"),"countFresh",null)
+								
+							}else{
+								mui.toast('删除失败',{ duration:1000, type:'div' })
+								setTimeout(function() {
+									mui.swipeoutClose(li);
+								}, 0);
+							}
+						})
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
+				});
 			})
 			//监听刷新事件
 			//添加newId自定义事件监听

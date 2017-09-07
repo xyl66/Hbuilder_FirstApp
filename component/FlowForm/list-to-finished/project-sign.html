@@ -184,7 +184,6 @@
 					serverUrl=userApp.serverUrl+'/FlowForm/GetPendingApprovalList'
 					let data={userID:userID,page:++count,pageSize:pageSize}
 					userApp.Get(serverUrl,data).then(res=>{
-						console.log(res)
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(res.length==0);
 						vm.items=vm.items.concat(convert(res));
 					})
@@ -194,7 +193,7 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				console.log(userID)
+				userID=plus.storage.getItem('userId')
 				setTimeout(function() {
 							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 								plus.nativeUI.toast('似乎已断开与互联网的连接', {
@@ -238,7 +237,6 @@
 				}
 				mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
 					if (e.index == 0) {
-						console.log('shanchu')
 						serverUrl+='/VisaProject/Delete';
 						data={apply_id:guid}
 						userApp.Post(serverUrl,data).then(res=>{
@@ -255,7 +253,6 @@
 						})
 					} else {
 						setTimeout(function() {
-							console.log('shanchu')
 							mui.swipeoutClose(li);
 						}, 0);
 					}

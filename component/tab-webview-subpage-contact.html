@@ -161,12 +161,10 @@ function getData(){
 }
 //获取报表
 function getThumImage(pjNo){
-	console.log("獲取數據")
 	plus.nativeUI.showWaiting('加載數據中')
 	let serurl=userApp.serverUrl+"/Attachment/GetThumImage",
 		data={formType:"APP_RIP",applyID:"",projectNO:pjNo}
 	userApp.Get(serurl,data).then(res=>{
-		console.log(JSON.stringify(res))
 		vm.tables=res
 		vm.tableShow=true
 		plus.nativeUI.closeWaiting()
