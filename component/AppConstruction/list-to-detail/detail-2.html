@@ -308,7 +308,7 @@
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
-			serverUrl+='/VisaProject/UpdateData'
+			serverUrl+='/ApprovalConstruction/UpdateData'
 			let data={ 
 					apply_id:newId,
 					ProjectNo:projectNo,
@@ -324,26 +324,6 @@
 				mui.back();
 				mui.fire(page,'refresh',{status:1});
 			})
-//			mui.ajax(serverUrl,{
-//				data:{ 
-//					apply_id:newId,
-//					ProjectNo:projectNo,
-//					userID:UserId,
-//					title:Title,
-//					remark :Remark,
-//					status:"0",
-//					flow_id:flowId,
-//					userDept:UserDept,
-//				},
-//				dataType:'json',//服务器返回json格式数据
-//				headers: {'Content-Type':'application/json'},
-//				type:'post',//HTTP请求类型
-//				success:function(data){
-//					//获得服务器响应
-//					console.log(data.msg)
-//					
-//				}
-//			});
 			
 		})
 		//提交按钮事件
@@ -361,7 +341,7 @@
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
-			serverUrl+='/VisaProject/UpdateData'
+			serverUrl+='/ApprovalConstruction/UpdateData'
 			let data={ 
 					apply_id:newId,
 					ProjectNo:projectNo,
@@ -386,33 +366,6 @@
 			}).catch(err=>{
 				console.log(err)
 			})
-//			mui.ajax(serverUrl,{
-//				data:{ 
-//					apply_id:newId,
-//					ProjectNo:projectNo,
-//					userID:UserId,
-//					title:Title,
-//					remark :Remark,
-//					status:"0",
-//					flow_id:flowId,
-//					userDept:UserDept,
-//				},
-//				dataType:'json',//服务器返回json格式数据
-//				headers: {'Content-Type':'application/json'},
-//				type:'post',//HTTP请求类型
-//				success:function(data){
-//					//获得服务器响应
-//					mui.post(userApp.serverUrl+'/workflow/submit',{
-//							apply_id:newId,
-//							userID:UserId,
-//							sign_remark:'经办人提交'
-//						},function(data){
-//							
-//						},'json'
-//					);
-//					
-//				}
-//			});
 			
 		})
 		
@@ -488,8 +441,9 @@
 				vm.imginfo=imgarr;
 			},'json' );	
 			//获取详细信息
-			let data={applyId:vm.apply_id,projectName:'VisaProject'}
-			userApp.GetDetail(data).then(data=>{
+			let data={apply_id:vm.apply_id},
+				serUrl=userApp.serverUrl+'/ApprovalConstruction/GetDetail';
+			userApp.Get(serUrl,data).then(data=>{
 				vm.flowId=data.flow_id
 				vm.projectName=data.projectName
 			})

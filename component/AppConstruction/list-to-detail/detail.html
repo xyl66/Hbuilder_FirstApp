@@ -308,7 +308,7 @@
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
-			serverUrl+='/VisaProject/UpdateData'
+			serverUrl+='/ApprovalConstruction/UpdateData'
 			let data={ 
 					apply_id:newId,
 					ProjectNo:projectNo,
@@ -361,7 +361,7 @@
 				plus.nativeUI.toast('請選擇所屬分項工程')
 				return
 			}
-			serverUrl+='/VisaProject/UpdateData'
+			serverUrl+='/ApprovalConstruction/UpdateData'
 			let data={ 
 					apply_id:newId,
 					ProjectNo:projectNo,
@@ -488,8 +488,9 @@
 				vm.imginfo=imgarr;
 			},'json' );	
 			//获取详细信息
-			let data={applyId:vm.apply_id,projectName:'VisaProject'}
-			userApp.GetDetail(data).then(data=>{
+			let data={apply_id:vm.apply_id},
+				serUrl=userApp.serverUrl+'/ApprovalConstruction/GetDetail';
+			userApp.Get(serUrl,data).then(data=>{
 				vm.flowId=data.flow_id
 				vm.projectName=data.projectName
 			})

@@ -177,7 +177,7 @@
 			function pullupRefresh() {
 				
 				setTimeout(function() {
-					let serurl=userApp.serverUrl+'/VisaProject/GetList',
+					let serurl=userApp.serverUrl+'/ApprovalConstruction/GetList',
 						data={
 							userID:userID,
 							page:++count,
@@ -204,7 +204,7 @@
 								});
 								return;
 							}
-							let serurl=userApp.serverUrl+'/VisaProject/GetList',
+							let serurl=userApp.serverUrl+'/ApprovalConstruction/GetList',
 								data={
 									userID:userID,
 									page:'1',
@@ -213,11 +213,11 @@
 								}
 							userApp.Get(serurl,data).then(response=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
+								news.items=[];
 								if(!response.length>0){
 									
 									return
 								}
-								news.items=[];
 								news.items = convert(response);
 							}).catch(err=>{
 								mui('#pullrefresh').pullRefresh().endPulldown();
@@ -248,7 +248,7 @@
 				}
 			mui.confirm('確認刪除該條記錄？', '御品置業', btnArray, function(e) {
 					if (e.index == 0) {
-						let serverUrl=userApp.serverUrl+'/VisaProject/Delete';
+						let serverUrl=userApp.serverUrl+'/ApprovalConstruction/Delete';
 						data={apply_id:guid}
 						userApp.Post(serverUrl,data).then(res=>{
 							if(res.status){

@@ -60,7 +60,7 @@
 	<header class="mui-bar mui-bar-nav">
 	    <a class="mui-action-back mui-pull-left"></a>
 	    <button id="savbtn" class="bg-color-g mui-btn white-color mui-btn-link mui-pull-right">保存</button>
-	    <h1 class="mui-title">簽證工程新增</h1>
+	    <h1 class="mui-title">報批報建新增</h1>
 	</header>
 	<div class="mui-content status-content">
 		<div class="mui-content">
@@ -256,7 +256,7 @@
 				plus.nativeUI.toast('請選擇流程')
 				return
 			}
-			serverUrl+='/VisaProject/InsertData'
+			serverUrl+='/ApprovalConstruction/InsertData'
 			let data={ 
 					apply_id:newId,
 					ProjectNo:projectNo,
